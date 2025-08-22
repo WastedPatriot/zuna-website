@@ -2,59 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
-  }
+/* Disable all default styles for pixel perfect rendering */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@layer base {
-  body {
-    @apply bg-black text-white;
-  }
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
-}
-
-::-webkit-scrollbar-thumb {
-  background: #4ade80;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #22c55e;
-}
-
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Pixel font for headings */
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
-.pixel-font {
-  font-family: 'Press Start 2P', monospace;
-}
-
-/* Animations */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-.float-animation {
-  animation: float 3s ease-in-out infinite;
+/* Ensure pixel-perfect rendering */
+* {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
