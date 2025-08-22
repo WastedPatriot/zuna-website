@@ -42,18 +42,18 @@ export default function PixelMascot({ mood = 'happy' }: PixelMascotProps) {
   ];
 
   const bounceAnimation = mood === 'excited' ? {
-    y: [0, -10, 0],
-    transition: {
-      duration: 0.6,
-      repeat: Infinity,
-      ease: "easeInOut"
-    }
-  } : {};
+    y: [0, -10, 0]
+  } : undefined;
 
   return (
     <motion.div 
       className="relative inline-block"
       animate={bounceAnimation}
+      transition={mood === 'excited' ? {
+        duration: 0.6,
+        repeat: Infinity,
+        ease: "easeInOut"
+      } : undefined}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
     >
