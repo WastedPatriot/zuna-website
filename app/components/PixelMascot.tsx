@@ -1,58 +1,114 @@
-export const PixelMascot = () => {
+'use client';
+
+import { motion } from 'framer-motion';
+
+interface PixelMascotProps {
+  mood?: 'happy' | 'excited' | 'sleepy';
+}
+
+export default function PixelMascot({ mood = 'happy' }: PixelMascotProps) {
+  const mascotPixels = [
+    // Row 0-3: Top spike/antenna
+    '          ##          ',
+    '         ####         ',
+    '        ######        ',
+    '       ########       ',
+    // Row 4-7: Ears and head top
+    '     ##  ####  ##     ',
+    '    ###  ####  ###    ',
+    '   ####  ####  ####   ',
+    '  ##################  ',
+    // Row 8-11: Head with face
+    ' #################### ',
+    ' ##@@####@@####@@#### ',
+    ' ##@@####@@####@@#### ',
+    ' #################### ',
+    // Row 12-13: Cheeks
+    ' ###PP########PP##### ',
+    ' #################### ',
+    // Row 14-15: Neck
+    '      ##########      ',
+    '      ##########      ',
+    // Row 16-19: Body
+    '    ##############    ',
+    '   ################   ',
+    '  ##################  ',
+    ' #################### ',
+    // Row 20-23: Arms and legs
+    '####    ####    ####  ',
+    '###      ##      ###  ',
+    '##       ##       ##  ',
+    '##       ##       ##  ',
+  ];
+
+  const bounceAnimation = mood === 'excited' ? {
+    y: [0, -10, 0],
+    transition: {
+      duration: 0.6,
+      repeat: Infinity,
+      ease: "easeInOut"
+    }
+  } : {};
+
   return (
-    <div className="pixel-mascot-svg">
-      <svg width="32" height="32" viewBox="0 0 32 32" style={{ imageRendering: 'pixelated' }}>
-        {/* Top spike */}
-        <rect x="15" y="0" width="1" height="1" fill="#7A7A7A" />
-        <rect x="16" y="0" width="1" height="1" fill="#7A7A7A" />
-        
-        {/* Head outline and ears */}
-        <rect x="14" y="1" width="1" height="1" fill="#7A7A7A" />
-        <rect x="15" y="1" width="1" height="1" fill="#2E7D32" />
-        <rect x="16" y="1" width="1" height="1" fill="#2E7D32" />
-        <rect x="17" y="1" width="1" height="1" fill="#7A7A7A" />
-        
-        {/* Triangular ears */}
-        <rect x="10" y="6" width="1" height="1" fill="#7A7A7A" />
-        <rect x="11" y="6" width="1" height="1" fill="#7A7A7A" />
-        <rect x="20" y="6" width="1" height="1" fill="#7A7A7A" />
-        <rect x="21" y="6" width="1" height="1" fill="#7A7A7A" />
-        
-        <rect x="11" y="7" width="1" height="1" fill="#7A7A7A" />
-        <rect x="12" y="7" width="1" height="1" fill="#2E7D32" />
-        <rect x="19" y="7" width="1" height="1" fill="#2E7D32" />
-        <rect x="20" y="7" width="1" height="1" fill="#7A7A7A" />
-        
-        {/* Head */}
-        <rect x="12" y="8" width="8" height="8" fill="#4ADE80" />
-        
-        {/* Eyes */}
-        <rect x="14" y="10" width="1" height="1" fill="#000000" />
-        <rect x="17" y="10" width="1" height="1" fill="#000000" />
-        
-        {/* Eye shine */}
-        <rect x="14" y="10" width="0.3" height="0.3" fill="#FFFFFF" />
-        <rect x="17" y="10" width="0.3" height="0.3" fill="#FFFFFF" />
-        
-        {/* Cheeks */}
-        <rect x="13" y="12" width="1" height="1" fill="#FF69B4" />
-        <rect x="18" y="12" width="1" height="1" fill="#FF69B4" />
-        
-        {/* Body */}
-        <rect x="13" y="16" width="6" height="8" fill="#4ADE80" />
-        
-        {/* Arms */}
-        <rect x="11" y="17" width="2" height="4" fill="#4ADE80" />
-        <rect x="19" y="17" width="2" height="4" fill="#4ADE80" />
-        
-        {/* Legs */}
-        <rect x="14" y="24" width="2" height="3" fill="#4ADE80" />
-        <rect x="16" y="24" width="2" height="3" fill="#4ADE80" />
-        
-        {/* Feet */}
-        <rect x="13" y="27" width="3" height="1" fill="#2E7D32" />
-        <rect x="16" y="27" width="3" height="1" fill="#2E7D32" />
-      </svg>
-    </div>
+    <motion.div 
+      className="relative inline-block"
+      animate={bounceAnimation}
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      <div className="grid grid-cols-[repeat(22,8px)] gap-0">
+        {mascotPixels.map((row, y) => 
+          row.split('').map((pixel, x) => {
+            let bgColor = 'transparent';
+            if (pixel === '#') bgColor = '#4ADE80';
+            else if (pixel === '@') bgColor = '#000000';
+            else if (pixel === 'P') bgColor = '#FF69B4';
+            
+            return (
+              <div
+                key={`${x}-${y}`}
+                className="w-2 h-2"
+                style={{
+                  backgroundColor: bgColor,
+                  imageRendering: 'pixelated'
+                }}
+              />
+            );
+          })
+        )}
+      </div>
+      
+      {/* Eye shine */}
+      <div className="absolute w-1 h-1 bg-white rounded-full" 
+           style={{ left: '82px', top: '74px' }} />
+      <div className="absolute w-1 h-1 bg-white rounded-full" 
+           style={{ left: '106px', top: '74px' }} />
+      
+      {/* Mood indicators */}
+      {mood === 'sleepy' && (
+        <>
+          <motion.div
+            className="absolute -top-4 -right-2 text-2xl"
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            💤
+          </motion.div>
+        </>
+      )}
+      
+      {mood === 'excited' && (
+        <motion.div
+          className="absolute -top-8 left-1/2 transform -translate-x-1/2"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <div className="bg-white px-3 py-1 rounded-full border-2 border-green-600 text-sm font-pixel">
+            YAY!
+          </div>
+        </motion.div>
+      )}
+    </motion.div>
   );
-};
+}

@@ -2,61 +2,93 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import BalanceCard from './components/BalanceCard';
+import PixelMascot from './components/PixelMascot';
+import FeatureCard from './components/FeatureCard';
+import Newsletter from './components/Newsletter';
 
 export default function Home() {
-  const [scrollY, setScrollY] = useState(0);
-  const [currentFeature, setCurrentFeature] = useState(0);
+  const { scrollY } = useScroll();
+  const [mascotMood, setMascotMood] = useState<'happy' | 'excited' | 'sleepy'>('happy');
+  
+  // Parallax effects
+  const heroY = useTransform(scrollY, [0, 500], [0, 150]);
+  const cloudsX = useTransform(scrollY, [0, 1000], [0, -100]);
   
   const features = [
-    { title: "Save with your mascot", desc: "Watch your digital pet grow as your savings increase" },
-    { title: "AI-powered insights", desc: "Get personalized financial advice from our smart coach" },
-    { title: "Play to earn", desc: "Compete in Tetris tournaments for real rewards" },
-    { title: "Secure crypto wallet", desc: "Store and manage crypto with Face ID protection" }
+    {
+      icon: '🎮',
+      title: 'Gamified Savings',
+      description: 'Watch your Tamagotchi pet grow stronger as your savings increase. Feed it with deposits!',
+      color: 'from-green-400 to-emerald-500'
+    },
+    {
+      icon: '🤖',
+      title: 'AI Money Coach',
+      description: 'Get personalized financial advice from our AI that learns your spending habits.',
+      color: 'from-purple-400 to-pink-500'
+    },
+    {
+      icon: '🎯',
+      title: 'Smart Goals',
+      description: 'Set savings goals and watch your progress with beautiful visual trackers.',
+      color: 'from-blue-400 to-cyan-500'
+    },
+    {
+      icon: '🔒',
+      title: 'Secure Banking',
+      description: 'Bank-grade security with biometric authentication and encrypted transactions.',
+      color: 'from-orange-400 to-red-500'
+    }
   ];
 
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
-    
-    const interval = setInterval(() => {
-      setCurrentFeature((prev) => (prev + 1) % features.length);
-    }, 4000);
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      clearInterval(interval);
-    };
-  }, []);
-
   return (
-    <main className="min-h-screen bg-[#0A0A0A] text-white overflow-x-hidden">
-      {/* Gradient Orbs Background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] rounded-full bg-green-500/20 blur-[120px]" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-purple-500/20 blur-[120px]" />
-        <div className="absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-blue-500/10 blur-[150px]" />
+    <main className="min-h-screen bg-[#E8F5E9] overflow-x-hidden">
+      {/* Tamagotchi Environment Background */}
+      <div className="fixed inset-0 pointer-events-none">
+        {/* Sky gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#87CEEB] via-[#98D8E8] to-[#E8F5E9]" />
+        
+        {/* Animated clouds */}
+        <motion.div 
+          className="absolute top-10 left-0 w-full h-32"
+          style={{ x: cloudsX }}
+        >
+          <div className="absolute left-10 w-32 h-16 bg-white/80 rounded-full blur-sm" />
+          <div className="absolute left-64 w-48 h-20 bg-white/70 rounded-full blur-sm" />
+          <div className="absolute right-32 w-40 h-16 bg-white/75 rounded-full blur-sm" />
+        </motion.div>
+        
+        {/* Grass texture at bottom */}
+        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#7CB342] to-transparent">
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-[#7CB342]" 
+               style={{ 
+                 backgroundImage: `repeating-linear-gradient(90deg, #689F38 0px, #689F38 2px, #7CB342 2px, #7CB342 4px)`,
+                 backgroundSize: '4px 100%'
+               }} 
+          />
+        </div>
       </div>
 
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 backdrop-blur-xl bg-black/20 border-b border-white/5">
-        <div className="container mx-auto px-6 py-5">
+      <nav className="relative z-50 backdrop-blur-sm bg-white/30 border-b border-green-200/50">
+        <div className="container mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
             <Link href="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center">
-                <span className="text-white font-bold text-xl">Z</span>
+              <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-2xl flex items-center justify-center shadow-lg">
+                <span className="text-white font-pixel text-xl">Z</span>
               </div>
-              <span className="text-xl font-bold">Zuna</span>
+              <span className="font-pixel text-2xl text-green-800">ZUNA</span>
             </Link>
             
             <div className="hidden md:flex items-center gap-8">
-              <Link href="#features" className="text-gray-300 hover:text-white transition">Features</Link>
-              <Link href="#mascot" className="text-gray-300 hover:text-white transition">Mascot</Link>
-              <Link href="#testimonials" className="text-gray-300 hover:text-white transition">Reviews</Link>
-              <Link href="#download" className="text-gray-300 hover:text-white transition">Download</Link>
+              <Link href="#features" className="text-green-700 hover:text-green-900 transition font-medium">Features</Link>
+              <Link href="#mascot" className="text-green-700 hover:text-green-900 transition font-medium">Mascot</Link>
+              <Link href="#pricing" className="text-green-700 hover:text-green-900 transition font-medium">Pricing</Link>
               <Link 
                 href="https://app.gozuna.co.uk" 
-                className="bg-gradient-to-r from-green-500 to-green-600 px-6 py-2.5 rounded-full font-medium hover:shadow-lg hover:shadow-green-500/25 transition-all"
+                className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2.5 rounded-full font-medium hover:shadow-lg hover:shadow-green-500/25 transition-all transform hover:scale-105"
               >
                 Launch App
               </Link>
@@ -67,91 +99,65 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center"
-          >
-            {/* Floating Badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/20 rounded-full px-4 py-2 mb-8"
+        <motion.div 
+          className="container mx-auto max-w-6xl"
+          style={{ y: heroY }}
+        >
+          <div className="text-center mb-12">
+            <motion.h1 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="font-pixel text-5xl md:text-7xl text-green-800 mb-6 leading-tight"
             >
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              <span className="text-sm text-green-400">10K+ users saving smarter</span>
-            </motion.div>
+              ZUNA
+            </motion.h1>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-2xl md:text-3xl text-green-700 font-sans"
+            >
+              Banking, reimagined for every mind.
+            </motion.p>
+          </div>
 
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-br from-white via-white to-gray-400 bg-clip-text text-transparent">
-              Do more<br />
-              <span className="text-green-400">With your money</span>
-            </h1>
-            
-            <p className="text-xl text-gray-400 mb-10 max-w-2xl mx-auto">
-              The financial wellness app that makes saving fun with your own Tamagotchi companion, 
-              AI coaching, and gamified rewards
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link 
-                href="#download"
-                className="group relative bg-white text-black px-8 py-4 rounded-full font-semibold text-lg overflow-hidden transition-all hover:shadow-xl hover:shadow-white/20"
-              >
-                <span className="relative z-10">Get Started</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-green-600 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <span className="absolute inset-0 opacity-0 group-hover:opacity-100 text-white flex items-center justify-center transition-opacity">Get Started</span>
-              </Link>
-              <Link 
-                href="#features"
-                className="border border-white/20 px-8 py-4 rounded-full font-semibold text-lg hover:bg-white/5 transition-all"
-              >
-                Learn More
-              </Link>
-            </div>
-          </motion.div>
-
-          {/* Animated Feature Cards */}
+          {/* Interactive Balance Card */}
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-            className="mt-20 relative"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="max-w-md mx-auto mb-12"
           >
-            <div className="bg-gradient-to-br from-gray-900/50 to-gray-900/30 backdrop-blur-xl rounded-3xl p-8 border border-white/10">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentFeature}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <h3 className="text-2xl font-bold mb-3 text-green-400">{features[currentFeature].title}</h3>
-                  <p className="text-gray-400">{features[currentFeature].desc}</p>
-                </motion.div>
-              </AnimatePresence>
-              
-              {/* Progress dots */}
-              <div className="flex gap-2 mt-6">
-                {features.map((_, index) => (
-                  <div
-                    key={index}
-                    className={`h-1 rounded-full transition-all ${
-                      index === currentFeature ? 'w-8 bg-green-500' : 'w-2 bg-gray-600'
-                    }`}
-                  />
-                ))}
-              </div>
-            </div>
+            <BalanceCard />
           </motion.div>
-        </div>
+
+          {/* CTA Buttons */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+          >
+            <Link 
+              href="#download"
+              className="group relative bg-green-600 text-white px-8 py-4 rounded-full font-medium text-lg overflow-hidden transition-all hover:shadow-xl hover:shadow-green-500/25"
+            >
+              <span className="relative z-10">Get Started Free</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+            </Link>
+            <Link 
+              href="#features"
+              className="border-2 border-green-600 text-green-700 px-8 py-4 rounded-full font-medium text-lg hover:bg-green-50 transition-all"
+            >
+              Learn More
+            </Link>
+          </motion.div>
+        </motion.div>
       </section>
 
-      {/* Features Grid */}
-      <section id="features" className="py-24 px-6">
+      {/* Features Section */}
+      <section id="features" className="relative py-24 px-6 bg-white/50 backdrop-blur-sm">
         <div className="container mx-auto max-w-6xl">
           <motion.div
             initial={{ opacity: 0 }}
@@ -159,71 +165,24 @@ export default function Home() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Banking that <span className="text-green-400">gets you</span>
+            <h2 className="font-pixel text-4xl md:text-5xl text-green-800 mb-4">
+              FEATURES
             </h2>
-            <p className="text-xl text-gray-400">Everything you need to take control of your finances</p>
+            <p className="text-xl text-green-700 font-sans">
+              Everything you need for financial wellness
+            </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                icon: "🎮",
-                title: "Gamified Savings",
-                desc: "Turn financial goals into achievements",
-                gradient: "from-purple-500 to-pink-500"
-              },
-              {
-                icon: "🤖",
-                title: "AI Money Coach",
-                desc: "Personalized advice powered by AI",
-                gradient: "from-blue-500 to-cyan-500"
-              },
-              {
-                icon: "🔒",
-                title: "Secure Wallet",
-                desc: "Bank-grade security for your crypto",
-                gradient: "from-green-500 to-emerald-500"
-              },
-              {
-                icon: "📊",
-                title: "Smart Analytics",
-                desc: "Track spending and find savings",
-                gradient: "from-orange-500 to-red-500"
-              },
-              {
-                icon: "🎯",
-                title: "Goal Setting",
-                desc: "Visual progress towards your dreams",
-                gradient: "from-indigo-500 to-purple-500"
-              },
-              {
-                icon: "🏆",
-                title: "Rewards System",
-                desc: "Earn points and unlock features",
-                gradient: "from-yellow-500 to-orange-500"
-              }
-            ].map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="group relative bg-gradient-to-br from-gray-900/50 to-gray-900/30 backdrop-blur-xl rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all"
-              >
-                <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity`} />
-                <div className="text-4xl mb-4">{feature.icon}</div>
-                <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                <p className="text-gray-400">{feature.desc}</p>
-              </motion.div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {features.map((feature, index) => (
+              <FeatureCard key={index} {...feature} index={index} />
             ))}
           </div>
         </div>
       </section>
 
       {/* Mascot Section */}
-      <section id="mascot" className="py-24 px-6 relative overflow-hidden">
+      <section id="mascot" className="relative py-24 px-6">
         <div className="container mx-auto max-w-6xl">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -231,27 +190,35 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Meet your <span className="text-green-400">money buddy</span>
+              <h2 className="font-pixel text-4xl md:text-5xl text-green-800 mb-6">
+                MEET YOUR MONEY BUDDY
               </h2>
-              <p className="text-xl text-gray-400 mb-8">
-                A pixel-perfect companion that evolves with your financial journey. 
-                Feed it, play with it, and watch it celebrate your wins!
+              <p className="text-xl text-green-700 mb-8 font-sans leading-relaxed">
+                Your personal Tamagotchi companion that grows with your savings! 
+                Feed it with deposits, play mini-games, and watch it evolve as you 
+                reach your financial goals.
               </p>
               
               <div className="space-y-4">
                 {[
-                  "Grows stronger as you save more",
-                  "Reminds you of bills and goals",
-                  "Celebrates your achievements",
-                  "Unlocks new features and games"
+                  'Evolves through 5 different stages',
+                  'Reacts to your spending habits',
+                  'Celebrates your savings milestones',
+                  'Reminds you of bills and goals'
                 ].map((item, index) => (
-                  <div key={index} className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center">
-                      <span className="text-green-400 text-sm">✓</span>
+                  <motion.div 
+                    key={index}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    className="flex items-center gap-3"
+                  >
+                    <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                      <span className="text-green-600">✓</span>
                     </div>
-                    <span className="text-gray-300">{item}</span>
-                  </div>
+                    <span className="text-green-700 font-sans">{item}</span>
+                  </motion.div>
                 ))}
               </div>
             </motion.div>
@@ -262,11 +229,22 @@ export default function Home() {
               viewport={{ once: true }}
               className="relative"
             >
-              <div className="relative bg-gradient-to-br from-green-500/20 to-purple-500/20 rounded-3xl p-12 backdrop-blur-xl border border-white/10">
-                <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-purple-500/10 rounded-3xl animate-pulse" />
-                {/* Mascot placeholder - in real app this would be the animated mascot */}
-                <div className="relative z-10 w-48 h-48 mx-auto bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center">
-                  <span className="text-6xl">🌱</span>
+              <div className="relative bg-gradient-to-br from-green-100 to-green-200 rounded-3xl p-12 shadow-2xl">
+                {/* Pixel art environment */}
+                <div className="absolute inset-0 rounded-3xl overflow-hidden">
+                  <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-[#8BC34A]" />
+                  <div className="absolute bottom-8 left-8 w-16 h-16 bg-[#689F38] rounded-full opacity-50" />
+                  <div className="absolute bottom-12 right-12 w-12 h-12 bg-[#7CB342] rounded-full opacity-40" />
+                </div>
+                
+                {/* Interactive Mascot */}
+                <div 
+                  className="relative z-10 cursor-pointer"
+                  onClick={() => setMascotMood(mood => mood === 'happy' ? 'excited' : 'happy')}
+                  onMouseEnter={() => setMascotMood('excited')}
+                  onMouseLeave={() => setMascotMood('happy')}
+                >
+                  <PixelMascot mood={mascotMood} />
                 </div>
               </div>
             </motion.div>
@@ -274,137 +252,77 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section id="testimonials" className="py-24 px-6 bg-gradient-to-b from-transparent to-green-900/10">
-        <div className="container mx-auto max-w-6xl">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">
-            Real users, <span className="text-green-400">real results</span>
-          </h2>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                name: "Sarah M.",
-                role: "University Student",
-                quote: "Finally saved enough for my first car thanks to Zuna's gamified approach!"
-              },
-              {
-                name: "James K.",
-                role: "Freelancer",
-                quote: "The AI coach helped me identify £200/month in unnecessary subscriptions."
-              },
-              {
-                name: "Emma L.",
-                role: "Young Professional",
-                quote: "Love watching my mascot grow! Makes saving actually fun and engaging."
-              }
-            ].map((testimonial, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-gradient-to-br from-gray-900/50 to-gray-900/30 backdrop-blur-xl rounded-2xl p-8 border border-white/10"
-              >
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-full" />
-                  <div>
-                    <h4 className="font-semibold">{testimonial.name}</h4>
-                    <p className="text-sm text-gray-400">{testimonial.role}</p>
-                  </div>
-                </div>
-                <p className="text-gray-300 italic">"{testimonial.quote}"</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Download CTA */}
-      <section id="download" className="py-24 px-6">
-        <div className="container mx-auto max-w-4xl text-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="bg-gradient-to-br from-green-500/20 to-purple-500/20 rounded-3xl p-12 backdrop-blur-xl border border-white/10"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Start your journey today
-            </h2>
-            <p className="text-xl text-gray-400 mb-10">
-              Join thousands who are transforming their financial future
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <a 
-                href="https://apps.apple.com/zuna"
-                className="group bg-white text-black px-8 py-4 rounded-full font-semibold text-lg flex items-center justify-center gap-3 hover:shadow-xl hover:shadow-white/20 transition-all"
-              >
-                <span className="text-2xl">🍎</span>
-                Download for iOS
-              </a>
-              <a 
-                href="https://play.google.com/store/apps/zuna"
-                className="group bg-white text-black px-8 py-4 rounded-full font-semibold text-lg flex items-center justify-center gap-3 hover:shadow-xl hover:shadow-white/20 transition-all"
-              >
-                <span className="text-2xl">🤖</span>
-                Download for Android
-              </a>
-            </div>
-          </motion.div>
+      {/* Newsletter Section */}
+      <section className="relative py-24 px-6 bg-gradient-to-br from-green-50 to-emerald-50">
+        <div className="container mx-auto max-w-4xl">
+          <Newsletter />
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-6 border-t border-white/10">
+      <footer className="relative bg-green-800 text-white py-12 px-6">
         <div className="container mx-auto max-w-6xl">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-green-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold">Z</span>
+                <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
+                  <span className="font-pixel text-lg">Z</span>
                 </div>
-                <span className="text-lg font-bold">Zuna</span>
+                <span className="font-pixel text-xl">ZUNA</span>
               </div>
-              <p className="text-sm text-gray-400">Financial wellness for everyone</p>
+              <p className="text-green-100 text-sm font-sans">
+                Banking reimagined for neurodivergent minds and everyone who wants a better relationship with money.
+              </p>
             </div>
             
             <div>
-              <h4 className="font-semibold mb-4">Product</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li><Link href="#features" className="hover:text-white transition">Features</Link></li>
-                <li><Link href="#mascot" className="hover:text-white transition">Mascot</Link></li>
-                <li><Link href="#download" className="hover:text-white transition">Download</Link></li>
+              <h4 className="font-pixel text-sm mb-4">PRODUCT</h4>
+              <ul className="space-y-2 text-sm font-sans">
+                <li><Link href="#features" className="text-green-100 hover:text-white transition">Features</Link></li>
+                <li><Link href="#mascot" className="text-green-100 hover:text-white transition">Mascot</Link></li>
+                <li><Link href="#pricing" className="text-green-100 hover:text-white transition">Pricing</Link></li>
+                <li><Link href="/security" className="text-green-100 hover:text-white transition">Security</Link></li>
               </ul>
             </div>
             
             <div>
-              <h4 className="font-semibold mb-4">Company</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li><Link href="/about" className="hover:text-white transition">About</Link></li>
-                <li><Link href="/blog" className="hover:text-white transition">Blog</Link></li>
-                <li><Link href="/careers" className="hover:text-white transition">Careers</Link></li>
+              <h4 className="font-pixel text-sm mb-4">COMPANY</h4>
+              <ul className="space-y-2 text-sm font-sans">
+                <li><Link href="/about" className="text-green-100 hover:text-white transition">About Us</Link></li>
+                <li><Link href="/blog" className="text-green-100 hover:text-white transition">Blog</Link></li>
+                <li><Link href="/careers" className="text-green-100 hover:text-white transition">Careers</Link></li>
+                <li><Link href="/press" className="text-green-100 hover:text-white transition">Press</Link></li>
               </ul>
             </div>
             
             <div>
-              <h4 className="font-semibold mb-4">Legal</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li><Link href="/privacy" className="hover:text-white transition">Privacy</Link></li>
-                <li><Link href="/terms" className="hover:text-white transition">Terms</Link></li>
-                <li><Link href="/security" className="hover:text-white transition">Security</Link></li>
+              <h4 className="font-pixel text-sm mb-4">LEGAL</h4>
+              <ul className="space-y-2 text-sm font-sans">
+                <li><Link href="/privacy" className="text-green-100 hover:text-white transition">Privacy Policy</Link></li>
+                <li><Link href="/terms" className="text-green-100 hover:text-white transition">Terms of Service</Link></li>
+                <li><Link href="/cookies" className="text-green-100 hover:text-white transition">Cookie Policy</Link></li>
+                <li><Link href="/compliance" className="text-green-100 hover:text-white transition">Compliance</Link></li>
               </ul>
             </div>
           </div>
           
-          <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-gray-400">© 2024 Zuna. All rights reserved.</p>
+          <div className="pt-8 border-t border-green-700 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-sm text-green-100 font-sans">
+              © 2024 Zuna. All rights reserved. Regulated by the FCA.
+            </p>
             <div className="flex gap-6">
-              <a href="https://twitter.com/zunaapp" className="text-gray-400 hover:text-white transition">Twitter</a>
-              <a href="https://discord.gg/zuna" className="text-gray-400 hover:text-white transition">Discord</a>
-              <a href="https://github.com/zuna" className="text-gray-400 hover:text-white transition">GitHub</a>
+              <a href="https://twitter.com/zunaapp" className="text-green-100 hover:text-white transition">
+                <span className="sr-only">Twitter</span>
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                </svg>
+              </a>
+              <a href="https://discord.gg/zuna" className="text-green-100 hover:text-white transition">
+                <span className="sr-only">Discord</span>
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z" />
+                </svg>
+              </a>
             </div>
           </div>
         </div>

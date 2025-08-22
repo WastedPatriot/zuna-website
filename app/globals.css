@@ -2,21 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
-  }
-}
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600;700&display=swap');
 
 @layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+  }
+  
   * {
     @apply border-border;
   }
+  
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+}
+
+/* Custom font classes */
+.font-pixel {
+  font-family: 'Press Start 2P', monospace;
+}
+
+.font-sans {
+  font-family: 'Inter', sans-serif;
 }
 
 /* Smooth scrolling */
@@ -26,16 +39,17 @@ html {
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
+  background: #f1f1f1;
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
   background: #4ade80;
-  border-radius: 4px;
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -45,7 +59,7 @@ html {
 /* Selection color */
 ::selection {
   background: #4ade80;
-  color: #000;
+  color: #fff;
 }
 
 /* Focus styles */
@@ -56,6 +70,14 @@ html {
 *:focus-visible {
   outline: 2px solid #4ade80;
   outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Pixel-perfect rendering for pixel art */
+.pixelated {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 /* Animations */
@@ -64,7 +86,7 @@ html {
     transform: translateY(0px);
   }
   50% {
-    transform: translateY(-20px);
+    transform: translateY(-10px);
   }
 }
 
@@ -78,9 +100,27 @@ html {
 }
 
 .animate-float {
-  animation: float 6s ease-in-out infinite;
+  animation: float 3s ease-in-out infinite;
 }
 
 .animate-pulse-slow {
   animation: pulse-slow 4s ease-in-out infinite;
+}
+
+/* Tamagotchi environment styles */
+.grass-texture {
+  background-image: repeating-linear-gradient(
+    90deg,
+    #689F38 0px,
+    #689F38 2px,
+    #7CB342 2px,
+    #7CB342 4px
+  );
+}
+
+/* Glass morphism */
+.glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
