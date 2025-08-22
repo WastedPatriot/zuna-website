@@ -200,7 +200,7 @@ export default function Home() {
               transition={{ duration: 2, repeat: Infinity }}
             />
             <span className="text-sm bg-gradient-to-r from-green-400 to-purple-400 bg-clip-text text-transparent font-medium">
-              10K+ users already saving smarter
+              10K+ users already saving smarter with Zuna
             </span>
           </motion.div>
 
