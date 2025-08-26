@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import CustomCursor from './components/CustomCursor';
+import { Auth0Provider } from './providers/Auth0Provider';
 
 export const metadata: Metadata = {
   title: 'Zuna - Your Financial Companion',
@@ -31,10 +32,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-black text-white overflow-x-hidden">
-        <CustomCursor />
-        <div className="scanlines">
-          {children}
-        </div>
+        <Auth0Provider>
+          <CustomCursor />
+          <div className="scanlines">
+            {children}
+          </div>
+        </Auth0Provider>
       </body>
     </html>
   );

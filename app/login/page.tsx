@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import InteractiveBackground from '../components/InteractiveBackground';
 import Navigation from '../components/Navigation';
 import PixelMascot from '../components/PixelMascot';
+import { loginWithRedirect, handleRedirectCallback } from '../../lib/auth0';
 
 export default function Login() {
   const router = useRouter();
@@ -41,19 +42,32 @@ export default function Login() {
     if (validate()) {
       setIsLoading(true);
       
-      // Simulate API call
-      setTimeout(() => {
-        console.log('Login attempt with:', {
-          email: formData.email,
-          password: '***encrypted***',
-          rememberMe: formData.rememberMe
-        });
-        
-        // Redirect to app
-        window.location.href = 'https://app.gozuna.co.uk';
-      }, 2000);
+      try {
+        // Use Auth0 for authentication
+        await loginWithRedirect();
+      } catch (error) {
+        console.error('Login error:', error);
+        setErrors({ general: 'Login failed. Please try again.' });
+        setIsLoading(false);
+      }
     }
   };
+
+  // Handle Auth0 callback
+  useEffect(() => {
+    const handleAuth0Callback = async () => {
+      if (window.location.search.includes('code=')) {
+        try {
+          await handleRedirectCallback();
+          router.push('/dashboard');
+        } catch (error) {
+          console.error('Callback error:', error);
+        }
+      }
+    };
+    
+    handleAuth0Callback();
+  }, [router]);
 
   return (
     <>

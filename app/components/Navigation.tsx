@@ -3,9 +3,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth0 } from '../providers/Auth0Provider';
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
+  const { isAuthenticated, user, login, logout } = useAuth0();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-40 bg-black/80 backdrop-blur-sm border-b border-gray-800">
@@ -22,16 +24,34 @@ export default function Navigation() {
             <Link href="/features" className="text-gray-300 hover:text-green-400 transition-colors">Features</Link>
             <Link href="/pricing" className="text-gray-300 hover:text-green-400 transition-colors">Pricing</Link>
             <Link href="/about" className="text-gray-300 hover:text-green-400 transition-colors">About</Link>
-            <Link href="/login" className="text-gray-300 hover:text-green-400 transition-colors">Login</Link>
-            <Link href="/signup">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg font-bold pixelated text-sm"
-              >
-                SIGN UP
-              </motion.button>
-            </Link>
+            
+            {isAuthenticated ? (
+              <>
+                <span className="text-gray-300">Hi, {user?.name || 'User'}</span>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => logout()}
+                  className="text-gray-300 hover:text-green-400 transition-colors"
+                >
+                  Logout
+                </motion.button>
+              </>
+            ) : (
+              <>
+                <button onClick={() => login()} className="text-gray-300 hover:text-green-400 transition-colors">
+                  Login
+                </button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => login()}
+                  className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg font-bold pixelated text-sm"
+                >
+                  SIGN UP
+                </motion.button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
