@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 interface PixelMascotProps {
   size?: number;
-  mood?: 'happy' | 'excited' | 'sleeping' | 'eating' | 'idle';
+  mood?: 'idle' | 'happy' | 'gaming' | 'jumping' | 'eating' | 'speaking' | 'planting' | 'plane' | 'savings' | 'sad' | 'watering' | 'waving';
   interactive?: boolean;
 }
 

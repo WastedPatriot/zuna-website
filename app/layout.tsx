@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import CustomCursor from './components/CustomCursor';
+import FeedbackWidget from './components/FeedbackWidget';
 import { Auth0Provider } from './providers/Auth0Provider';
 
 export const metadata: Metadata = {
@@ -34,6 +35,7 @@ export default function RootLayout({
       <body className="bg-black text-white overflow-x-hidden">
         <Auth0Provider>
           <CustomCursor />
+          <FeedbackWidget />
           <div className="scanlines">
             {children}
           </div>
