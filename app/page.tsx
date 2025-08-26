@@ -5,13 +5,14 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link';
 import Image from 'next/image';
 import PixelMascot from './components/PixelMascot';
+import MascotShowcase from './components/MascotShowcase';
 import InteractiveBackground from './components/InteractiveBackground';
 import LoadingScreen from './components/LoadingScreen';
 import Navigation from './components/Navigation';
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
-  const [mascotMood, setMascotMood] = useState<'idle' | 'happy' | 'gaming' | 'jumping'>('idle');
+  const [mascotMood, setMascotMood] = useState<'idle' | 'happy' | 'gaming' | 'jumping' | 'waving' | 'eating'>('idle');
   const [showFeatures, setShowFeatures] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll();
@@ -32,7 +33,7 @@ export default function Home() {
   // Cycle through mascot moods
   useEffect(() => {
     const interval = setInterval(() => {
-      const moods: ('idle' | 'happy' | 'gaming' | 'jumping')[] = ['idle', 'happy', 'gaming', 'jumping'];
+      const moods: ('idle' | 'happy' | 'gaming' | 'jumping' | 'waving' | 'eating')[] = ['idle', 'happy', 'gaming', 'jumping', 'waving', 'eating'];
       setMascotMood(moods[Math.floor(Math.random() * moods.length)]);
     }, 5000);
     return () => clearInterval(interval);
@@ -300,6 +301,18 @@ export default function Home() {
                 </motion.div>
               ))}
             </div>
+          </motion.div>
+        </section>
+
+        {/* Mascot Showcase Section */}
+        <section className="min-h-screen py-20 px-4 relative overflow-hidden">
+          <motion.div
+            className="max-w-6xl mx-auto"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+          >
+            <MascotShowcase />
           </motion.div>
         </section>
 
