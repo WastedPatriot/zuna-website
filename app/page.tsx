@@ -47,7 +47,6 @@ export default function Home() {
         {loading && <LoadingScreen />}
       </AnimatePresence>
 
-      <InteractiveBackground />
       <Navigation />
 
       <div ref={containerRef} className="relative z-10">

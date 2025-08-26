@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import CustomCursor from './components/CustomCursor';
 import FeedbackWidget from './components/FeedbackWidget';
+import SkyBackground from './components/SkyBackground';
 import { Auth0Provider } from './providers/Auth0Provider';
 
 export const metadata: Metadata = {
@@ -32,11 +33,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-black text-white overflow-x-hidden">
+      <body className="bg-sky-100 text-gray-800 overflow-x-hidden">
         <Auth0Provider>
+          <SkyBackground />
           <CustomCursor />
           <FeedbackWidget />
-          <div className="scanlines">
+          <div className="relative z-10">
             {children}
           </div>
         </Auth0Provider>
