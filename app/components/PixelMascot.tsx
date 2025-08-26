@@ -38,12 +38,12 @@ const SPRITE_CONFIGS = {
     frameRate: 100,
   },
   rightrun: {
-    source: '/sprites/rightrun.webp',
+    source: '/sprites/righrun.webp',
     frames: 6,
     frameRate: 100,
   },
   eating: {
-    source: '/sprites/eating.webp',
+    source: '/sprites/eating an apple.webp',
     frames: 3,
     frameRate: 300,
   },
@@ -66,6 +66,21 @@ const SPRITE_CONFIGS = {
     source: '/sprites/savings.webp',
     frames: 4,
     frameRate: 400,
+  },
+  sad: {
+    source: '/sprites/sad.webp',
+    frames: 3,
+    frameRate: 300,
+  },
+  watering: {
+    source: '/sprites/watering.webp',
+    frames: 4,
+    frameRate: 300,
+  },
+  waving: {
+    source: '/sprites/waving.webp',
+    frames: 4,
+    frameRate: 200,
   },
 };
 
