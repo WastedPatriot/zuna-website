@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 interface PixelMascotProps {
   size?: number;
-  mood?: 'idle' | 'happy' | 'gaming' | 'jumping' | 'eating' | 'speaking' | 'planting' | 'plane' | 'savings' | 'sad' | 'watering' | 'waving';
+  mood?: 'idle' | 'happy' | 'gaming' | 'jumping' | 'leftrun' | 'rightrun' | 'eating' | 'speaking' | 'planting' | 'plane' | 'savings' | 'sad' | 'watering' | 'waving';
   interactive?: boolean;
 }
 
@@ -38,7 +38,7 @@ const SPRITE_CONFIGS = {
     frameRate: 100,
   },
   rightrun: {
-    source: '/sprites/righrun.webp',
+    source: '/sprites/righrun.webp', 
     frames: 6,
     frameRate: 100,
   },
@@ -87,9 +87,8 @@ const SPRITE_CONFIGS = {
 export default function PixelMascot({ size = 64, mood = 'idle', interactive = false }: PixelMascotProps) {
   const [currentFrame, setCurrentFrame] = useState(0);
   const [spriteLoaded, setSpriteLoaded] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   
-  const config = SPRITE_CONFIGS[mood] || SPRITE_CONFIGS.idle;
+  const config = SPRITE_CONFIGS[mood as keyof typeof SPRITE_CONFIGS] || SPRITE_CONFIGS.idle;
   
   useEffect(() => {
     if (!spriteLoaded) return;
@@ -109,33 +108,23 @@ export default function PixelMascot({ size = 64, mood = 'idle', interactive = fa
       whileTap={interactive ? { scale: 0.95 } : undefined}
     >
       <div className="relative w-full h-full overflow-hidden bg-green-400 rounded-lg">
-        {!error ? (
-          <Image
-            src={config.source}
-            alt="Zuna Mascot"
-            width={size * config.frames}
-            height={size}
-            className="absolute"
-            style={{
-              imageRendering: 'pixelated',
-              left: `-${currentFrame * size}px`,
-            }}
-            onLoad={() => setSpriteLoaded(true)}
-            onError={(e) => {
-              console.error('Failed to load sprite:', config.source);
-              setError(`Failed to load: ${config.source}`);
-            }}
-            unoptimized
-            priority
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <div className="text-center">
-              <div className="text-2xl mb-2">🎮</div>
-              <div className="text-xs">Mascot</div>
-            </div>
-          </div>
-        )}
+        <Image
+          src={config.source}
+          alt="Zuna Mascot"
+          width={size * config.frames}
+          height={size}
+          className="absolute"
+          style={{
+            imageRendering: 'pixelated',
+            left: `-${currentFrame * size}px`,
+          }}
+          onLoad={() => setSpriteLoaded(true)}
+          onError={(e) => {
+            console.error('Failed to load sprite:', config.source);
+          }}
+          unoptimized
+          priority
+        />
       </div>
     </motion.div>
   );
