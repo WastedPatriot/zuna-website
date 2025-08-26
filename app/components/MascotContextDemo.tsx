@@ -153,7 +153,7 @@ export default function MascotContextDemo() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => {
-            setCurrentScenario((prev + 1) % SCENARIOS.length);
+            setCurrentScenario((prev) => (prev + 1) % SCENARIOS.length);
             setIsPlaying(false);
           }}
           className="px-6 py-3 rounded-lg bg-gray-800 text-gray-400 border-2 border-gray-700 font-bold pixelated"

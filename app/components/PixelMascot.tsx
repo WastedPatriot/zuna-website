@@ -128,7 +128,7 @@ export default function PixelMascot({ size = 64, mood = 'idle', interactive = fa
         currentLoopCount++;
         
         // Check if animation should stop
-        if (!config.loop && currentLoopCount >= (config.loopCount || 1)) {
+        if (!config.loop && currentLoopCount >= ('loopCount' in config ? config.loopCount : 1)) {
           clearInterval(interval);
           setAnimationComplete(true);
           return;

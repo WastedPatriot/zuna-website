@@ -67,7 +67,7 @@ export default function SkyBackground() {
         <motion.div
           className="absolute top-20 right-0 opacity-80"
           animate={{
-            x: [0, -window.innerWidth - 300],
+            x: [0, -2000],
           }}
           transition={{
             duration: 80,
@@ -152,12 +152,12 @@ export default function SkyBackground() {
           key={`particle-${i}`}
           className="absolute w-1 h-1 bg-white rounded-full opacity-50"
           initial={{
-            x: Math.random() * window.innerWidth,
-            y: window.innerHeight + 10,
+            x: Math.random() * 1920,
+            y: 1080 + 10,
           }}
           animate={{
             y: -10,
-            x: Math.random() * window.innerWidth,
+            x: Math.random() * 1920,
           }}
           transition={{
             duration: 10 + Math.random() * 10,
