@@ -148,24 +148,35 @@ export default function PixelMascot({ size = 64, mood = 'idle', interactive = fa
       whileHover={interactive ? { scale: 1.1 } : undefined}
       whileTap={interactive ? { scale: 0.95 } : undefined}
     >
-      <div className="relative w-full h-full overflow-hidden bg-green-400 rounded-lg">
-        <Image
-          src={config.source}
-          alt="Zuna Mascot"
-          width={size * config.frames}
-          height={size}
-          className="absolute"
+      <div className="relative w-full h-full overflow-hidden">
+        <div 
+          className="absolute inset-0"
           style={{
-            imageRendering: 'pixelated',
-            left: `-${currentFrame * size}px`,
+            width: size,
+            height: size,
+            overflow: 'hidden',
           }}
-          onLoad={() => setSpriteLoaded(true)}
-          onError={(e) => {
-            console.error('Failed to load sprite:', config.source);
-          }}
-          unoptimized
-          priority
-        />
+        >
+          <Image
+            src={config.source}
+            alt="Zuna Mascot"
+            width={size * config.frames}
+            height={size}
+            className="absolute top-0"
+            style={{
+              imageRendering: 'pixelated',
+              left: `-${currentFrame * size}px`,
+              width: size * config.frames,
+              height: size,
+            }}
+            onLoad={() => setSpriteLoaded(true)}
+            onError={(e) => {
+              console.error('Failed to load sprite:', config.source);
+            }}
+            unoptimized
+            priority
+          />
+        </div>
       </div>
     </motion.div>
   );

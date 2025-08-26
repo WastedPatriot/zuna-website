@@ -7,6 +7,7 @@ import Image from 'next/image';
 import PixelMascot from './components/PixelMascot';
 import MascotShowcase from './components/MascotShowcase';
 import MascotContextDemo from './components/MascotContextDemo';
+import TamagotchiDisplay from './components/TamagotchiDisplay';
 import InteractiveBackground from './components/InteractiveBackground';
 import LoadingScreen from './components/LoadingScreen';
 import Navigation from './components/Navigation';
@@ -50,24 +51,66 @@ export default function Home() {
       <Navigation />
 
       <div ref={containerRef} className="relative z-10">
-        {/* Hero Section with Parallax */}
-        <section className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
-          {/* Floating Elements */}
-          <motion.div
-            className="absolute top-20 left-10 w-20 h-20"
-            style={{ y: y1 }}
-            animate={{
-              rotate: [0, 360],
-              scale: [1, 1.2, 1],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-          >
-            <div className="w-full h-full bg-gradient-to-br from-green-400 to-emerald-600 rounded-lg opacity-20 blur-xl" />
-          </motion.div>
+        {/* Hero Section with Tamagotchi */}
+        <section className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden py-20">
+          <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            {/* Left Side - Text Content */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-center md:text-left"
+            >
+              <motion.h1 
+                className="text-6xl md:text-8xl font-bold mb-6 pixelated"
+                animate={{
+                  textShadow: [
+                    "0 0 20px #4ade80",
+                    "0 0 40px #4ade80",
+                    "0 0 20px #4ade80",
+                  ],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                ZUNA
+              </motion.h1>
+              
+              <p className="text-xl md:text-2xl text-gray-300 mb-8">
+                Your AI-Powered Financial Companion
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-4 rounded-lg font-bold pixelated text-lg shadow-lg shadow-green-500/50"
+                >
+                  GET STARTED
+                </motion.button>
+                
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="border-2 border-green-400 text-green-400 px-8 py-4 rounded-lg font-bold pixelated text-lg"
+                >
+                  LEARN MORE
+                </motion.button>
+              </div>
+            </motion.div>
+            
+            {/* Right Side - Tamagotchi Display */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <TamagotchiDisplay />
+            </motion.div>
+          </div>
 
           <motion.div
             className="absolute bottom-20 right-10 w-32 h-32"
