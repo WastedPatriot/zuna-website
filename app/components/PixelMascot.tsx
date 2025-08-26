@@ -3,110 +3,114 @@
 import { motion } from 'framer-motion';
 
 interface PixelMascotProps {
-  mood?: 'happy' | 'excited' | 'sleepy';
+  size?: number;
+  mood?: 'happy' | 'excited' | 'sleeping' | 'eating';
+  interactive?: boolean;
 }
 
-export default function PixelMascot({ mood = 'happy' }: PixelMascotProps) {
-  const mascotPixels = [
-    // Row 0-3: Top spike/antenna
-    '          ##          ',
-    '         ####         ',
-    '        ######        ',
-    '       ########       ',
-    // Row 4-7: Ears and head top
-    '     ##  ####  ##     ',
-    '    ###  ####  ###    ',
-    '   ####  ####  ####   ',
-    '  ##################  ',
-    // Row 8-11: Head with face
-    ' #################### ',
-    ' ##@@####@@####@@#### ',
-    ' ##@@####@@####@@#### ',
-    ' #################### ',
-    // Row 12-13: Cheeks
-    ' ###PP########PP##### ',
-    ' #################### ',
-    // Row 14-15: Neck
-    '      ##########      ',
-    '      ##########      ',
-    // Row 16-19: Body
-    '    ##############    ',
-    '   ################   ',
-    '  ##################  ',
-    ' #################### ',
-    // Row 20-23: Arms and legs
-    '####    ####    ####  ',
-    '###      ##      ###  ',
-    '##       ##       ##  ',
-    '##       ##       ##  ',
+export default function PixelMascot({ size = 40, mood = 'happy', interactive = false }: PixelMascotProps) {
+  // 24x24 pixel grid - exact copy from the app
+  const pixels = [
+    "000000000000000000000000",
+    "000000000000000000000000",
+    "000000222200002222000000",
+    "000002222220022222200000",
+    "000022222222222222220000",
+    "000222222222222222222000",
+    "002222222222222222222200",
+    "002222332222222233222200",
+    "022222332222222233222220",
+    "022222222222222222222220",
+    "022255522222222255522220",
+    "022222222222222222222220",
+    "022222200000000002222220",
+    "022222222222222222222220",
+    "002222222222222222222200",
+    "002222222222222222222200",
+    "000222222222222222222000",
+    "000222222222222222222000",
+    "000222112222222211222000",
+    "000222112222222211222000",
+    "000022112222222211220000",
+    "000022112222222211220000",
+    "000000000000000000000000",
+    "000000000000000000000000"
   ];
 
-  const bounceAnimation = mood === 'excited' ? {
-    y: [0, -10, 0]
-  } : undefined;
+  const colors: { [key: string]: string } = {
+    '0': 'transparent',
+    '1': '#166534', // Dark green (legs)
+    '2': '#4ade80', // Main green
+    '3': '#000000', // Black (eyes)
+    '4': '#ffffff', // White (eye shine)
+    '5': '#f87171', // Pink (cheeks)
+  };
+
+  const pixelSize = size / 24;
+
+  const animations = {
+    happy: {
+      y: [0, -5, 0],
+      transition: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+    },
+    excited: {
+      y: [0, -10, 0],
+      rotate: [-5, 5, -5],
+      transition: { duration: 0.5, repeat: Infinity, ease: "easeInOut" }
+    },
+    sleeping: {
+      scale: [1, 1.05, 1],
+      transition: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+    },
+    eating: {
+      scale: [1, 1.1, 1],
+      transition: { duration: 0.5, repeat: 3 }
+    }
+  };
 
   return (
-    <motion.div 
-      className="relative inline-block"
-      animate={bounceAnimation}
-      transition={mood === 'excited' ? {
-        duration: 0.6,
-        repeat: Infinity,
-        ease: "easeInOut"
-      } : undefined}
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.95 }}
+    <motion.div
+      className={`relative inline-block ${interactive ? 'cursor-pointer' : ''}`}
+      style={{ width: size, height: size }}
+      animate={animations[mood]}
+      whileHover={interactive ? { scale: 1.1 } : {}}
+      whileTap={interactive ? { scale: 0.95 } : {}}
     >
-      <div className="grid grid-cols-[repeat(22,8px)] gap-0">
-        {mascotPixels.map((row, y) => 
-          row.split('').map((pixel, x) => {
-            let bgColor = 'transparent';
-            if (pixel === '#') bgColor = '#4ADE80';
-            else if (pixel === '@') bgColor = '#000000';
-            else if (pixel === 'P') bgColor = '#FF69B4';
-            
-            return (
-              <div
-                key={`${x}-${y}`}
-                className="w-2 h-2"
-                style={{
-                  backgroundColor: bgColor,
-                  imageRendering: 'pixelated'
-                }}
-              />
-            );
-          })
-        )}
-      </div>
-      
-      {/* Eye shine */}
-      <div className="absolute w-1 h-1 bg-white rounded-full" 
-           style={{ left: '82px', top: '74px' }} />
-      <div className="absolute w-1 h-1 bg-white rounded-full" 
-           style={{ left: '106px', top: '74px' }} />
+      {pixels.map((row, y) => (
+        row.split('').map((pixel, x) => (
+          <div
+            key={`${x}-${y}`}
+            className="absolute"
+            style={{
+              left: x * pixelSize,
+              top: y * pixelSize,
+              width: pixelSize,
+              height: pixelSize,
+              backgroundColor: colors[pixel] || 'transparent',
+              imageRendering: 'pixelated'
+            }}
+          />
+        ))
+      ))}
       
       {/* Mood indicators */}
-      {mood === 'sleepy' && (
-        <>
-          <motion.div
-            className="absolute -top-4 -right-2 text-2xl"
-            animate={{ opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            💤
-          </motion.div>
-        </>
+      {mood === 'sleeping' && (
+        <motion.div
+          className="absolute -top-4 right-0 text-xl"
+          animate={{ opacity: [0, 1, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          💤
+        </motion.div>
       )}
       
       {mood === 'excited' && (
         <motion.div
-          className="absolute -top-8 left-1/2 transform -translate-x-1/2"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
+          className="absolute -top-4 left-1/2 transform -translate-x-1/2"
+          animate={{ y: [-5, -10, -5] }}
+          transition={{ duration: 0.5, repeat: Infinity }}
         >
-          <div className="bg-white px-3 py-1 rounded-full border-2 border-green-600 text-sm font-pixel">
-            YAY!
-          </div>
+          ✨
         </motion.div>
       )}
     </motion.div>
