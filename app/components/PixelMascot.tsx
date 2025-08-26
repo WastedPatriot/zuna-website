@@ -10,95 +10,136 @@ interface PixelMascotProps {
   interactive?: boolean;
 }
 
-// Sprite configurations matching the mobile app
+// Sprite configurations with proper timing and loop settings
 const SPRITE_CONFIGS = {
   idle: {
     source: '/sprites/idleblink.webp',
     frames: 2,
     frameRate: 500,
+    loop: true,
   },
   happy: {
     source: '/sprites/happy.webp',
     frames: 4,
     frameRate: 200,
+    loop: false,
+    loopCount: 3,
   },
   gaming: {
     source: '/sprites/gaming.webp',
     frames: 4,
     frameRate: 200,
+    loop: true,
   },
   jumping: {
     source: '/sprites/jumping.webp',
     frames: 4,
     frameRate: 150,
+    loop: false,
+    loopCount: 2,
   },
   leftrun: {
     source: '/sprites/leftrn.webp',
     frames: 6,
     frameRate: 100,
+    loop: true,
   },
   rightrun: {
     source: '/sprites/righrun.webp', 
     frames: 6,
     frameRate: 100,
+    loop: true,
   },
   eating: {
     source: '/sprites/eating an apple.webp',
     frames: 3,
     frameRate: 300,
+    loop: false,
+    loopCount: 3,
   },
   speaking: {
     source: '/sprites/speaking.webp',
     frames: 4,
     frameRate: 200,
+    loop: true,
   },
   planting: {
     source: '/sprites/planting.webp',
     frames: 3,
     frameRate: 300,
+    loop: false,
+    loopCount: 1,
   },
   plane: {
     source: '/sprites/plane.webp',
     frames: 3,
     frameRate: 200,
+    loop: true,
   },
   savings: {
     source: '/sprites/savings.webp',
     frames: 4,
     frameRate: 400,
+    loop: false,
+    loopCount: 2,
   },
   sad: {
     source: '/sprites/sad.webp',
     frames: 3,
     frameRate: 300,
+    loop: false,
+    loopCount: 1,
   },
   watering: {
     source: '/sprites/watering.webp',
     frames: 4,
     frameRate: 300,
+    loop: false,
+    loopCount: 1,
   },
   waving: {
     source: '/sprites/waving.webp',
     frames: 4,
     frameRate: 200,
+    loop: false,
+    loopCount: 2,
   },
 };
 
 export default function PixelMascot({ size = 64, mood = 'idle', interactive = false }: PixelMascotProps) {
   const [currentFrame, setCurrentFrame] = useState(0);
   const [spriteLoaded, setSpriteLoaded] = useState(false);
+  const [loopCount, setLoopCount] = useState(0);
+  const [animationComplete, setAnimationComplete] = useState(false);
   
   const config = SPRITE_CONFIGS[mood as keyof typeof SPRITE_CONFIGS] || SPRITE_CONFIGS.idle;
   
   useEffect(() => {
     if (!spriteLoaded) return;
     
+    let frameIndex = 0;
+    let currentLoopCount = 0;
+    
     const interval = setInterval(() => {
-      setCurrentFrame(prev => (prev + 1) % config.frames);
+      frameIndex++;
+      
+      if (frameIndex >= config.frames) {
+        frameIndex = 0;
+        currentLoopCount++;
+        
+        // Check if animation should stop
+        if (!config.loop && currentLoopCount >= (config.loopCount || 1)) {
+          clearInterval(interval);
+          setAnimationComplete(true);
+          return;
+        }
+      }
+      
+      setCurrentFrame(frameIndex);
     }, config.frameRate);
     
     return () => clearInterval(interval);
-  }, [mood, config.frames, config.frameRate, spriteLoaded]);
+  }, [mood, config, spriteLoaded]);
   
   return (
     <motion.div

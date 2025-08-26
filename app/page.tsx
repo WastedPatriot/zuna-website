@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import PixelMascot from './components/PixelMascot';
 import MascotShowcase from './components/MascotShowcase';
+import MascotContextDemo from './components/MascotContextDemo';
 import InteractiveBackground from './components/InteractiveBackground';
 import LoadingScreen from './components/LoadingScreen';
 import Navigation from './components/Navigation';
@@ -307,12 +308,13 @@ export default function Home() {
         {/* Mascot Showcase Section */}
         <section className="min-h-screen py-20 px-4 relative overflow-hidden">
           <motion.div
-            className="max-w-6xl mx-auto"
+            className="max-w-6xl mx-auto space-y-12"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.8 }}
           >
             <MascotShowcase />
+            <MascotContextDemo />
           </motion.div>
         </section>
 
