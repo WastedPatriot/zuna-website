@@ -111,7 +111,7 @@ export default function Home() {
                     <span className="text-sm font-bold pixelated">HI THERE!</span>
                     <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full">
                       <div className="w-0 h-0 border-l-8 border-r-8 border-t-8 border-transparent border-t-white" />
-                    </div>
+        </div>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -464,8 +464,8 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </footer>
-      </div>
+      </footer>
+    </div>
     </>
   );
 }

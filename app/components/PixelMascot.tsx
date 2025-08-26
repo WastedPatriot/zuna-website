@@ -87,6 +87,7 @@ const SPRITE_CONFIGS = {
 export default function PixelMascot({ size = 64, mood = 'idle', interactive = false }: PixelMascotProps) {
   const [currentFrame, setCurrentFrame] = useState(0);
   const [spriteLoaded, setSpriteLoaded] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   
   const config = SPRITE_CONFIGS[mood] || SPRITE_CONFIGS.idle;
   
@@ -104,23 +105,37 @@ export default function PixelMascot({ size = 64, mood = 'idle', interactive = fa
     <motion.div
       className={`relative inline-block ${interactive ? 'cursor-pointer' : ''}`}
       style={{ width: size, height: size }}
-      whileHover={interactive ? { scale: 1.1 } : {}}
-      whileTap={interactive ? { scale: 0.95 } : {}}
+      whileHover={interactive ? { scale: 1.1 } : undefined}
+      whileTap={interactive ? { scale: 0.95 } : undefined}
     >
-      <div className="relative w-full h-full overflow-hidden">
-        <Image
-          src={config.source}
-          alt="Zuna Mascot"
-          width={size * config.frames}
-          height={size}
-          className="absolute"
-          style={{
-            imageRendering: 'pixelated',
-            left: `-${currentFrame * size}px`,
-          }}
-          onLoad={() => setSpriteLoaded(true)}
-          unoptimized
-        />
+      <div className="relative w-full h-full overflow-hidden bg-green-400 rounded-lg">
+        {!error ? (
+          <Image
+            src={config.source}
+            alt="Zuna Mascot"
+            width={size * config.frames}
+            height={size}
+            className="absolute"
+            style={{
+              imageRendering: 'pixelated',
+              left: `-${currentFrame * size}px`,
+            }}
+            onLoad={() => setSpriteLoaded(true)}
+            onError={(e) => {
+              console.error('Failed to load sprite:', config.source);
+              setError(`Failed to load: ${config.source}`);
+            }}
+            unoptimized
+            priority
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <div className="text-center">
+              <div className="text-2xl mb-2">🎮</div>
+              <div className="text-xs">Mascot</div>
+            </div>
+          </div>
+        )}
       </div>
     </motion.div>
   );
