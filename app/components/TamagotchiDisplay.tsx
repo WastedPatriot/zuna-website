@@ -51,9 +51,9 @@ export default function TamagotchiDisplay() {
   return (
     <div className="max-w-md mx-auto">
       {/* Tamagotchi Screen */}
-      <div className="bg-green-100 rounded-3xl p-8 border-8 border-gray-800 shadow-2xl">
+      <div className="bg-sky-100 rounded-3xl p-8 border-8 border-sky-900 shadow-2xl">
         {/* Screen Display */}
-        <div className="bg-green-200 rounded-2xl p-6 mb-6 relative overflow-hidden">
+        <div className="bg-gradient-to-b from-sky-200 to-sky-300 rounded-2xl p-6 mb-6 relative overflow-hidden">
           {/* Pixel Grid Background */}
           <div className="absolute inset-0 opacity-10">
             {Array.from({ length: 20 }).map((_, y) => (
@@ -61,7 +61,7 @@ export default function TamagotchiDisplay() {
                 {Array.from({ length: 20 }).map((_, x) => (
                   <div
                     key={x}
-                    className="w-4 h-4 border border-green-300"
+                    className="w-4 h-4 border border-sky-400"
                   />
                 ))}
               </div>
@@ -119,7 +119,7 @@ export default function TamagotchiDisplay() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={feed}
-            className="bg-gray-700 hover:bg-gray-600 text-white rounded-full p-4 flex flex-col items-center justify-center"
+            className="bg-sky-700 hover:bg-sky-600 text-white rounded-full p-4 flex flex-col items-center justify-center"
           >
             <span className="text-2xl mb-1">🍎</span>
             <span className="text-xs pixelated">FEED</span>
@@ -129,7 +129,7 @@ export default function TamagotchiDisplay() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={play}
-            className="bg-gray-700 hover:bg-gray-600 text-white rounded-full p-4 flex flex-col items-center justify-center"
+            className="bg-sky-700 hover:bg-sky-600 text-white rounded-full p-4 flex flex-col items-center justify-center"
           >
             <span className="text-2xl mb-1">🎮</span>
             <span className="text-xs pixelated">PLAY</span>
@@ -138,7 +138,7 @@ export default function TamagotchiDisplay() {
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="bg-gray-700 hover:bg-gray-600 text-white rounded-full p-4 flex flex-col items-center justify-center"
+            className="bg-sky-700 hover:bg-sky-600 text-white rounded-full p-4 flex flex-col items-center justify-center"
           >
             <span className="text-2xl mb-1">💤</span>
             <span className="text-xs pixelated">SLEEP</span>
