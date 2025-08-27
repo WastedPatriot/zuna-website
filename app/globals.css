@@ -9,6 +9,12 @@
   letter-spacing: 0.5px;
 }
 
+.pixelated {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
 .pixel-corners {
   clip-path: polygon(
     0 8px,

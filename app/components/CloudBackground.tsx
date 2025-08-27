@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 export default function CloudBackground() {
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none">
+    <div className="fixed inset-0 overflow-hidden pointer-events-none z-10">
       {/* Animated clouds */}
       <motion.div
         className="absolute top-10 left-[-100px] w-[200px] h-[60px] bg-white rounded-full opacity-70"

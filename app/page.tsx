@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import CloudBackground from './components/CloudBackground';
-import PixelMascot from './components/PixelMascot';
+import SpriteAnimation from './components/SpriteAnimation';
 // import { useUser } from '@auth0/nextjs-auth0'; // Will be configured with Auth0Provider
 
 export default function Home() {
@@ -128,7 +128,7 @@ export default function Home() {
                   
                   {/* Animated Mascot */}
                   <div className="relative z-10 flex justify-center items-center h-full">
-                    <PixelMascot mood={mascotMood} size={200} interactive={true} />
+                    <SpriteAnimation sprite={mascotMood} size={200} />
                   </div>
                   
                   {/* Stats overlay */}
@@ -331,28 +331,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Weekly Cosmetic Vendor */}
-      <section className="relative z-20 px-4 py-16">
-        <div className="max-w-7xl mx-auto">
-          <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-8 text-white pixel-corners">
-            <h2 className="text-3xl font-bold mb-4 pixel-font">WEEKLY COSMETIC VENDOR</h2>
-            <div className="grid md:grid-cols-4 gap-4">
-              {[
-                { name: 'Rainbow Skin', price: '15 ZUNA', icon: '🌈' },
-                { name: 'Galaxy Effect', price: '25 ZUNA', icon: '✨' },
-                { name: 'Neon Glow', price: '20 ZUNA', icon: '💫' },
-                { name: 'Pixel Crown', price: '30 ZUNA', icon: '👑' },
-              ].map((item) => (
-                <div key={item.name} className="bg-white/20 p-4 rounded-lg pixel-corners hover:bg-white/30 transition-colors cursor-pointer">
-                  <div className="text-4xl mb-2">{item.icon}</div>
-                  <div className="font-bold pixel-font">{item.name}</div>
-                  <div className="text-sm opacity-80 pixel-font">{item.price}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+
 
       {/* Footer */}
       <footer className="relative z-10 bg-gray-900 text-white px-4 py-12">
