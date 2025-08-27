@@ -4,200 +4,155 @@
 @tailwind components;
 @tailwind utilities;
 
-.pixel-font {
-  font-family: 'Press Start 2P', cursive;
+/* Pixel Text Style */
+.pixel-text {
+  font-family: 'Press Start 2P', monospace;
+  line-height: 1.5;
   letter-spacing: 0.5px;
+  text-rendering: optimizeLegibility;
 }
 
+/* Pixelated Images */
 .pixelated {
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
 }
 
-.pixel-corners {
-  clip-path: polygon(
-    0 8px,
-    8px 8px,
-    8px 0,
-    calc(100% - 8px) 0,
-    calc(100% - 8px) 8px,
-    100% 8px,
-    100% calc(100% - 8px),
-    calc(100% - 8px) calc(100% - 8px),
-    calc(100% - 8px) 100%,
-    8px 100%,
-    8px calc(100% - 8px),
-    0 calc(100% - 8px)
-  );
-}
-
-/* Smooth animations */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-.animate-pulse-slow {
-  animation: pulse 2s ease-in-out infinite;
-}
-
-/* Base styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  cursor: none !important;
-}
-
-html {
-  scroll-behavior: smooth;
-  overflow-x: hidden;
-  background: #87CEEB;
-}
-
-body {
-  background-color: #87CEEB;
-  color: #1a1a1a;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-}
-
-/* Pixel Font */
-.pixelated {
-  font-family: 'Press Start 2P', monospace !important;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-}
-
-/* Canvas styles */
-canvas {
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-}
-
-/* Hide scrollbar but keep functionality */
-::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
-}
-
-/* Selection */
-::selection {
-  background: #4ade80;
-  color: #000;
-}
-
-/* Pixel perfect rendering */
-.pixel-perfect {
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-  -ms-interpolation-mode: nearest-neighbor;
-}
-
-/* Retro CRT effect */
-@keyframes flicker {
-  0% {
-    opacity: 0.97;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.98;
-  }
-}
-
-.crt-effect {
-  animation: flicker 0.15s infinite;
-}
-
-/* Scanlines */
-.scanlines::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    transparent 50%,
-    rgba(0, 0, 0, 0.1) 50%
-  );
-  background-size: 100% 4px;
-  pointer-events: none;
-  z-index: 100;
-}
-
-/* Glow effects */
-.glow-green {
-  text-shadow: 
-    0 0 10px #4ade80,
-    0 0 20px #4ade80,
-    0 0 30px #4ade80,
-    0 0 40px #4ade80;
-}
-
-.glow-box-green {
+/* Pixel Border */
+.pixel-border {
+  position: relative;
+  border: 3px solid #000;
   box-shadow: 
-    0 0 10px #4ade80,
-    0 0 20px #4ade80,
-    0 0 30px #4ade80;
+    0 0 0 3px #000,
+    0 0 0 6px #fff,
+    0 0 0 9px #000;
 }
 
-/* Animations */
-@keyframes pixel-bounce {
-  0%, 100% {
-    transform: translateY(0);
+/* Animated Clouds */
+.cloud {
+  position: absolute;
+  background: white;
+  border-radius: 100px;
+  opacity: 0.8;
+}
+
+.cloud::before {
+  content: '';
+  position: absolute;
+  background: white;
+  border-radius: 100px;
+}
+
+.cloud::after {
+  content: '';
+  position: absolute;
+  background: white;
+  border-radius: 100px;
+}
+
+.cloud1 {
+  width: 100px;
+  height: 40px;
+  top: 20%;
+  animation: drift 20s infinite;
+}
+
+.cloud1::before {
+  width: 50px;
+  height: 50px;
+  top: -25px;
+  left: 10px;
+}
+
+.cloud1::after {
+  width: 60px;
+  height: 40px;
+  top: -15px;
+  right: 10px;
+}
+
+.cloud2 {
+  width: 80px;
+  height: 35px;
+  top: 40%;
+  animation: drift 25s infinite;
+  animation-delay: 5s;
+}
+
+.cloud2::before {
+  width: 40px;
+  height: 40px;
+  top: -20px;
+  left: 15px;
+}
+
+.cloud2::after {
+  width: 50px;
+  height: 35px;
+  top: -10px;
+  right: 15px;
+}
+
+.cloud3 {
+  width: 120px;
+  height: 45px;
+  top: 60%;
+  animation: drift 30s infinite;
+  animation-delay: 10s;
+}
+
+.cloud3::before {
+  width: 60px;
+  height: 60px;
+  top: -30px;
+  left: 20px;
+}
+
+.cloud3::after {
+  width: 70px;
+  height: 45px;
+  top: -15px;
+  right: 20px;
+}
+
+@keyframes drift {
+  from {
+    transform: translateX(-200px);
   }
-  50% {
-    transform: translateY(-8px);
+  to {
+    transform: translateX(calc(100vw + 200px));
   }
 }
 
-@keyframes blink {
-  0%, 90%, 100% {
-    opacity: 1;
+/* Button Hover Effects */
+button {
+  transition: all 0.1s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .pixel-text {
+    font-size: 0.9em;
   }
-  95% {
-    opacity: 0;
+  
+  h1.pixel-text {
+    font-size: 2rem;
   }
-}
-
-.animate-pixel-bounce {
-  animation: pixel-bounce 0.5s steps(4) infinite;
-}
-
-.animate-blink {
-  animation: blink 2s infinite;
-}
-
-/* Disable animations for reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  
+  h2.pixel-text {
+    font-size: 1.5rem;
+  }
+  
+  h3.pixel-text {
+    font-size: 1.2rem;
   }
 }
