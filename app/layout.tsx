@@ -4,7 +4,7 @@ import CustomCursor from './components/CustomCursor';
 import FeedbackWidget from './components/FeedbackWidget';
 import SkyBackground from './components/SkyBackground';
 import { Auth0Provider } from './providers/Auth0Provider';
-import { UserProvider } from '@auth0/nextjs-auth0/client';
+// import { UserProvider } from '@auth0/nextjs-auth0/client'; // TODO: Install Auth0
 
 export const metadata: Metadata = {
   title: 'Zuna - Your Financial Companion',
@@ -35,16 +35,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-sky-100 text-gray-800 overflow-x-hidden">
-        <UserProvider>
-          <Auth0Provider>
-            <SkyBackground />
-            <CustomCursor />
-            <FeedbackWidget />
-            <div className="relative z-10">
-              {children}
-            </div>
-          </Auth0Provider>
-        </UserProvider>
+        <Auth0Provider>
+          <SkyBackground />
+          <CustomCursor />
+          <FeedbackWidget />
+          <div className="relative z-10">
+            {children}
+          </div>
+        </Auth0Provider>
       </body>
     </html>
   );

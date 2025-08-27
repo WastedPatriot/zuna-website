@@ -6,16 +6,18 @@ import Link from 'next/link';
 import Image from 'next/image';
 import CloudBackground from './components/CloudBackground';
 import PixelMascot from './components/PixelMascot';
-import { useUser } from '@auth0/nextjs-auth0/client';
+// import { useUser } from '@auth0/nextjs-auth0/client'; // TODO: Install Auth0
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('features');
-  const [mascotMood, setMascotMood] = useState<'happy' | 'excited' | 'gaming'>('happy');
-  const { user, error, isLoading } = useUser();
+  const [mascotMood, setMascotMood] = useState<'happy' | 'gaming'>('happy');
+  // const { user, error, isLoading } = useUser(); // TODO: Install Auth0
+  const user = null;
+  const isLoading = false;
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const moods: ('happy' | 'excited' | 'gaming')[] = ['happy', 'excited', 'gaming'];
+      const moods: ('happy' | 'gaming')[] = ['happy', 'gaming'];
       setMascotMood(moods[Math.floor(Math.random() * moods.length)]);
     }, 5000);
     return () => clearInterval(interval);
@@ -126,7 +128,7 @@ export default function Home() {
                   
                   {/* Animated Mascot */}
                   <div className="relative z-10 flex justify-center items-center h-full">
-                    <PixelMascot mood={mascotMood} size={200} animated={true} />
+                    <PixelMascot mood={mascotMood} size={200} interactive={true} />
                   </div>
                   
                   {/* Stats overlay */}
