@@ -4,7 +4,7 @@ import CustomCursor from './components/CustomCursor';
 import FeedbackWidget from './components/FeedbackWidget';
 import SkyBackground from './components/SkyBackground';
 import { Auth0Provider } from './providers/Auth0Provider';
-// import { UserProvider } from '@auth0/nextjs-auth0/client'; // TODO: Install Auth0
+// Auth0 UserProvider will be added after environment configuration
 
 export const metadata: Metadata = {
   title: 'Zuna - Your Financial Companion',

@@ -6,13 +6,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import CloudBackground from './components/CloudBackground';
 import PixelMascot from './components/PixelMascot';
-// import { useUser } from '@auth0/nextjs-auth0/client'; // TODO: Install Auth0
+// import { useUser } from '@auth0/nextjs-auth0/client'; // Requires Auth0 environment setup
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('features');
   const [mascotMood, setMascotMood] = useState<'happy' | 'gaming'>('happy');
-  // const { user, error, isLoading } = useUser(); // TODO: Install Auth0
-  const user = null;
+  // const { user, error, isLoading } = useUser(); // Requires Auth0 environment setup
+  const user = null; // Placeholder until Auth0 is configured
   const isLoading = false;
 
   useEffect(() => {
