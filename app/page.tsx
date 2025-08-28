@@ -39,7 +39,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-300 via-sky-200 to-sky-100 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-sky-400 via-sky-300 to-sky-200 relative overflow-hidden">
       {/* Enhanced Animated Clouds */}
       <div className="absolute inset-0">
         {/* Large fluffy clouds */}
@@ -198,7 +198,7 @@ export default function Home() {
               <div className="text-4xl mb-4">🎮</div>
               <h3 className="text-lg font-bold mb-2 pixel-text">PLAY & EARN</h3>
               <p className="pixel-text text-sm">
-                Play Tetris and mini-games to earn bonus ZUNA and boost savings
+                Play monthly games with prizes to win and earn ZUNA tokens
               </p>
             </div>
           </div>
@@ -251,6 +251,21 @@ export default function Home() {
               <li>✓ Trade & redeem tokens</li>
             </ul>
           </div>
+        </div>
+
+        {/* Call to Action */}
+        <div className="text-center bg-gradient-to-r from-blue-600 to-purple-600 text-white p-8 rounded-2xl pixel-border shadow-xl">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 pixel-text">
+            START YOUR FINANCIAL JOURNEY
+          </h2>
+          <p className="pixel-text mb-6">
+            Save money, grow your pet, earn ZUNA tokens
+          </p>
+          <Link href="/signup">
+            <button className="bg-white text-blue-600 px-8 py-4 rounded-lg pixel-border pixel-text font-bold shadow-lg transform hover:-translate-y-1 transition-all">
+              GET STARTED NOW
+            </button>
+          </Link>
         </div>
 
         {/* Footer */}
