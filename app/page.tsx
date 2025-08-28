@@ -20,7 +20,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-400 via-sky-300 to-green-200 relative overflow-hidden">
       {/* Animated Clouds */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <motion.div
           className="absolute top-10 left-[-100px] w-[200px] h-[60px] bg-white rounded-full opacity-70"
           animate={{
