@@ -2,59 +2,23 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import CloudBackground from './components/CloudBackground';
 
 export default function Home() {
-  const [currentSprite, setCurrentSprite] = useState('idle');
-  const [savingsProgress, setSavingsProgress] = useState(45); // Example: 45% of goal
-  const [totalSaved, setTotalSaved] = useState(2250); // Example: $2,250 saved
-  const [savingsGoal, setSavingsGoal] = useState(5000); // Example: $5,000 goal
-  const [zunaEarned, setZunaEarned] = useState(450); // ZUNA earned from saving
+  const [mascotMood, setMascotMood] = useState<'idle' | 'happy' | 'gaming'>('idle');
   
-  // Sprite changes based on savings progress
   useEffect(() => {
-    if (savingsProgress < 25) {
-      setCurrentSprite('sad');
-    } else if (savingsProgress < 50) {
-      setCurrentSprite('idle');
-    } else if (savingsProgress < 75) {
-      setCurrentSprite('happy');
-    } else {
-      setCurrentSprite('waving');
-    }
-  }, [savingsProgress]);
-
-  // Calculate mood based on savings
-  const getMoodText = () => {
-    if (savingsProgress < 25) return 'NEEDS ATTENTION';
-    if (savingsProgress < 50) return 'GROWING';
-    if (savingsProgress < 75) return 'HAPPY';
-    return 'THRIVING!';
-  };
-
-  const getMoodColor = () => {
-    if (savingsProgress < 25) return 'text-red-500';
-    if (savingsProgress < 50) return 'text-yellow-500';
-    if (savingsProgress < 75) return 'text-green-500';
-    return 'text-purple-500';
-  };
+    const interval = setInterval(() => {
+      const moods: ('idle' | 'happy' | 'gaming')[] = ['idle', 'happy', 'gaming'];
+      setMascotMood(moods[Math.floor(Math.random() * moods.length)]);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-400 via-sky-300 to-sky-200 relative overflow-hidden">
-      {/* Enhanced Animated Clouds */}
-      <div className="absolute inset-0">
-        {/* Large fluffy clouds */}
-        <div className="cloud cloud1 opacity-90"></div>
-        <div className="cloud cloud2 opacity-80"></div>
-        <div className="cloud cloud3 opacity-85"></div>
-        <div className="cloud cloud4 opacity-75"></div>
-        <div className="cloud cloud5 opacity-70"></div>
-        
-        {/* Small accent clouds */}
-        <div className="small-cloud small-cloud1"></div>
-        <div className="small-cloud small-cloud2"></div>
-        <div className="small-cloud small-cloud3"></div>
-      </div>
-
+    <div className="min-h-screen bg-gradient-to-b from-sky-400 via-sky-300 to-green-200 relative overflow-hidden">
+      <CloudBackground />
+      
       {/* Main Container */}
       <div className="relative z-10 container mx-auto px-4 py-8 max-w-6xl">
         {/* Header */}
@@ -67,7 +31,7 @@ export default function Home() {
           </p>
         </header>
 
-        {/* Hero Section with Smart Tamagotchi */}
+        {/* Hero Section */}
         <div className="bg-white/95 backdrop-blur rounded-2xl p-6 md:p-8 mb-8 pixel-border shadow-xl">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
@@ -79,39 +43,9 @@ export default function Home() {
                 The more you save, the happier it becomes!
               </p>
               
-              {/* Savings Goal Progress */}
-              <div className="mb-6">
-                <div className="flex justify-between mb-2">
-                  <span className="pixel-text text-sm">SAVINGS GOAL</span>
-                  <span className="pixel-text text-sm font-bold">
-                    ${totalSaved} / ${savingsGoal}
-                  </span>
-                </div>
-                <div className="bg-gray-200 rounded-full h-6 overflow-hidden pixel-border">
-                  <div 
-                    className="bg-gradient-to-r from-green-400 to-green-600 h-full transition-all duration-500 flex items-center justify-center"
-                    style={{ width: `${savingsProgress}%` }}
-                  >
-                    <span className="text-xs pixel-text text-white font-bold">
-                      {savingsProgress}%
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* ZUNA Rewards */}
-              <div className="bg-purple-100 rounded-lg p-4 mb-6">
-                <div className="flex justify-between items-center">
-                  <span className="pixel-text text-sm">ZUNA EARNED FROM SAVING:</span>
-                  <span className="pixel-text text-xl font-bold text-purple-600">
-                    {zunaEarned} ZUNA
-                  </span>
-                </div>
-              </div>
-              
               <div className="flex gap-4">
                 <Link href="/login">
-                  <button className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-3 rounded-lg pixel-border pixel-text shadow-lg transform hover:-translate-y-1 transition-all">
+                  <button className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-3 px-8 rounded-lg pixel-border pixel-text shadow-lg transform hover:-translate-y-1 transition-all">
                     START SAVING
                   </button>
                 </Link>
@@ -121,53 +55,26 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Smart Tamagotchi Display */}
+            {/* Simple Mascot Display */}
             <div className="relative">
               <div className="bg-gradient-to-b from-blue-50 to-green-50 rounded-2xl p-6 pixel-border shadow-inner">
                 <div className="text-center mb-4">
-                  <div className={`text-lg pixel-text font-bold ${getMoodColor()}`}>
-                    {getMoodText()}
-                  </div>
-                  <div className="text-xs pixel-text text-gray-600 mt-1">
-                    Pet happiness: {savingsProgress}%
+                  <div className="text-lg pixel-text font-bold text-purple-600">
+                    YOUR FINANCIAL FRIEND
                   </div>
                 </div>
                 
-                {/* Sprite Display */}
+                {/* Simple mascot placeholder */}
                 <div className="relative h-48 flex justify-center items-center bg-gradient-to-b from-transparent to-green-100 rounded-lg">
-                  <img 
-                    src={`/sprites/${currentSprite === 'idle' ? 'idleblink' : currentSprite}.webp`}
-                    alt="Zuna Pet"
-                    className="pixelated"
-                    style={{
-                      imageRendering: 'pixelated',
-                      width: '128px',
-                      height: '128px',
-                      objectFit: 'contain'
-                    }}
-                  />
+                  <div className="w-32 h-32 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center text-4xl">
+                    🐾
+                  </div>
                 </div>
                 
-                {/* Pet Stats connected to savings */}
-                <div className="mt-4 space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="pixel-text text-xs">HAPPINESS</span>
-                    <div className="bg-gray-200 rounded-full h-3 w-32 overflow-hidden">
-                      <div 
-                        className="bg-yellow-400 h-full transition-all duration-500"
-                        style={{ width: `${savingsProgress}%` }}
-                      />
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="pixel-text text-xs">GROWTH</span>
-                    <div className="bg-gray-200 rounded-full h-3 w-32 overflow-hidden">
-                      <div 
-                        className="bg-green-400 h-full transition-all duration-500"
-                        style={{ width: `${Math.min(savingsProgress * 1.2, 100)}%` }}
-                      />
-                    </div>
-                  </div>
+                <div className="text-center mt-4">
+                  <p className="pixel-text text-sm text-gray-600">
+                    Download the app to meet your pet!
+                  </p>
                 </div>
               </div>
             </div>
