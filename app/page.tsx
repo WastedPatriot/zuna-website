@@ -5,163 +5,260 @@ import Link from 'next/link';
 
 export default function Home() {
   const [currentSprite, setCurrentSprite] = useState('idle');
-  const [frame, setFrame] = useState(0);
+  const [savingsProgress, setSavingsProgress] = useState(45); // Example: 45% of goal
+  const [totalSaved, setTotalSaved] = useState(2250); // Example: $2,250 saved
+  const [savingsGoal, setSavingsGoal] = useState(5000); // Example: $5,000 goal
+  const [zunaEarned, setZunaEarned] = useState(450); // ZUNA earned from saving
   
-  // Simple sprite animation
+  // Sprite changes based on savings progress
   useEffect(() => {
-    const interval = setInterval(() => {
-      setFrame((prev) => (prev + 1) % 2);
-    }, 500);
-    return () => clearInterval(interval);
-  }, []);
+    if (savingsProgress < 25) {
+      setCurrentSprite('sad');
+    } else if (savingsProgress < 50) {
+      setCurrentSprite('idle');
+    } else if (savingsProgress < 75) {
+      setCurrentSprite('happy');
+    } else {
+      setCurrentSprite('waving');
+    }
+  }, [savingsProgress]);
+
+  // Calculate mood based on savings
+  const getMoodText = () => {
+    if (savingsProgress < 25) return 'NEEDS ATTENTION';
+    if (savingsProgress < 50) return 'GROWING';
+    if (savingsProgress < 75) return 'HAPPY';
+    return 'THRIVING!';
+  };
+
+  const getMoodColor = () => {
+    if (savingsProgress < 25) return 'text-red-500';
+    if (savingsProgress < 50) return 'text-yellow-500';
+    if (savingsProgress < 75) return 'text-green-500';
+    return 'text-purple-500';
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cyan-400 to-blue-600 relative">
-      {/* Animated Clouds */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="cloud cloud1"></div>
-        <div className="cloud cloud2"></div>
-        <div className="cloud cloud3"></div>
+    <div className="min-h-screen bg-gradient-to-b from-sky-300 via-sky-200 to-sky-100 relative overflow-hidden">
+      {/* Enhanced Animated Clouds */}
+      <div className="absolute inset-0">
+        {/* Large fluffy clouds */}
+        <div className="cloud cloud1 opacity-90"></div>
+        <div className="cloud cloud2 opacity-80"></div>
+        <div className="cloud cloud3 opacity-85"></div>
+        <div className="cloud cloud4 opacity-75"></div>
+        <div className="cloud cloud5 opacity-70"></div>
+        
+        {/* Small accent clouds */}
+        <div className="small-cloud small-cloud1"></div>
+        <div className="small-cloud small-cloud2"></div>
+        <div className="small-cloud small-cloud3"></div>
       </div>
 
       {/* Main Container */}
-      <div className="relative z-10 container mx-auto px-4 py-8">
+      <div className="relative z-10 container mx-auto px-4 py-8 max-w-6xl">
         {/* Header */}
-        <header className="text-center mb-12">
-          <h1 className="text-6xl font-bold text-white mb-4 pixel-text">ZUNA</h1>
-          <p className="text-xl text-white pixel-text">YOUR DIGITAL FINANCIAL PET</p>
+        <header className="text-center mb-8">
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-3 pixel-text drop-shadow-lg">
+            ZUNA
+          </h1>
+          <p className="text-lg md:text-xl text-white pixel-text drop-shadow">
+            YOUR DIGITAL FINANCIAL PET
+          </p>
         </header>
 
-        {/* Hero Section with Mascot */}
-        <div className="bg-white/90 rounded-lg p-8 mb-8 pixel-border">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="flex-1">
-              <h2 className="text-3xl font-bold mb-4 pixel-text">Take care of your money,</h2>
-              <h3 className="text-2xl mb-4 pixel-text">take care of your pet.</h3>
-              <p className="text-lg mb-6 pixel-text">Watch them both grow together!</p>
+        {/* Hero Section with Smart Tamagotchi */}
+        <div className="bg-white/95 backdrop-blur rounded-2xl p-6 md:p-8 mb-8 pixel-border shadow-xl">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold mb-4 pixel-text">
+                Save Money, Grow Your Pet
+              </h2>
+              <p className="text-base md:text-lg mb-6 pixel-text">
+                Your pet's happiness is tied to your savings goals. 
+                The more you save, the happier it becomes!
+              </p>
+              
+              {/* Savings Goal Progress */}
+              <div className="mb-6">
+                <div className="flex justify-between mb-2">
+                  <span className="pixel-text text-sm">SAVINGS GOAL</span>
+                  <span className="pixel-text text-sm font-bold">
+                    ${totalSaved} / ${savingsGoal}
+                  </span>
+                </div>
+                <div className="bg-gray-200 rounded-full h-6 overflow-hidden pixel-border">
+                  <div 
+                    className="bg-gradient-to-r from-green-400 to-green-600 h-full transition-all duration-500 flex items-center justify-center"
+                    style={{ width: `${savingsProgress}%` }}
+                  >
+                    <span className="text-xs pixel-text text-white font-bold">
+                      {savingsProgress}%
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* ZUNA Rewards */}
+              <div className="bg-purple-100 rounded-lg p-4 mb-6">
+                <div className="flex justify-between items-center">
+                  <span className="pixel-text text-sm">ZUNA EARNED FROM SAVING:</span>
+                  <span className="pixel-text text-xl font-bold text-purple-600">
+                    {zunaEarned} ZUNA
+                  </span>
+                </div>
+              </div>
               
               <div className="flex gap-4">
                 <Link href="/login">
-                  <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded pixel-border pixel-text">
-                    START NOW
+                  <button className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-3 rounded-lg pixel-border pixel-text shadow-lg transform hover:-translate-y-1 transition-all">
+                    START SAVING
                   </button>
                 </Link>
-                <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded pixel-border pixel-text">
-                  EARN MORE
+                <button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-lg pixel-border pixel-text shadow-lg transform hover:-translate-y-1 transition-all">
+                  LEARN MORE
                 </button>
               </div>
             </div>
             
-            {/* Mascot Display */}
-            <div className="relative w-64 h-64 bg-gradient-to-b from-green-100 to-green-200 rounded-lg pixel-border p-4">
-              <div className="text-center mb-4">
-                <div className="text-sm pixel-text">MOOD: HAPPY</div>
-                <div className="text-xs pixel-text text-gray-600">76% HAPPY</div>
-              </div>
-              
-              {/* Sprite Container */}
-              <div className="flex justify-center items-center h-32">
-                <img 
-                  src="/sprites/idleblink.webp" 
-                  alt="Zuna Pet"
-                  className="pixelated"
-                  style={{
-                    imageRendering: 'pixelated',
-                    width: '128px',
-                    height: '128px',
-                    objectFit: 'contain'
-                  }}
-                />
-              </div>
-              
-              {/* Action Buttons */}
-              <div className="flex justify-center gap-4 mt-4">
-                <button className="px-4 py-2 bg-yellow-400 hover:bg-yellow-500 rounded pixel-text text-sm">
-                  FEED
-                </button>
-                <button className="px-4 py-2 bg-purple-400 hover:bg-purple-500 rounded pixel-text text-sm">
-                  PLAY
-                </button>
-                <button className="px-4 py-2 bg-blue-400 hover:bg-blue-500 rounded pixel-text text-sm">
-                  SLEEP
-                </button>
+            {/* Smart Tamagotchi Display */}
+            <div className="relative">
+              <div className="bg-gradient-to-b from-blue-50 to-green-50 rounded-2xl p-6 pixel-border shadow-inner">
+                <div className="text-center mb-4">
+                  <div className={`text-lg pixel-text font-bold ${getMoodColor()}`}>
+                    {getMoodText()}
+                  </div>
+                  <div className="text-xs pixel-text text-gray-600 mt-1">
+                    Pet happiness: {savingsProgress}%
+                  </div>
+                </div>
+                
+                {/* Sprite Display */}
+                <div className="relative h-48 flex justify-center items-center bg-gradient-to-b from-transparent to-green-100 rounded-lg">
+                  <img 
+                    src={`/sprites/${currentSprite === 'idle' ? 'idleblink' : currentSprite}.webp`}
+                    alt="Zuna Pet"
+                    className="pixelated"
+                    style={{
+                      imageRendering: 'pixelated',
+                      width: '128px',
+                      height: '128px',
+                      objectFit: 'contain'
+                    }}
+                  />
+                </div>
+                
+                {/* Pet Stats connected to savings */}
+                <div className="mt-4 space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="pixel-text text-xs">HAPPINESS</span>
+                    <div className="bg-gray-200 rounded-full h-3 w-32 overflow-hidden">
+                      <div 
+                        className="bg-yellow-400 h-full transition-all duration-500"
+                        style={{ width: `${savingsProgress}%` }}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="pixel-text text-xs">GROWTH</span>
+                    <div className="bg-gray-200 rounded-full h-3 w-32 overflow-hidden">
+                      <div 
+                        className="bg-green-400 h-full transition-all duration-500"
+                        style={{ width: `${Math.min(savingsProgress * 1.2, 100)}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Stats Bar */}
-        <div className="bg-black/80 text-green-400 p-4 rounded mb-8 pixel-border">
+        {/* How It Works */}
+        <div className="bg-white/95 backdrop-blur rounded-2xl p-6 md:p-8 mb-8 pixel-border shadow-xl">
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 pixel-text text-center">
+            HOW ZUNA WORKS
+          </h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="text-center">
+              <div className="text-4xl mb-4">💰</div>
+              <h3 className="text-lg font-bold mb-2 pixel-text">SET GOALS</h3>
+              <p className="pixel-text text-sm">
+                Create savings pots for your dreams - vacation, car, emergency fund
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl mb-4">🌱</div>
+              <h3 className="text-lg font-bold mb-2 pixel-text">SAVE & GROW</h3>
+              <p className="pixel-text text-sm">
+                Every dollar saved makes your pet happier and earns you ZUNA tokens
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl mb-4">🎮</div>
+              <h3 className="text-lg font-bold mb-2 pixel-text">PLAY & EARN</h3>
+              <p className="pixel-text text-sm">
+                Play Tetris and mini-games to earn bonus ZUNA and boost savings
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Live Stats Bar */}
+        <div className="bg-gradient-to-r from-purple-900 to-blue-900 text-white p-4 rounded-xl mb-8 pixel-border shadow-xl">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
             <div>
-              <div className="text-2xl font-bold pixel-text">100K+</div>
-              <div className="text-sm pixel-text">Active Players</div>
+              <div className="text-xl md:text-2xl font-bold pixel-text">100K+</div>
+              <div className="text-xs pixel-text opacity-90">Happy Pets</div>
             </div>
             <div>
-              <div className="text-2xl font-bold pixel-text">$50K+</div>
-              <div className="text-sm pixel-text">Saved</div>
+              <div className="text-xl md:text-2xl font-bold pixel-text">$2.5M</div>
+              <div className="text-xs pixel-text opacity-90">Total Saved</div>
             </div>
             <div>
-              <div className="text-2xl font-bold pixel-text">2M</div>
-              <div className="text-sm pixel-text">ZUNA Earned</div>
+              <div className="text-xl md:text-2xl font-bold pixel-text">50M</div>
+              <div className="text-xs pixel-text opacity-90">ZUNA Earned</div>
             </div>
             <div>
-              <div className="text-2xl font-bold pixel-text">500+</div>
-              <div className="text-sm pixel-text">Daily Winners</div>
+              <div className="text-xl md:text-2xl font-bold pixel-text">95%</div>
+              <div className="text-xs pixel-text opacity-90">Goals Reached</div>
             </div>
           </div>
         </div>
 
-        {/* Features Grid */}
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white/90 p-6 rounded pixel-border">
-            <div className="text-4xl mb-4">🎮</div>
-            <h3 className="text-xl font-bold mb-2 pixel-text">Play & Earn</h3>
-            <p className="pixel-text text-sm">Play Tetris, care for your pet, and earn ZUNA tokens!</p>
+        {/* Features */}
+        <div className="grid md:grid-cols-2 gap-6 mb-8">
+          <div className="bg-white/95 backdrop-blur p-6 rounded-xl pixel-border shadow-xl">
+            <h3 className="text-xl font-bold mb-4 pixel-text flex items-center">
+              <span className="text-2xl mr-3">🏦</span> REAL BANKING
+            </h3>
+            <ul className="space-y-2 pixel-text text-sm">
+              <li>✓ Connect your bank account</li>
+              <li>✓ Automated savings rules</li>
+              <li>✓ Round-up transactions</li>
+              <li>✓ Bill management</li>
+            </ul>
           </div>
           
-          <div className="bg-white/90 p-6 rounded pixel-border">
-            <div className="text-4xl mb-4">💰</div>
-            <h3 className="text-xl font-bold mb-2 pixel-text">Smart Savings</h3>
-            <p className="pixel-text text-sm">Set savings goals and watch your pet grow happier!</p>
-          </div>
-          
-          <div className="bg-white/90 p-6 rounded pixel-border">
-            <div className="text-4xl mb-4">🤖</div>
-            <h3 className="text-xl font-bold mb-2 pixel-text">AI Coach</h3>
-            <p className="pixel-text text-sm">Get personalized financial advice (Premium)</p>
-          </div>
-        </div>
-
-        {/* Banking Features */}
-        <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-8 rounded mb-8 pixel-border text-white">
-          <h2 className="text-3xl font-bold mb-6 pixel-text text-center">REAL BANKING + GAMING</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-xl font-bold mb-4 pixel-text">BANKING</h3>
-              <ul className="space-y-2">
-                <li className="pixel-text">✓ Send & receive money</li>
-                <li className="pixel-text">✓ Track spending</li>
-                <li className="pixel-text">✓ Savings pots</li>
-                <li className="pixel-text">✓ Bill reminders</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-xl font-bold mb-4 pixel-text">CRYPTO</h3>
-              <ul className="space-y-2">
-                <li className="pixel-text">✓ ZUNA wallet</li>
-                <li className="pixel-text">✓ Earn by playing</li>
-                <li className="pixel-text">✓ Trade tokens</li>
-                <li className="pixel-text">✓ Daily rewards</li>
-              </ul>
-            </div>
+          <div className="bg-white/95 backdrop-blur p-6 rounded-xl pixel-border shadow-xl">
+            <h3 className="text-xl font-bold mb-4 pixel-text flex items-center">
+              <span className="text-2xl mr-3">🪙</span> ZUNA REWARDS
+            </h3>
+            <ul className="space-y-2 pixel-text text-sm">
+              <li>✓ Earn tokens by saving</li>
+              <li>✓ Daily login rewards</li>
+              <li>✓ Achievement bonuses</li>
+              <li>✓ Trade & redeem tokens</li>
+            </ul>
           </div>
         </div>
 
         {/* Footer */}
-        <footer className="text-center text-white">
-          <p className="pixel-text">© 2025 ZUNA - Your Digital Financial Pet</p>
-          <p className="pixel-text text-sm mt-2">Banking reimagined</p>
+        <footer className="text-center text-white mt-12">
+          <p className="pixel-text text-sm">© 2025 ZUNA - Where Savings Meet Gaming</p>
+          <p className="pixel-text text-xs mt-2 opacity-80">
+            Your pet grows with your financial future
+          </p>
         </footer>
       </div>
     </div>

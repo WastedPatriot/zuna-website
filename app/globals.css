@@ -7,7 +7,7 @@
 /* Pixel Text Style */
 .pixel-text {
   font-family: 'Press Start 2P', monospace;
-  line-height: 1.5;
+  line-height: 1.6;
   letter-spacing: 0.5px;
   text-rendering: optimizeLegibility;
 }
@@ -26,24 +26,20 @@
   box-shadow: 
     0 0 0 3px #000,
     0 0 0 6px #fff,
-    0 0 0 9px #000;
+    0 0 0 9px #000,
+    0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* Animated Clouds */
+/* Large Fluffy Clouds */
 .cloud {
   position: absolute;
   background: white;
   border-radius: 100px;
   opacity: 0.8;
+  filter: blur(1px);
 }
 
-.cloud::before {
-  content: '';
-  position: absolute;
-  background: white;
-  border-radius: 100px;
-}
-
+.cloud::before,
 .cloud::after {
   content: '';
   position: absolute;
@@ -51,83 +47,194 @@
   border-radius: 100px;
 }
 
+/* Cloud 1 - Large */
 .cloud1 {
-  width: 100px;
-  height: 40px;
-  top: 20%;
-  animation: drift 20s infinite;
+  width: 200px;
+  height: 60px;
+  top: 10%;
+  animation: drift 45s infinite;
 }
 
 .cloud1::before {
-  width: 50px;
-  height: 50px;
-  top: -25px;
-  left: 10px;
-}
-
-.cloud1::after {
-  width: 60px;
-  height: 40px;
-  top: -15px;
-  right: 10px;
-}
-
-.cloud2 {
-  width: 80px;
-  height: 35px;
-  top: 40%;
-  animation: drift 25s infinite;
-  animation-delay: 5s;
-}
-
-.cloud2::before {
-  width: 40px;
-  height: 40px;
-  top: -20px;
-  left: 15px;
-}
-
-.cloud2::after {
-  width: 50px;
-  height: 35px;
-  top: -10px;
-  right: 15px;
-}
-
-.cloud3 {
-  width: 120px;
-  height: 45px;
-  top: 60%;
-  animation: drift 30s infinite;
-  animation-delay: 10s;
-}
-
-.cloud3::before {
-  width: 60px;
-  height: 60px;
-  top: -30px;
+  width: 100px;
+  height: 80px;
+  top: -40px;
   left: 20px;
 }
 
-.cloud3::after {
-  width: 70px;
-  height: 45px;
-  top: -15px;
+.cloud1::after {
+  width: 120px;
+  height: 60px;
+  top: -20px;
   right: 20px;
 }
 
+/* Cloud 2 - Medium */
+.cloud2 {
+  width: 150px;
+  height: 50px;
+  top: 25%;
+  animation: drift 50s infinite;
+  animation-delay: 10s;
+}
+
+.cloud2::before {
+  width: 80px;
+  height: 60px;
+  top: -30px;
+  left: 30px;
+}
+
+.cloud2::after {
+  width: 90px;
+  height: 50px;
+  top: -15px;
+  right: 25px;
+}
+
+/* Cloud 3 - Large */
+.cloud3 {
+  width: 180px;
+  height: 55px;
+  top: 45%;
+  animation: drift 55s infinite;
+  animation-delay: 20s;
+}
+
+.cloud3::before {
+  width: 90px;
+  height: 70px;
+  top: -35px;
+  left: 40px;
+}
+
+.cloud3::after {
+  width: 100px;
+  height: 55px;
+  top: -20px;
+  right: 30px;
+}
+
+/* Cloud 4 - Small */
+.cloud4 {
+  width: 120px;
+  height: 40px;
+  top: 60%;
+  animation: drift 40s infinite;
+  animation-delay: 5s;
+}
+
+.cloud4::before {
+  width: 60px;
+  height: 50px;
+  top: -25px;
+  left: 25px;
+}
+
+.cloud4::after {
+  width: 70px;
+  height: 40px;
+  top: -10px;
+  right: 20px;
+}
+
+/* Cloud 5 - Medium */
+.cloud5 {
+  width: 160px;
+  height: 48px;
+  top: 75%;
+  animation: drift 48s infinite;
+  animation-delay: 15s;
+}
+
+.cloud5::before {
+  width: 85px;
+  height: 65px;
+  top: -32px;
+  left: 35px;
+}
+
+.cloud5::after {
+  width: 95px;
+  height: 48px;
+  top: -18px;
+  right: 28px;
+}
+
+/* Small Accent Clouds */
+.small-cloud {
+  position: absolute;
+  background: white;
+  border-radius: 50px;
+  opacity: 0.6;
+  filter: blur(2px);
+}
+
+.small-cloud::before {
+  content: '';
+  position: absolute;
+  background: white;
+  border-radius: 50px;
+}
+
+.small-cloud1 {
+  width: 60px;
+  height: 20px;
+  top: 35%;
+  animation: drift 35s infinite;
+  animation-delay: 25s;
+}
+
+.small-cloud1::before {
+  width: 30px;
+  height: 25px;
+  top: -12px;
+  left: 15px;
+}
+
+.small-cloud2 {
+  width: 80px;
+  height: 25px;
+  top: 55%;
+  animation: drift 38s infinite;
+  animation-delay: 30s;
+}
+
+.small-cloud2::before {
+  width: 40px;
+  height: 30px;
+  top: -15px;
+  left: 20px;
+}
+
+.small-cloud3 {
+  width: 70px;
+  height: 22px;
+  top: 80%;
+  animation: drift 42s infinite;
+  animation-delay: 35s;
+}
+
+.small-cloud3::before {
+  width: 35px;
+  height: 28px;
+  top: -13px;
+  left: 18px;
+}
+
+/* Cloud Animation */
 @keyframes drift {
   from {
-    transform: translateX(-200px);
+    transform: translateX(-300px);
   }
   to {
-    transform: translateX(calc(100vw + 200px));
+    transform: translateX(calc(100vw + 300px));
   }
 }
 
 /* Button Hover Effects */
 button {
-  transition: all 0.1s ease;
+  transition: all 0.2s ease;
 }
 
 button:hover {
@@ -141,18 +248,26 @@ button:active {
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .pixel-text {
-    font-size: 0.9em;
+    font-size: 0.85em;
   }
   
   h1.pixel-text {
-    font-size: 2rem;
+    font-size: 2.5rem;
   }
   
   h2.pixel-text {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
   
   h3.pixel-text {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+  }
+  
+  .cloud {
+    filter: blur(0.5px);
+  }
+  
+  .small-cloud {
+    filter: blur(1px);
   }
 }
