@@ -135,30 +135,19 @@ export default function Home() {
                   </div>
                 </div>
                 
-                {/* Animated Tamagotchi */}
-                <motion.div 
-                  animate={{ 
-                    y: [0, -10, 0],
-                    rotate: [0, 2, -2, 0]
-                  }}
-                  transition={{ 
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                  className="relative h-48 flex justify-center items-center bg-gradient-to-b from-sky-200 to-green-200 rounded-2xl border-4 border-gray-800"
-                >
-                  {/* ZUNA Mascot Sprite */}
+                {/* Static Tamagotchi Container */}
+                <div className="relative h-48 flex justify-center items-center bg-gradient-to-b from-sky-200 to-green-200 rounded-2xl border-4 border-gray-800">
+                  {/* ZUNA Mascot Sprite - Fixed Position */}
                   <div className="w-32 h-32 flex items-center justify-center">
                     <SpriteAnimation
-                      sprite={`/sprites/${mascotMood === 'idle' ? 'idleblink' : mascotMood === 'happy' ? 'happy' : 'gaming'}.webp`}
-                      frames={mascotMood === 'idle' ? 2 : 4}
-                      frameRate={200}
+                      sprite="/sprites/idleblink.webp"
+                      frames={2}
+                      frameRate={800}
                       size={128}
                       alt="Zuna Mascot"
                     />
                   </div>
-                </motion.div>
+                </div>
                 
                 <div className="text-center mt-6">
                   <div className="pixel-text text-sm text-gray-700 bg-gray-800 text-white px-4 py-2 rounded-lg inline-block">

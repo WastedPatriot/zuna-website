@@ -57,6 +57,9 @@ const SpriteAnimation: React.FC<SpriteAnimationProps> = ({
         height: frameHeight,
         overflow: 'hidden',
         position: 'relative',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
       className="pixelated" // Apply pixelated rendering
     >
@@ -71,8 +74,10 @@ const SpriteAnimation: React.FC<SpriteAnimationProps> = ({
           position: 'absolute',
           left: 0,
           top: 0,
+          objectFit: 'contain',
         }}
         unoptimized // Prevent Next.js image optimization for pixel art
+        priority // Load sprite immediately
       />
     </div>
   );

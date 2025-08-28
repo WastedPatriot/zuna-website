@@ -155,12 +155,12 @@ export default function SignUp() {
 
             {/* ZUNA Mascot */}
             <div className="flex justify-center mb-6">
-              <div className="w-20 h-20 flex items-center justify-center">
+              <div className="w-20 h-20 flex items-center justify-center bg-gradient-to-b from-sky-200 to-green-200 rounded-2xl border-2 border-gray-800">
                 <SpriteAnimation
                   sprite="/sprites/happy.webp"
                   frames={4}
-                  frameRate={300}
-                  size={80}
+                  frameRate={500}
+                  size={64}
                   alt="Happy Zuna Mascot"
                 />
               </div>

@@ -98,12 +98,12 @@ export default function Login() {
           <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 pixel-border shadow-2xl">
             {/* ZUNA Mascot */}
             <div className="flex justify-center mb-6">
-              <div className="w-20 h-20 flex items-center justify-center">
+              <div className="w-20 h-20 flex items-center justify-center bg-gradient-to-b from-sky-200 to-green-200 rounded-2xl border-2 border-gray-800">
                 <SpriteAnimation
                   sprite="/sprites/waving.webp"
                   frames={4}
-                  frameRate={250}
-                  size={80}
+                  frameRate={400}
+                  size={64}
                   alt="Waving Zuna Mascot"
                 />
               </div>
