@@ -4,11 +4,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Global Styles */
+html, body {
+  scroll-behavior: smooth;
+  font-family: 'Press Start 2P', monospace;
+}
+
+body {
+  background: linear-gradient(to bottom, #87CEEB, #98D8E8, #B0E0E6);
+  min-height: 100vh;
+}
+
 /* Pixel Text Style */
 .pixel-text {
   font-family: 'Press Start 2P', monospace;
-  line-height: 1.6;
-  letter-spacing: 0.5px;
+  line-height: 1.8;
+  letter-spacing: 1px;
   text-rendering: optimizeLegibility;
 }
 
@@ -22,252 +33,98 @@
 /* Pixel Border */
 .pixel-border {
   position: relative;
-  border: 3px solid #000;
+  border: 4px solid #000;
   box-shadow: 
-    0 0 0 3px #000,
-    0 0 0 6px #fff,
-    0 0 0 9px #000,
-    0 4px 12px rgba(0,0,0,0.15);
+    0 0 0 4px #000,
+    0 0 0 8px #fff,
+    0 0 0 12px #000,
+    0 8px 16px rgba(0,0,0,0.2);
 }
 
-/* Large Fluffy Clouds */
-.cloud {
-  position: absolute;
-  background: white;
-  border-radius: 100px;
-  opacity: 0.8;
-  filter: blur(1px);
-}
-
-.cloud::before,
-.cloud::after {
+.pixel-border::before {
   content: '';
   position: absolute;
-  background: white;
-  border-radius: 100px;
-}
-
-/* Cloud 1 - Large */
-.cloud1 {
-  width: 200px;
-  height: 60px;
-  top: 10%;
-  animation: drift 45s infinite;
-}
-
-.cloud1::before {
-  width: 100px;
-  height: 80px;
-  top: -40px;
-  left: 20px;
-}
-
-.cloud1::after {
-  width: 120px;
-  height: 60px;
-  top: -20px;
-  right: 20px;
-}
-
-/* Cloud 2 - Medium */
-.cloud2 {
-  width: 150px;
-  height: 50px;
-  top: 25%;
-  animation: drift 50s infinite;
-  animation-delay: 10s;
-}
-
-.cloud2::before {
-  width: 80px;
-  height: 60px;
-  top: -30px;
-  left: 30px;
-}
-
-.cloud2::after {
-  width: 90px;
-  height: 50px;
-  top: -15px;
-  right: 25px;
-}
-
-/* Cloud 3 - Large */
-.cloud3 {
-  width: 180px;
-  height: 55px;
-  top: 45%;
-  animation: drift 55s infinite;
-  animation-delay: 20s;
-}
-
-.cloud3::before {
-  width: 90px;
-  height: 70px;
-  top: -35px;
-  left: 40px;
-}
-
-.cloud3::after {
-  width: 100px;
-  height: 55px;
-  top: -20px;
-  right: 30px;
-}
-
-/* Cloud 4 - Small */
-.cloud4 {
-  width: 120px;
-  height: 40px;
-  top: 60%;
-  animation: drift 40s infinite;
-  animation-delay: 5s;
-}
-
-.cloud4::before {
-  width: 60px;
-  height: 50px;
-  top: -25px;
-  left: 25px;
-}
-
-.cloud4::after {
-  width: 70px;
-  height: 40px;
-  top: -10px;
-  right: 20px;
-}
-
-/* Cloud 5 - Medium */
-.cloud5 {
-  width: 160px;
-  height: 48px;
-  top: 75%;
-  animation: drift 48s infinite;
-  animation-delay: 15s;
-}
-
-.cloud5::before {
-  width: 85px;
-  height: 65px;
-  top: -32px;
-  left: 35px;
-}
-
-.cloud5::after {
-  width: 95px;
-  height: 48px;
-  top: -18px;
-  right: 28px;
-}
-
-/* Small Accent Clouds */
-.small-cloud {
-  position: absolute;
-  background: white;
-  border-radius: 50px;
-  opacity: 0.6;
-  filter: blur(2px);
-}
-
-.small-cloud::before {
-  content: '';
-  position: absolute;
-  background: white;
-  border-radius: 50px;
-}
-
-.small-cloud1 {
-  width: 60px;
-  height: 20px;
-  top: 35%;
-  animation: drift 35s infinite;
-  animation-delay: 25s;
-}
-
-.small-cloud1::before {
-  width: 30px;
-  height: 25px;
-  top: -12px;
-  left: 15px;
-}
-
-.small-cloud2 {
-  width: 80px;
-  height: 25px;
-  top: 55%;
-  animation: drift 38s infinite;
-  animation-delay: 30s;
-}
-
-.small-cloud2::before {
-  width: 40px;
-  height: 30px;
-  top: -15px;
-  left: 20px;
-}
-
-.small-cloud3 {
-  width: 70px;
-  height: 22px;
-  top: 80%;
-  animation: drift 42s infinite;
-  animation-delay: 35s;
-}
-
-.small-cloud3::before {
-  width: 35px;
-  height: 28px;
-  top: -13px;
-  left: 18px;
-}
-
-/* Cloud Animation */
-@keyframes drift {
-  from {
-    transform: translateX(-300px);
-  }
-  to {
-    transform: translateX(calc(100vw + 300px));
-  }
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+  border-radius: inherit;
+  z-index: -1;
 }
 
 /* Button Hover Effects */
 button {
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  transform-origin: center;
 }
 
 button:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
 button:active {
-  transform: translateY(0);
+  transform: translateY(-1px) scale(0.98);
 }
 
-/* Responsive adjustments */
+/* Cloud Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(1deg); }
+}
+
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
   .pixel-text {
-    font-size: 0.85em;
+    font-size: 0.8em;
+    letter-spacing: 0.5px;
   }
   
   h1.pixel-text {
-    font-size: 2.5rem;
+    font-size: 3rem;
+    line-height: 1.2;
   }
   
   h2.pixel-text {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
+    line-height: 1.4;
   }
   
   h3.pixel-text {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    line-height: 1.5;
   }
-  
-  .cloud {
-    filter: blur(0.5px);
-  }
-  
-  .small-cloud {
-    filter: blur(1px);
-  }
+}
+
+/* Custom Animations */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+  50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.8); }
+}
+
+.pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Gradient Text */
+.gradient-text {
+  background: linear-gradient(45deg, #3B82F6, #8B5CF6, #EC4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card Hover Effects */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
 }
