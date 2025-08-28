@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
+import SpriteAnimation from './components/SpriteAnimation';
 
 export default function Home() {
   const [mascotMood, setMascotMood] = useState<'idle' | 'happy' | 'gaming'>('idle');
@@ -147,11 +148,15 @@ export default function Home() {
                   }}
                   className="relative h-48 flex justify-center items-center bg-gradient-to-b from-sky-200 to-green-200 rounded-2xl border-4 border-gray-800"
                 >
-                  {/* Sprite placeholder - will use actual sprites */}
-                  <div className="w-32 h-32 bg-gradient-to-br from-purple-400 to-purple-600 rounded-2xl flex items-center justify-center text-6xl pixel-border shadow-lg">
-                    {mascotMood === 'idle' && '🐾'}
-                    {mascotMood === 'happy' && '😊'}
-                    {mascotMood === 'gaming' && '🎮'}
+                  {/* ZUNA Mascot Sprite */}
+                  <div className="w-32 h-32 flex items-center justify-center">
+                    <SpriteAnimation
+                      sprite={`/sprites/${mascotMood === 'idle' ? 'idleblink' : mascotMood === 'happy' ? 'happy' : 'gaming'}.webp`}
+                      frames={mascotMood === 'idle' ? 2 : 4}
+                      frameRate={200}
+                      size={128}
+                      alt="Zuna Mascot"
+                    />
                   </div>
                 </motion.div>
                 

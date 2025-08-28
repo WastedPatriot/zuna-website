@@ -4,9 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import InteractiveBackground from '../components/InteractiveBackground';
-import Navigation from '../components/Navigation';
-import PixelMascot from '../components/PixelMascot';
+import SpriteAnimation from '../components/SpriteAnimation';
 
 export default function SignUp() {
   const router = useRouter();
@@ -96,9 +94,40 @@ export default function SignUp() {
   };
 
   return (
-    <>
-      <InteractiveBackground />
-      <Navigation />
+    <div className="min-h-screen bg-gradient-to-b from-sky-400 via-sky-300 to-green-200 relative overflow-hidden">
+      {/* Animated Clouds */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <motion.div
+          className="absolute top-10 left-[-100px] w-[200px] h-[60px] bg-white rounded-full opacity-70"
+          animate={{
+            x: [0, typeof window !== 'undefined' ? window.innerWidth + 200 : 2120],
+          }}
+          transition={{
+            duration: 40,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+          style={{
+            boxShadow: '0 0 20px rgba(255,255,255,0.5)',
+          }}
+        />
+        
+        <motion.div
+          className="absolute top-32 left-[-150px] w-[250px] h-[80px] bg-white rounded-full opacity-60"
+          animate={{
+            x: [0, typeof window !== 'undefined' ? window.innerWidth + 250 : 2170],
+          }}
+          transition={{
+            duration: 50,
+            repeat: Infinity,
+            ease: "linear",
+            delay: 10,
+          }}
+          style={{
+            boxShadow: '0 0 25px rgba(255,255,255,0.4)',
+          }}
+        />
+      </div>
       
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-20">
         <motion.div
@@ -106,34 +135,42 @@ export default function SignUp() {
           animate={{ opacity: 1, y: 0 }}
           className="w-full max-w-md"
         >
-          <div className="bg-gray-900/90 backdrop-blur-sm rounded-2xl p-8 border-2 border-green-400/50">
+          <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 pixel-border shadow-2xl">
             {/* Progress Steps */}
             <div className="flex justify-center mb-8">
               <div className="flex items-center gap-4">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold pixelated text-sm ${
-                  step >= 1 ? 'bg-green-400 text-black' : 'bg-gray-700 text-gray-400'
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold pixel-text text-sm ${
+                  step >= 1 ? 'bg-green-400 text-black' : 'bg-gray-300 text-gray-600'
                 }`}>
                   1
                 </div>
-                <div className={`w-16 h-1 ${step >= 2 ? 'bg-green-400' : 'bg-gray-700'}`} />
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold pixelated text-sm ${
-                  step >= 2 ? 'bg-green-400 text-black' : 'bg-gray-700 text-gray-400'
+                <div className={`w-16 h-1 ${step >= 2 ? 'bg-green-400' : 'bg-gray-300'}`} />
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold pixel-text text-sm ${
+                  step >= 2 ? 'bg-green-400 text-black' : 'bg-gray-300 text-gray-600'
                 }`}>
                   2
                 </div>
               </div>
             </div>
 
-            {/* Mascot */}
+            {/* ZUNA Mascot */}
             <div className="flex justify-center mb-6">
-              <PixelMascot size={60} mood="happy" />
+              <div className="w-20 h-20 flex items-center justify-center">
+                <SpriteAnimation
+                  sprite="/sprites/happy.webp"
+                  frames={4}
+                  frameRate={300}
+                  size={80}
+                  alt="Happy Zuna Mascot"
+                />
+              </div>
             </div>
             
-            <h1 className="text-3xl font-bold text-center mb-2 pixelated text-green-400">
+            <h1 className="text-2xl font-bold text-center mb-2 pixel-text text-gray-900">
               {step === 1 ? 'CREATE ACCOUNT' : 'ALMOST THERE'}
             </h1>
             
-            <p className="text-center text-gray-400 mb-8">
+            <p className="text-center text-gray-600 mb-8 pixel-text text-sm">
               {step === 1 ? 'Start your financial journey' : 'Just a few more details'}
             </p>
             
@@ -141,64 +178,64 @@ export default function SignUp() {
               {step === 1 ? (
                 <>
                   <div>
-                    <label className="block text-sm font-bold mb-2 pixelated">EMAIL</label>
+                    <label className="block text-sm font-bold mb-2 pixel-text text-gray-900">EMAIL</label>
                     <input
                       type="email"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-3 bg-black/50 border-2 border-gray-700 rounded-lg focus:border-green-400 focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-white border-4 border-gray-800 rounded-lg focus:border-blue-500 focus:outline-none transition-colors pixel-text text-sm"
                       placeholder="your@email.com"
                     />
-                    {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
+                    {errors.email && <p className="text-red-500 text-xs mt-1 pixel-text">{errors.email}</p>}
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-bold mb-2 pixelated">PASSWORD</label>
+                    <label className="block text-sm font-bold mb-2 pixel-text text-gray-900">PASSWORD</label>
                     <input
                       type="password"
                       value={formData.password}
                       onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                      className="w-full px-4 py-3 bg-black/50 border-2 border-gray-700 rounded-lg focus:border-green-400 focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-white border-4 border-gray-800 rounded-lg focus:border-blue-500 focus:outline-none transition-colors pixel-text text-sm"
                       placeholder="••••••••"
                     />
-                    {errors.password && <p className="text-red-400 text-xs mt-1">{errors.password}</p>}
+                    {errors.password && <p className="text-red-500 text-xs mt-1 pixel-text">{errors.password}</p>}
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-bold mb-2 pixelated">CONFIRM PASSWORD</label>
+                    <label className="block text-sm font-bold mb-2 pixel-text text-gray-900">CONFIRM PASSWORD</label>
                     <input
                       type="password"
                       value={formData.confirmPassword}
                       onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                      className="w-full px-4 py-3 bg-black/50 border-2 border-gray-700 rounded-lg focus:border-green-400 focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-white border-4 border-gray-800 rounded-lg focus:border-blue-500 focus:outline-none transition-colors pixel-text text-sm"
                       placeholder="••••••••"
                     />
-                    {errors.confirmPassword && <p className="text-red-400 text-xs mt-1">{errors.confirmPassword}</p>}
+                    {errors.confirmPassword && <p className="text-red-500 text-xs mt-1 pixel-text">{errors.confirmPassword}</p>}
                   </div>
                 </>
               ) : (
                 <>
                   <div>
-                    <label className="block text-sm font-bold mb-2 pixelated">FULL NAME</label>
+                    <label className="block text-sm font-bold mb-2 pixel-text text-gray-900">FULL NAME</label>
                     <input
                       type="text"
                       value={formData.fullName}
                       onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                      className="w-full px-4 py-3 bg-black/50 border-2 border-gray-700 rounded-lg focus:border-green-400 focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-white border-4 border-gray-800 rounded-lg focus:border-blue-500 focus:outline-none transition-colors pixel-text text-sm"
                       placeholder="John Doe"
                     />
-                    {errors.fullName && <p className="text-red-400 text-xs mt-1">{errors.fullName}</p>}
+                    {errors.fullName && <p className="text-red-500 text-xs mt-1 pixel-text">{errors.fullName}</p>}
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-bold mb-2 pixelated">DATE OF BIRTH</label>
+                    <label className="block text-sm font-bold mb-2 pixel-text text-gray-900">DATE OF BIRTH</label>
                     <input
                       type="date"
                       value={formData.dateOfBirth}
                       onChange={(e) => setFormData({ ...formData, dateOfBirth: e.target.value })}
-                      className="w-full px-4 py-3 bg-black/50 border-2 border-gray-700 rounded-lg focus:border-green-400 focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-white border-4 border-gray-800 rounded-lg focus:border-blue-500 focus:outline-none transition-colors pixel-text text-sm"
                     />
-                    {errors.dateOfBirth && <p className="text-red-400 text-xs mt-1">{errors.dateOfBirth}</p>}
+                    {errors.dateOfBirth && <p className="text-red-500 text-xs mt-1 pixel-text">{errors.dateOfBirth}</p>}
                   </div>
                   
                   <div className="space-y-3">
@@ -209,11 +246,11 @@ export default function SignUp() {
                         onChange={(e) => setFormData({ ...formData, acceptTerms: e.target.checked })}
                         className="mt-1 w-4 h-4 accent-green-400"
                       />
-                      <span className="text-sm text-gray-300">
-                        I accept the <Link href="/terms" className="text-green-400 hover:underline">Terms & Conditions</Link> and <Link href="/privacy" className="text-green-400 hover:underline">Privacy Policy</Link>
+                      <span className="text-sm text-gray-700 pixel-text">
+                        I accept the <Link href="/terms" className="text-blue-600 hover:underline">Terms & Conditions</Link> and <Link href="/privacy" className="text-blue-600 hover:underline">Privacy Policy</Link>
                       </span>
                     </label>
-                    {errors.acceptTerms && <p className="text-red-400 text-xs">{errors.acceptTerms}</p>}
+                    {errors.acceptTerms && <p className="text-red-500 text-xs pixel-text">{errors.acceptTerms}</p>}
                     
                     <label className="flex items-start gap-3">
                       <input
@@ -222,7 +259,7 @@ export default function SignUp() {
                         onChange={(e) => setFormData({ ...formData, marketingEmails: e.target.checked })}
                         className="mt-1 w-4 h-4 accent-green-400"
                       />
-                      <span className="text-sm text-gray-300">
+                      <span className="text-sm text-gray-700 pixel-text">
                         Send me tips and updates about my Tamagotchi
                       </span>
                     </label>
@@ -237,7 +274,7 @@ export default function SignUp() {
                     onClick={() => setStep(1)}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="flex-1 py-3 border-2 border-gray-700 text-gray-400 rounded-lg font-bold pixelated hover:border-gray-600 transition-colors"
+                    className="flex-1 py-3 border-4 border-gray-800 text-gray-800 rounded-lg font-bold pixel-text hover:bg-gray-100 transition-colors"
                   >
                     BACK
                   </motion.button>
@@ -248,27 +285,27 @@ export default function SignUp() {
                   disabled={isLoading}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="flex-1 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg font-bold pixelated hover:shadow-lg hover:shadow-green-500/50 transition-all disabled:opacity-50"
+                  className="flex-1 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg font-bold pixel-text pixel-border hover:shadow-lg transition-all disabled:opacity-50"
                 >
                   {isLoading ? 'CREATING...' : step === 1 ? 'NEXT' : 'CREATE ACCOUNT'}
                 </motion.button>
               </div>
             </form>
             
-            <p className="text-center text-gray-400 mt-6">
-              Already have an account? <Link href="/login" className="text-green-400 hover:underline">Login</Link>
+            <p className="text-center text-gray-600 mt-6 pixel-text text-sm">
+              Already have an account? <Link href="/login" className="text-blue-600 hover:underline">Login</Link>
             </p>
           </div>
           
           {/* Security Badge */}
           <div className="mt-6 text-center">
-            <p className="text-xs text-gray-500 flex items-center justify-center gap-2">
+            <p className="text-xs text-gray-700 flex items-center justify-center gap-2 pixel-text">
               <span>🔒</span>
               <span>256-bit encryption • PCI compliant • FCA regulated</span>
             </p>
           </div>
         </motion.div>
       </div>
-    </>
+    </div>
   );
 }

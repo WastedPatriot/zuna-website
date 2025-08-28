@@ -1,88 +1,81 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 
-// Import all sprites
-const SPRITES = {
-  idle: '/sprites/idleblink.webp',
-  leftrn: '/sprites/leftrn.webp',
-  righrun: '/sprites/righrun.webp',
-  happy: '/sprites/happy.webp',
-  sad: '/sprites/sad.webp',
-  gaming: '/sprites/gaming.webp',
-  jumping: '/sprites/jumping.webp',
-  eating: '/sprites/eating-an-apple.webp',
-  speaking: '/sprites/speaking.webp',
-  planting: '/sprites/planting.webp',
-  plane: '/sprites/plane.webp',
-  savings: '/sprites/savings.webp',
-  watering: '/sprites/watering.webp',
-  waving: '/sprites/waving.webp',
-};
-
-const SPRITE_INFO = {
-  idle: { frames: 2, frameRate: 500 },
-  leftrn: { frames: 6, frameRate: 100 },
-  righrun: { frames: 6, frameRate: 100 },
-  happy: { frames: 4, frameRate: 200 },
-  sad: { frames: 3, frameRate: 300 },
-  gaming: { frames: 4, frameRate: 200 },
-  jumping: { frames: 4, frameRate: 150 },
-  eating: { frames: 3, frameRate: 300 },
-  speaking: { frames: 4, frameRate: 200 },
-  planting: { frames: 3, frameRate: 300 },
-  plane: { frames: 3, frameRate: 200 },
-  savings: { frames: 4, frameRate: 400 },
-  watering: { frames: 4, frameRate: 300 },
-  waving: { frames: 4, frameRate: 200 },
-};
-
 interface SpriteAnimationProps {
-  sprite?: keyof typeof SPRITES;
-  size?: number;
-  className?: string;
+  sprite: string; // Path to the WEBP sprite sheet in public folder
+  frames: number;
+  frameRate: number; // milliseconds per frame
+  size: number; // width and height of the mascot
+  loop?: boolean;
+  alt: string;
 }
 
-export default function SpriteAnimation({ 
-  sprite = 'idle', 
-  size = 64,
-  className = ''
-}: SpriteAnimationProps) {
+const SpriteAnimation: React.FC<SpriteAnimationProps> = ({
+  sprite,
+  frames,
+  frameRate,
+  size,
+  loop = true,
+  alt,
+}) => {
   const [currentFrame, setCurrentFrame] = useState(0);
-  const info = SPRITE_INFO[sprite];
-  
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentFrame((prev) => (prev + 1) % info.frames);
-    }, info.frameRate);
-    
-    return () => clearInterval(interval);
-  }, [sprite, info.frames, info.frameRate]);
-  
+    setCurrentFrame(0); // Reset frame when sprite changes
+
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
+    intervalRef.current = setInterval(() => {
+      setCurrentFrame((prevFrame) => {
+        const nextFrame = prevFrame + 1;
+        if (nextFrame >= frames) {
+          return loop ? 0 : frames - 1; // Loop or stop at last frame
+        }
+        return nextFrame;
+      });
+    }, frameRate);
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [sprite, frames, frameRate, loop]);
+
+  const frameWidth = size;
+  const frameHeight = size;
+
   return (
-    <div 
-      className={`relative overflow-hidden ${className}`}
-      style={{ width: size, height: size }}
+    <div
+      style={{
+        width: frameWidth,
+        height: frameHeight,
+        overflow: 'hidden',
+        position: 'relative',
+      }}
+      className="pixelated" // Apply pixelated rendering
     >
-      <div 
-        className="absolute"
+      <Image
+        src={sprite}
+        alt={alt}
+        width={frames * frameWidth} // Total width of the sprite sheet
+        height={frameHeight}
         style={{
-          width: size * info.frames,
-          height: size,
-          transform: `translateX(-${currentFrame * size}px)`,
-          transition: 'none',
+          transform: `translateX(-${currentFrame * frameWidth}px)`,
+          imageRendering: 'pixelated',
+          position: 'absolute',
+          left: 0,
+          top: 0,
         }}
-      >
-        <Image
-          src={SPRITES[sprite]}
-          alt={sprite}
-          width={size * info.frames}
-          height={size}
-          className="pixelated"
-          unoptimized
-        />
-      </div>
+        unoptimized // Prevent Next.js image optimization for pixel art
+      />
     </div>
   );
-}
+};
+
+export default SpriteAnimation;
