@@ -18,8 +18,8 @@ body {
 /* Pixel Text Style */
 .pixel-text {
   font-family: 'Press Start 2P', monospace;
-  line-height: 1.8;
-  letter-spacing: 1px;
+  line-height: 1.6;
+  letter-spacing: 0.5px;
   text-rendering: optimizeLegibility;
 }
 
@@ -30,101 +30,140 @@ body {
   image-rendering: crisp-edges;
 }
 
-/* Pixel Border */
+/* Modern Pixel Borders */
 .pixel-border {
   position: relative;
-  border: 4px solid #000;
+  border: 3px solid #000;
+  border-radius: 8px;
   box-shadow: 
-    0 0 0 4px #000,
-    0 0 0 8px #fff,
-    0 0 0 12px #000,
-    0 8px 16px rgba(0,0,0,0.2);
+    0 0 0 1px #000,
+    0 4px 8px rgba(0,0,0,0.1);
 }
 
 .pixel-border::before {
   content: '';
   position: absolute;
-  top: -8px;
-  left: -8px;
-  right: -8px;
-  bottom: -8px;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
   background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
-  border-radius: inherit;
+  border-radius: 8px;
   z-index: -1;
 }
 
-/* Button Hover Effects */
-button {
+/* Glass Effect */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Hover Effects */
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
   transition: all 0.3s ease;
-  transform-origin: center;
 }
 
-button:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+/* Button Styles */
+.btn-pixel {
+  @apply pixel-text bg-green-500 text-white px-6 py-3 border-2 border-gray-900 rounded-lg;
+  transition: all 0.2s ease;
+  box-shadow: 4px 4px 0px #333;
 }
 
-button:active {
-  transform: translateY(-1px) scale(0.98);
+.btn-pixel:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #333;
 }
 
-/* Cloud Animations */
-@keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-10px) rotate(1deg); }
+.btn-pixel:active {
+  transform: translate(0px, 0px);
+  box-shadow: 2px 2px 0px #333;
 }
 
-.float-animation {
-  animation: float 6s ease-in-out infinite;
+/* Card Styles */
+.card-pixel {
+  @apply bg-white/80 backdrop-blur-sm border-4 border-gray-900 rounded-2xl shadow-lg;
+  box-shadow: 8px 8px 0px rgba(0,0,0,0.1);
+}
+
+.card-pixel:hover {
+  transform: translateY(-4px);
+  box-shadow: 12px 12px 0px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 6px;
+  border: 2px solid #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .pixel-text {
     font-size: 0.8em;
-    letter-spacing: 0.5px;
+    line-height: 1.8;
   }
   
-  h1.pixel-text {
-    font-size: 3rem;
-    line-height: 1.2;
+  .card-pixel {
+    border-width: 2px;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
   }
   
-  h2.pixel-text {
-    font-size: 1.5rem;
-    line-height: 1.4;
+  .btn-pixel {
+    box-shadow: 2px 2px 0px #333;
   }
   
-  h3.pixel-text {
-    font-size: 1.2rem;
-    line-height: 1.5;
+  .btn-pixel:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0px #333;
   }
 }
 
-/* Custom Animations */
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
-  50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.8); }
+  0%, 100% { box-shadow: 0 0 5px rgba(34, 197, 94, 0.5); }
+  50% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.8); }
+}
+
+.float {
+  animation: float 6s ease-in-out infinite;
 }
 
 .pulse-glow {
-  animation: pulse-glow 3s ease-in-out infinite;
+  animation: pulse-glow 2s ease-in-out infinite;
 }
 
-/* Gradient Text */
-.gradient-text {
-  background: linear-gradient(45deg, #3B82F6, #8B5CF6, #EC4899);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* Loading States */
+.loading-shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
 }
 
-/* Card Hover Effects */
-.hover-lift {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.hover-lift:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
