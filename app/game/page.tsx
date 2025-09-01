@@ -43,7 +43,7 @@ export default function GamePage() {
   const [highScore, setHighScore] = useState(0);
   
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | undefined>(undefined);
   const playerRef = useRef<Player>({
     x: 400,
     y: 300,
