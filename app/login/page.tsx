@@ -95,7 +95,7 @@ export default function Login() {
           animate={{ opacity: 1, y: 0 }}
           className="w-full max-w-md"
         >
-          <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 pixel-border shadow-2xl">
+          <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8  shadow-2xl">
             {/* ZUNA Mascot */}
             <div className="flex justify-center mb-6">
               <div className="w-20 h-20 flex items-center justify-center bg-gradient-to-b from-sky-200 to-green-200 rounded-2xl border-2 border-gray-800">
@@ -109,37 +109,37 @@ export default function Login() {
               </div>
             </div>
             
-            <h1 className="text-3xl font-bold text-center mb-2 pixel-text text-gray-900">
+            <h1 className="text-3xl font-bold text-center mb-2  text-gray-900">
               WELCOME BACK
             </h1>
             
-            <p className="text-center text-gray-600 mb-8 pixel-text text-sm">
+            <p className="text-center text-gray-600 mb-8  text-sm">
               Your pet missed you!
             </p>
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-bold mb-2 pixel-text text-gray-900">EMAIL</label>
+                <label className="block text-sm font-bold mb-2  text-gray-900">EMAIL</label>
                 <input
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 bg-white border-4 border-gray-800 rounded-lg focus:border-blue-500 focus:outline-none transition-colors pixel-text text-sm"
+                  className="w-full px-4 py-3 bg-white border-4 border-gray-800 rounded-lg focus:border-blue-500 focus:outline-none transition-colors  text-sm"
                   placeholder="your@email.com"
                 />
-                {errors.email && <p className="text-red-500 text-xs mt-1 pixel-text">{errors.email}</p>}
+                {errors.email && <p className="text-red-500 text-xs mt-1 ">{errors.email}</p>}
               </div>
               
               <div>
-                <label className="block text-sm font-bold mb-2 pixel-text text-gray-900">PASSWORD</label>
+                <label className="block text-sm font-bold mb-2  text-gray-900">PASSWORD</label>
                 <input
                   type="password"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className="w-full px-4 py-3 bg-white border-4 border-gray-800 rounded-lg focus:border-blue-500 focus:outline-none transition-colors pixel-text text-sm"
+                  className="w-full px-4 py-3 bg-white border-4 border-gray-800 rounded-lg focus:border-blue-500 focus:outline-none transition-colors  text-sm"
                   placeholder="••••••••"
                 />
-                {errors.password && <p className="text-red-500 text-xs mt-1 pixel-text">{errors.password}</p>}
+                {errors.password && <p className="text-red-500 text-xs mt-1 ">{errors.password}</p>}
               </div>
               
               <div className="flex items-center justify-between">
@@ -150,10 +150,10 @@ export default function Login() {
                     onChange={(e) => setFormData({ ...formData, rememberMe: e.target.checked })}
                     className="w-4 h-4 accent-green-400"
                   />
-                  <span className="text-sm text-gray-700 pixel-text">Remember me</span>
+                  <span className="text-sm text-gray-700 ">Remember me</span>
                 </label>
                 
-                <Link href="/forgot-password" className="text-sm text-blue-600 hover:underline pixel-text">
+                <Link href="/forgot-password" className="text-sm text-blue-600 hover:underline ">
                   Forgot password?
                 </Link>
               </div>
@@ -163,20 +163,20 @@ export default function Login() {
                 disabled={isLoading}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-full py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg font-bold pixel-text pixel-border hover:shadow-lg transition-all disabled:opacity-50"
+                className="w-full py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg font-bold   hover:shadow-lg transition-all disabled:opacity-50"
               >
                 {isLoading ? 'LOGGING IN...' : 'LOGIN'}
               </motion.button>
             </form>
             
-            <p className="text-center text-gray-600 mt-6 pixel-text text-sm">
+            <p className="text-center text-gray-600 mt-6  text-sm">
               Don't have an account? <Link href="/signup" className="text-blue-600 hover:underline">Sign up</Link>
             </p>
           </div>
           
           {/* Security Badge */}
           <div className="mt-6 text-center">
-            <p className="text-xs text-gray-700 flex items-center justify-center gap-2 pixel-text">
+            <p className="text-xs text-gray-700 flex items-center justify-center gap-2 ">
               <span>🔒</span>
               <span>256-bit encryption • PCI compliant • FCA regulated</span>
             </p>
