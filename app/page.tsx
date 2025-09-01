@@ -1,5 +1,7 @@
 'use client';
 
+// ZUNA Financial Wellness Platform - Pixel Theme Website
+// Last updated: Force redeploy to fix Vercel issue
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
