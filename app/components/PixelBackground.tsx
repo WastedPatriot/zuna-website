@@ -58,9 +58,7 @@ export default function PixelBackground({ children, isDarkMode = false }: PixelB
     return (
       <div className="relative min-h-screen overflow-hidden" style={{
         backgroundColor: '#000428', // SOLID Sonic night blue
-        imageRendering: 'pixelated',
-        imageRendering: '-moz-crisp-edges' as any,
-        imageRendering: 'crisp-edges' as any
+        imageRendering: 'pixelated'
       }}>
         {/* Pixel Stars - Old Sonic Style */}
         {pixelStars.map((star) => (
@@ -117,9 +115,7 @@ export default function PixelBackground({ children, isDarkMode = false }: PixelB
   return (
     <div className="relative min-h-screen overflow-hidden" style={{
       backgroundColor: '#4A90E2', // SOLID Sonic sky blue
-      imageRendering: 'pixelated',
-      imageRendering: '-moz-crisp-edges' as any,
-      imageRendering: 'crisp-edges' as any
+      imageRendering: 'pixelated'
     }}>
       {/* Pixel Clouds - Sonic Style (blocky) */}
       <motion.div
