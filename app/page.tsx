@@ -74,53 +74,66 @@ export default function Home() {
       {/* Main Content */}
       <div className="relative z-10 min-h-screen pb-24">
         {/* Navigation */}
-        <nav className="px-6 py-4">
+        <nav className="px-6 py-4" style={{
+          backgroundColor: isDarkMode ? 'rgba(0, 4, 40, 0.8)' : 'rgba(74, 144, 226, 0.9)',
+          borderBottom: '4px solid',
+          borderColor: isDarkMode ? '#667eea' : '#357ABD',
+          backdropFilter: 'blur(10px)'
+        }}>
           <div className="container mx-auto flex justify-between items-center">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <div style={{
-                width: '40px',
-                height: '40px',
-                backgroundColor: '#4CAF50',
-                border: '4px solid #2E7D32',
+                width: '48px',
+                height: '48px',
+                backgroundColor: '#10b981',
+                border: '4px solid #065f46',
                 borderRadius: '8px',
-                imageRendering: 'pixelated'
-              }} />
-              <span className={`text-2xl font-bold ${pixelFont.className}`} style={{
-                color: isDarkMode ? '#FFFFFF' : '#1a1a1a',
-                textShadow: isDarkMode ? '2px 2px 0 rgba(0,0,0,0.5)' : '2px 2px 0 rgba(255,255,255,0.5)'
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                imageRendering: 'pixelated',
+                boxShadow: '2px 2px 0 rgba(0,0,0,0.3)'
+              }}>
+                <span style={{ fontSize: '24px' }}>🐾</span>
+              </div>
+              <span style={{
+                fontFamily: pixelFont.style.fontFamily,
+                fontSize: '24px',
+                color: '#FFFFFF',
+                textShadow: '3px 3px 0 rgba(0,0,0,0.5)',
+                letterSpacing: '2px'
               }}>
                 ZUNA
               </span>
             </div>
             
-            <div className="flex gap-4">
-              <Link href="/features" className="px-4 py-2" style={{
+            <div className="hidden md:flex gap-2 items-center">
+              <Link href="/features" className="px-4 py-2 hover:scale-105 transition-transform" style={{
                 fontFamily: pixelFont.style.fontFamily,
-                color: isDarkMode ? '#FFFFFF' : '#1a1a1a',
-                backgroundColor: isDarkMode ? 'rgba(102, 126, 234, 0.3)' : 'rgba(255,255,255,0.8)',
-                border: '2px solid',
-                borderColor: isDarkMode ? '#667eea' : '#4A90E2',
-                imageRendering: 'pixelated'
+                fontSize: '12px',
+                color: '#FFFFFF',
+                textDecoration: 'none'
               }}>
                 Features
               </Link>
-              <Link href="/pricing" className="px-4 py-2" style={{
+              <Link href="/pricing" className="px-4 py-2 hover:scale-105 transition-transform" style={{
                 fontFamily: pixelFont.style.fontFamily,
-                color: isDarkMode ? '#FFFFFF' : '#1a1a1a',
-                backgroundColor: isDarkMode ? 'rgba(102, 126, 234, 0.3)' : 'rgba(255,255,255,0.8)',
-                border: '2px solid',
-                borderColor: isDarkMode ? '#667eea' : '#4A90E2',
-                imageRendering: 'pixelated'
+                fontSize: '12px',
+                color: '#FFFFFF',
+                textDecoration: 'none'
               }}>
                 Pricing
               </Link>
-              <Link href="/signin" className="px-4 py-2" style={{
+              <Link href="/signin" className="px-5 py-2 hover:scale-105 transition-transform" style={{
                 fontFamily: pixelFont.style.fontFamily,
+                fontSize: '12px',
                 color: '#FFFFFF',
-                backgroundColor: '#4CAF50',
-                border: '2px solid #2E7D32',
-                boxShadow: '2px 2px 0 rgba(0,0,0,0.3)',
-                imageRendering: 'pixelated'
+                backgroundColor: '#10b981',
+                border: '3px solid #065f46',
+                borderRadius: '4px',
+                boxShadow: '3px 3px 0 rgba(0,0,0,0.3)',
+                imageRendering: 'pixelated',
+                textDecoration: 'none'
               }}>
                 Sign In
               </Link>
@@ -132,26 +145,29 @@ export default function Home() {
         <section className="container mx-auto px-6 py-20">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h1 className="text-5xl md:text-6xl font-bold mb-6" style={{
+              <h1 className="mb-6" style={{
                 fontFamily: pixelFont.style.fontFamily,
+                fontSize: 'clamp(28px, 5vw, 48px)',
                 color: isDarkMode ? '#FFFFFF' : '#1a1a1a',
                 textShadow: isDarkMode ? '3px 3px 0 rgba(102, 126, 234, 0.5)' : '3px 3px 0 rgba(74, 144, 226, 0.3)',
-                letterSpacing: '0.05em'
+                lineHeight: '1.3'
               }}>
                 Financial Wellness
                 <br />
                 <span style={{ 
-                  color: '#4CAF50',
-                  textShadow: '3px 3px 0 rgba(46, 125, 50, 0.5)'
+                  color: '#10b981',
+                  textShadow: '3px 3px 0 rgba(6, 95, 70, 0.5)',
+                  fontSize: '0.9em'
                 }}>
                   Made Fun
                 </span>
               </h1>
               
-              <p className="text-xl mb-8" style={{
+              <p className="mb-8" style={{
                 fontFamily: pixelFont.style.fontFamily,
+                fontSize: 'clamp(12px, 2vw, 16px)',
                 color: isDarkMode ? '#E0E0E0' : '#333333',
-                lineHeight: '1.6'
+                lineHeight: '1.8'
               }}>
                 Save money, play games, and watch your digital pet thrive!
               </p>
