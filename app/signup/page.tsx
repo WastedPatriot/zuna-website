@@ -4,22 +4,25 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import SpriteAnimation from '../components/SpriteAnimation';
+import { useAuth0 } from '../providers/Auth0Provider';
 
-export default function SignUp() {
+export default function SignUpPage() {
   const router = useRouter();
+  const { login } = useAuth0();
+  const [step, setStep] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     confirmPassword: '',
     fullName: '',
-    dateOfBirth: '',
     acceptTerms: false,
     marketingEmails: false
   });
   const [errors, setErrors] = useState<any>({});
-  const [isLoading, setIsLoading] = useState(false);
-  const [step, setStep] = useState(1);
 
   const validateStep1 = () => {
     const newErrors: any = {};
@@ -51,15 +54,6 @@ export default function SignUp() {
       newErrors.fullName = 'Full name is required';
     }
     
-    if (!formData.dateOfBirth) {
-      newErrors.dateOfBirth = 'Date of birth is required';
-    } else {
-      const age = new Date().getFullYear() - new Date(formData.dateOfBirth).getFullYear();
-      if (age < 13) {
-        newErrors.dateOfBirth = 'You must be at least 13 years old';
-      }
-    }
-    
     if (!formData.acceptTerms) {
       newErrors.acceptTerms = 'You must accept the terms and conditions';
     }
@@ -68,244 +62,335 @@ export default function SignUp() {
     return Object.keys(newErrors).length === 0;
   };
 
+  const handleNext = () => {
+    if (step === 1 && validateStep1()) {
+      setStep(2);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (step === 1) {
-      if (validateStep1()) {
-        setStep(2);
-      }
-    } else {
-      if (validateStep2()) {
-        setIsLoading(true);
-        
-        // Simulate API call with encryption
-        setTimeout(() => {
-          console.log('Encrypted data would be sent to server:', {
-            ...formData,
-            password: '***encrypted***'
-          });
-          
-          // Redirect to success page
-          router.push('/signup/success');
-        }, 2000);
-      }
+    if (!validateStep2()) return;
+    
+    setIsLoading(true);
+    try {
+      // Sign up with Auth0
+      await login();
+    } catch (error) {
+      console.error('Signup error:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+    // Clear error for this field
+    if (errors[name]) {
+      setErrors((prev: any) => ({ ...prev, [name]: '' }));
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-400 via-sky-300 to-green-200 relative overflow-hidden">
-      {/* Animated Clouds */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          className="absolute top-10 left-[-100px] w-[200px] h-[60px] bg-white rounded-full opacity-70"
-          animate={{
-            x: [0, typeof window !== 'undefined' ? window.innerWidth + 200 : 2120],
-          }}
-          transition={{
-            duration: 40,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-          style={{
-            boxShadow: '0 0 20px rgba(255,255,255,0.5)',
-          }}
-        />
-        
-        <motion.div
-          className="absolute top-32 left-[-150px] w-[250px] h-[80px] bg-white rounded-full opacity-60"
-          animate={{
-            x: [0, typeof window !== 'undefined' ? window.innerWidth + 250 : 2170],
-          }}
-          transition={{
-            duration: 50,
-            repeat: Infinity,
-            ease: "linear",
-            delay: 10,
-          }}
-          style={{
-            boxShadow: '0 0 25px rgba(255,255,255,0.4)',
-          }}
-        />
-      </div>
+    <div className="min-h-screen bg-gradient-to-b from-sky-400 via-sky-300 to-sky-200">
+      <Navbar />
       
-      <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-20">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="w-full max-w-md"
-        >
-          <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 pixel-border shadow-2xl">
-            {/* Progress Steps */}
-            <div className="flex justify-center mb-8">
-              <div className="flex items-center gap-4">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold pixel-text text-sm ${
-                  step >= 1 ? 'bg-green-400 text-black' : 'bg-gray-300 text-gray-600'
-                }`}>
-                  1
-                </div>
-                <div className={`w-16 h-1 ${step >= 2 ? 'bg-green-400' : 'bg-gray-300'}`} />
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold pixel-text text-sm ${
-                  step >= 2 ? 'bg-green-400 text-black' : 'bg-gray-300 text-gray-600'
-                }`}>
-                  2
-                </div>
-              </div>
-            </div>
-
-            {/* ZUNA Mascot */}
-            <div className="flex justify-center mb-6">
-              <div className="w-20 h-20 flex items-center justify-center bg-gradient-to-b from-sky-200 to-green-200 rounded-2xl border-2 border-gray-800">
+      <section className="pt-24 pb-20">
+        <div className="container mx-auto px-6">
+          <div className="max-w-md mx-auto">
+            {/* Sign Up Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white p-8"
+              style={{
+                border: '4px solid #1a1a1a',
+                boxShadow: '8px 8px 0 rgba(0,0,0,0.3)'
+              }}
+            >
+              {/* Mascot */}
+              <div className="flex justify-center mb-6">
                 <SpriteAnimation
                   sprite="/sprites/happy.webp"
                   frames={4}
-                  frameRate={500}
-                  size={64}
-                  alt="Happy Zuna Mascot"
+                  frameRate={200}
+                  size={80}
+                  alt="ZUNA Happy"
                 />
               </div>
-            </div>
-            
-            <h1 className="text-2xl font-bold text-center mb-2 pixel-text text-gray-900">
-              {step === 1 ? 'CREATE ACCOUNT' : 'ALMOST THERE'}
-            </h1>
-            
-            <p className="text-center text-gray-600 mb-8 pixel-text text-sm">
-              {step === 1 ? 'Start your financial journey' : 'Just a few more details'}
-            </p>
-            
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {step === 1 ? (
-                <>
-                  <div>
-                    <label className="block text-sm font-bold mb-2 pixel-text text-gray-900">EMAIL</label>
-                    <input
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-3 bg-white border-4 border-gray-800 rounded-lg focus:border-blue-500 focus:outline-none transition-colors pixel-text text-sm"
-                      placeholder="your@email.com"
-                    />
-                    {errors.email && <p className="text-red-500 text-xs mt-1 pixel-text">{errors.email}</p>}
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-bold mb-2 pixel-text text-gray-900">PASSWORD</label>
-                    <input
-                      type="password"
-                      value={formData.password}
-                      onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                      className="w-full px-4 py-3 bg-white border-4 border-gray-800 rounded-lg focus:border-blue-500 focus:outline-none transition-colors pixel-text text-sm"
-                      placeholder="••••••••"
-                    />
-                    {errors.password && <p className="text-red-500 text-xs mt-1 pixel-text">{errors.password}</p>}
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-bold mb-2 pixel-text text-gray-900">CONFIRM PASSWORD</label>
-                    <input
-                      type="password"
-                      value={formData.confirmPassword}
-                      onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                      className="w-full px-4 py-3 bg-white border-4 border-gray-800 rounded-lg focus:border-blue-500 focus:outline-none transition-colors pixel-text text-sm"
-                      placeholder="••••••••"
-                    />
-                    {errors.confirmPassword && <p className="text-red-500 text-xs mt-1 pixel-text">{errors.confirmPassword}</p>}
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div>
-                    <label className="block text-sm font-bold mb-2 pixel-text text-gray-900">FULL NAME</label>
-                    <input
-                      type="text"
-                      value={formData.fullName}
-                      onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                      className="w-full px-4 py-3 bg-white border-4 border-gray-800 rounded-lg focus:border-blue-500 focus:outline-none transition-colors pixel-text text-sm"
-                      placeholder="John Doe"
-                    />
-                    {errors.fullName && <p className="text-red-500 text-xs mt-1 pixel-text">{errors.fullName}</p>}
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-bold mb-2 pixel-text text-gray-900">DATE OF BIRTH</label>
-                    <input
-                      type="date"
-                      value={formData.dateOfBirth}
-                      onChange={(e) => setFormData({ ...formData, dateOfBirth: e.target.value })}
-                      className="w-full px-4 py-3 bg-white border-4 border-gray-800 rounded-lg focus:border-blue-500 focus:outline-none transition-colors pixel-text text-sm"
-                    />
-                    {errors.dateOfBirth && <p className="text-red-500 text-xs mt-1 pixel-text">{errors.dateOfBirth}</p>}
-                  </div>
-                  
-                  <div className="space-y-3">
-                    <label className="flex items-start gap-3">
-                      <input
-                        type="checkbox"
-                        checked={formData.acceptTerms}
-                        onChange={(e) => setFormData({ ...formData, acceptTerms: e.target.checked })}
-                        className="mt-1 w-4 h-4 accent-green-400"
-                      />
-                      <span className="text-sm text-gray-700 pixel-text">
-                        I accept the <Link href="/terms" className="text-blue-600 hover:underline">Terms & Conditions</Link> and <Link href="/privacy" className="text-blue-600 hover:underline">Privacy Policy</Link>
-                      </span>
-                    </label>
-                    {errors.acceptTerms && <p className="text-red-500 text-xs pixel-text">{errors.acceptTerms}</p>}
-                    
-                    <label className="flex items-start gap-3">
-                      <input
-                        type="checkbox"
-                        checked={formData.marketingEmails}
-                        onChange={(e) => setFormData({ ...formData, marketingEmails: e.target.checked })}
-                        className="mt-1 w-4 h-4 accent-green-400"
-                      />
-                      <span className="text-sm text-gray-700 pixel-text">
-                        Send me tips and updates about my Tamagotchi
-                      </span>
-                    </label>
-                  </div>
-                </>
-              )}
-              
-              <div className="flex gap-4 mt-8">
-                {step === 2 && (
-                  <motion.button
-                    type="button"
-                    onClick={() => setStep(1)}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="flex-1 py-3 border-4 border-gray-800 text-gray-800 rounded-lg font-bold pixel-text hover:bg-gray-100 transition-colors"
-                  >
-                    BACK
-                  </motion.button>
-                )}
-                
-                <motion.button
-                  type="submit"
-                  disabled={isLoading}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex-1 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg font-bold pixel-text pixel-border hover:shadow-lg transition-all disabled:opacity-50"
-                >
-                  {isLoading ? 'CREATING...' : step === 1 ? 'NEXT' : 'CREATE ACCOUNT'}
-                </motion.button>
+
+              <h1 className="text-3xl font-bold text-gray-900 text-center mb-2" style={{
+                fontFamily: 'monospace',
+                letterSpacing: '0.05em'
+              }}>
+                Start Your Journey!
+              </h1>
+              <p className="text-gray-600 text-center mb-8" style={{
+                fontFamily: 'monospace'
+              }}>
+                Join ZUNA and start saving with fun
+              </p>
+
+              {/* Progress Bar */}
+              <div className="flex gap-2 mb-8">
+                <div className={`flex-1 h-2 ${step >= 1 ? 'bg-green-500' : 'bg-gray-300'}`} style={{
+                  border: '2px solid #1a1a1a'
+                }} />
+                <div className={`flex-1 h-2 ${step >= 2 ? 'bg-green-500' : 'bg-gray-300'}`} style={{
+                  border: '2px solid #1a1a1a'
+                }} />
               </div>
-            </form>
-            
-            <p className="text-center text-gray-600 mt-6 pixel-text text-sm">
-              Already have an account? <Link href="/login" className="text-blue-600 hover:underline">Login</Link>
-            </p>
+
+              <form onSubmit={handleSubmit}>
+                {step === 1 ? (
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="space-y-6"
+                  >
+                    <div>
+                      <label className="block text-gray-700 font-bold mb-2" style={{ fontFamily: 'monospace' }}>
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3"
+                        placeholder="your@email.com"
+                        style={{
+                          fontFamily: 'monospace',
+                          border: '3px solid #1a1a1a',
+                          boxShadow: '3px 3px 0 rgba(0,0,0,0.1)'
+                        }}
+                      />
+                      {errors.email && (
+                        <p className="text-red-500 text-xs mt-1" style={{ fontFamily: 'monospace' }}>
+                          {errors.email}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="block text-gray-700 font-bold mb-2" style={{ fontFamily: 'monospace' }}>
+                        Password
+                      </label>
+                      <input
+                        type="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3"
+                        placeholder="Min 8 characters"
+                        style={{
+                          fontFamily: 'monospace',
+                          border: '3px solid #1a1a1a',
+                          boxShadow: '3px 3px 0 rgba(0,0,0,0.1)'
+                        }}
+                      />
+                      {errors.password && (
+                        <p className="text-red-500 text-xs mt-1" style={{ fontFamily: 'monospace' }}>
+                          {errors.password}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="block text-gray-700 font-bold mb-2" style={{ fontFamily: 'monospace' }}>
+                        Confirm Password
+                      </label>
+                      <input
+                        type="password"
+                        name="confirmPassword"
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3"
+                        placeholder="Re-enter password"
+                        style={{
+                          fontFamily: 'monospace',
+                          border: '3px solid #1a1a1a',
+                          boxShadow: '3px 3px 0 rgba(0,0,0,0.1)'
+                        }}
+                      />
+                      {errors.confirmPassword && (
+                        <p className="text-red-500 text-xs mt-1" style={{ fontFamily: 'monospace' }}>
+                          {errors.confirmPassword}
+                        </p>
+                      )}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={handleNext}
+                      className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 transition-colors"
+                      style={{
+                        fontFamily: 'monospace',
+                        border: '3px solid rgba(0,0,0,0.2)',
+                        boxShadow: '3px 3px 0 rgba(0,0,0,0.2)'
+                      }}
+                    >
+                      Continue →
+                    </button>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="space-y-6"
+                  >
+                    <div>
+                      <label className="block text-gray-700 font-bold mb-2" style={{ fontFamily: 'monospace' }}>
+                        Full Name
+                      </label>
+                      <input
+                        type="text"
+                        name="fullName"
+                        value={formData.fullName}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3"
+                        placeholder="John Doe"
+                        style={{
+                          fontFamily: 'monospace',
+                          border: '3px solid #1a1a1a',
+                          boxShadow: '3px 3px 0 rgba(0,0,0,0.1)'
+                        }}
+                      />
+                      {errors.fullName && (
+                        <p className="text-red-500 text-xs mt-1" style={{ fontFamily: 'monospace' }}>
+                          {errors.fullName}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="space-y-3">
+                      <label className="flex items-start gap-3">
+                        <input
+                          type="checkbox"
+                          name="acceptTerms"
+                          checked={formData.acceptTerms}
+                          onChange={handleChange}
+                          className="mt-1"
+                          style={{ accentColor: '#10b981' }}
+                        />
+                        <span className="text-gray-700 text-sm" style={{ fontFamily: 'monospace' }}>
+                          I accept the{' '}
+                          <Link href="/terms" className="text-green-600 hover:text-green-700 font-bold">
+                            Terms and Conditions
+                          </Link>{' '}
+                          and{' '}
+                          <Link href="/privacy" className="text-green-600 hover:text-green-700 font-bold">
+                            Privacy Policy
+                          </Link>
+                        </span>
+                      </label>
+                      {errors.acceptTerms && (
+                        <p className="text-red-500 text-xs ml-7" style={{ fontFamily: 'monospace' }}>
+                          {errors.acceptTerms}
+                        </p>
+                      )}
+
+                      <label className="flex items-start gap-3">
+                        <input
+                          type="checkbox"
+                          name="marketingEmails"
+                          checked={formData.marketingEmails}
+                          onChange={handleChange}
+                          className="mt-1"
+                          style={{ accentColor: '#10b981' }}
+                        />
+                        <span className="text-gray-700 text-sm" style={{ fontFamily: 'monospace' }}>
+                          Send me tips and updates about saving (optional)
+                        </span>
+                      </label>
+                    </div>
+
+                    <div className="flex gap-4">
+                      <button
+                        type="button"
+                        onClick={() => setStep(1)}
+                        className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-4 transition-colors"
+                        style={{
+                          fontFamily: 'monospace',
+                          border: '3px solid rgba(0,0,0,0.2)',
+                          boxShadow: '3px 3px 0 rgba(0,0,0,0.2)'
+                        }}
+                      >
+                        ← Back
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="flex-1 bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white font-bold py-4 transition-colors"
+                        style={{
+                          fontFamily: 'monospace',
+                          border: '3px solid rgba(0,0,0,0.2)',
+                          boxShadow: '3px 3px 0 rgba(0,0,0,0.2)'
+                        }}
+                      >
+                        {isLoading ? 'Creating...' : 'Create Account'}
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </form>
+
+              <div className="mt-8">
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t-2 border-gray-300"></div>
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-4 bg-white text-gray-500" style={{ fontFamily: 'monospace' }}>
+                      Or sign up with
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mt-6 grid grid-cols-2 gap-4">
+                  <button
+                    type="button"
+                    onClick={login}
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 transition-colors"
+                    style={{
+                      fontFamily: 'monospace',
+                      border: '3px solid rgba(0,0,0,0.2)',
+                      boxShadow: '3px 3px 0 rgba(0,0,0,0.2)'
+                    }}
+                  >
+                    🔐 Auth0
+                  </button>
+                  <button
+                    type="button"
+                    className="bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 transition-colors"
+                    style={{
+                      fontFamily: 'monospace',
+                      border: '3px solid rgba(0,0,0,0.2)',
+                      boxShadow: '3px 3px 0 rgba(0,0,0,0.2)'
+                    }}
+                  >
+                    🍎 Apple
+                  </button>
+                </div>
+              </div>
+
+              <p className="text-center mt-8 text-gray-600" style={{ fontFamily: 'monospace' }}>
+                Already have an account?{' '}
+                <Link href="/signin" className="text-green-600 hover:text-green-700 font-bold">
+                  Sign in
+                </Link>
+              </p>
+            </motion.div>
           </div>
-          
-          {/* Security Badge */}
-          <div className="mt-6 text-center">
-            <p className="text-xs text-gray-700 flex items-center justify-center gap-2 pixel-text">
-              <span>🔒</span>
-              <span>256-bit encryption • PCI compliant • FCA regulated</span>
-            </p>
-          </div>
-        </motion.div>
-      </div>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   );
 }
