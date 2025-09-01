@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Press_Start_2P } from 'next/font/google';
 import PixelBackground from '../components/PixelBackground';
 import GrassyBottom from '../components/GrassyBottom';
@@ -14,14 +15,24 @@ const pixelFont = Press_Start_2P({
 });
 
 export default function SignInPage() {
+  const router = useRouter();
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle sign in logic here
-    console.log('Sign in:', { email, password });
+    setError('');
+    setLoading(true);
+    
+    // Redirect to Auth0 login
+    window.location.href = `/api/auth/login?login_hint=${encodeURIComponent(email)}`;
+  };
+  
+  const handleAuth0Login = () => {
+    window.location.href = '/api/auth/login';
   };
 
   return (
@@ -169,21 +180,55 @@ export default function SignInPage() {
                   </Link>
                 </div>
 
+                {error && (
+                  <div className="p-3 text-center" style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '10px',
+                    color: '#ef4444',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    border: '2px solid #ef4444',
+                    imageRendering: 'pixelated'
+                  }}>
+                    {error}
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full py-4 text-white transition-all hover:scale-105"
+                  disabled={loading}
+                  className="w-full py-4 text-white transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{
                     fontFamily: pixelFont.style.fontFamily,
                     fontSize: '14px',
-                    backgroundColor: '#10b981',
-                    border: '4px solid #065f46',
+                    backgroundColor: loading ? '#6b7280' : '#10b981',
+                    border: '4px solid',
+                    borderColor: loading ? '#4b5563' : '#065f46',
                     boxShadow: '4px 4px 0 #000',
                     imageRendering: 'pixelated'
                   }}
                 >
-                  SIGN IN
+                  {loading ? 'SIGNING IN...' : 'SIGN IN'}
                 </button>
               </form>
+
+              {/* Auth0 Direct Login Option */}
+              <div className="mt-4">
+                <button
+                  onClick={handleAuth0Login}
+                  className="w-full py-3 transition-all hover:scale-105"
+                  style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '12px',
+                    color: isDarkMode ? '#FFFFFF' : '#1a1a1a',
+                    backgroundColor: 'transparent',
+                    border: '2px solid',
+                    borderColor: isDarkMode ? '#667eea' : '#4A90E2',
+                    imageRendering: 'pixelated'
+                  }}
+                >
+                  USE AUTH0 LOGIN
+                </button>
+              </div>
 
               <div className="mt-6 text-center">
                 <p style={{

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Press_Start_2P } from 'next/font/google';
 import PixelBackground from '../components/PixelBackground';
 import GrassyBottom from '../components/GrassyBottom';
@@ -14,6 +15,7 @@ const pixelFont = Press_Start_2P({
 });
 
 export default function SignUpPage() {
+  const router = useRouter();
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
@@ -21,11 +23,31 @@ export default function SignUpPage() {
     password: '',
     confirmPassword: ''
   });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle sign up logic here
-    console.log('Sign up:', formData);
+    setError('');
+    setLoading(true);
+    
+    // Validate passwords match
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      setLoading(false);
+      return;
+    }
+    
+    // Validate password strength
+    if (formData.password.length < 8) {
+      setError('Password must be at least 8 characters');
+      setLoading(false);
+      return;
+    }
+    
+    // For now, redirect to Auth0 signup with pre-filled email
+    // In production, you would create the user via Auth0 Management API
+    window.location.href = `/api/auth/login?screen_hint=signup&login_hint=${encodeURIComponent(formData.email)}`;
   };
 
   return (
@@ -222,19 +244,34 @@ export default function SignUpPage() {
                   </label>
                 </div>
 
+                {error && (
+                  <div className="p-3 text-center" style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '10px',
+                    color: '#ef4444',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    border: '2px solid #ef4444',
+                    imageRendering: 'pixelated'
+                  }}>
+                    {error}
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full py-4 text-white transition-all hover:scale-105"
+                  disabled={loading}
+                  className="w-full py-4 text-white transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{
                     fontFamily: pixelFont.style.fontFamily,
                     fontSize: '14px',
-                    backgroundColor: '#10b981',
-                    border: '4px solid #065f46',
+                    backgroundColor: loading ? '#6b7280' : '#10b981',
+                    border: '4px solid',
+                    borderColor: loading ? '#4b5563' : '#065f46',
                     boxShadow: '4px 4px 0 #000',
                     imageRendering: 'pixelated'
                   }}
                 >
-                  CREATE ACCOUNT
+                  {loading ? 'CREATING...' : 'CREATE ACCOUNT'}
                 </button>
               </form>
 
