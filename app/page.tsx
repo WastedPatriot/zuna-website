@@ -8,6 +8,15 @@ import PixelBackground from './components/PixelBackground';
 import GrassyBottom from './components/GrassyBottom';
 import SpriteAnimation from './components/SpriteAnimation';
 
+// Import Press Start 2P font for pixel text
+import { Press_Start_2P } from 'next/font/google';
+
+const pixelFont = Press_Start_2P({ 
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
 export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [mascotMood, setMascotMood] = useState<'idle' | 'happy' | 'waving'>('idle');
@@ -76,8 +85,7 @@ export default function Home() {
                 borderRadius: '8px',
                 imageRendering: 'pixelated'
               }} />
-              <span className="text-2xl font-bold" style={{
-                fontFamily: 'monospace',
+              <span className={`text-2xl font-bold ${pixelFont.className}`} style={{
                 color: isDarkMode ? '#FFFFFF' : '#1a1a1a',
                 textShadow: isDarkMode ? '2px 2px 0 rgba(0,0,0,0.5)' : '2px 2px 0 rgba(255,255,255,0.5)'
               }}>
@@ -87,7 +95,7 @@ export default function Home() {
             
             <div className="flex gap-4">
               <Link href="/features" className="px-4 py-2" style={{
-                fontFamily: 'monospace',
+                fontFamily: pixelFont.style.fontFamily,
                 color: isDarkMode ? '#FFFFFF' : '#1a1a1a',
                 backgroundColor: isDarkMode ? 'rgba(102, 126, 234, 0.3)' : 'rgba(255,255,255,0.8)',
                 border: '2px solid',
@@ -97,7 +105,7 @@ export default function Home() {
                 Features
               </Link>
               <Link href="/pricing" className="px-4 py-2" style={{
-                fontFamily: 'monospace',
+                fontFamily: pixelFont.style.fontFamily,
                 color: isDarkMode ? '#FFFFFF' : '#1a1a1a',
                 backgroundColor: isDarkMode ? 'rgba(102, 126, 234, 0.3)' : 'rgba(255,255,255,0.8)',
                 border: '2px solid',
@@ -107,7 +115,7 @@ export default function Home() {
                 Pricing
               </Link>
               <Link href="/signin" className="px-4 py-2" style={{
-                fontFamily: 'monospace',
+                fontFamily: pixelFont.style.fontFamily,
                 color: '#FFFFFF',
                 backgroundColor: '#4CAF50',
                 border: '2px solid #2E7D32',
@@ -125,7 +133,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-5xl md:text-6xl font-bold mb-6" style={{
-                fontFamily: 'monospace',
+                fontFamily: pixelFont.style.fontFamily,
                 color: isDarkMode ? '#FFFFFF' : '#1a1a1a',
                 textShadow: isDarkMode ? '3px 3px 0 rgba(102, 126, 234, 0.5)' : '3px 3px 0 rgba(74, 144, 226, 0.3)',
                 letterSpacing: '0.05em'
@@ -141,7 +149,7 @@ export default function Home() {
               </h1>
               
               <p className="text-xl mb-8" style={{
-                fontFamily: 'monospace',
+                fontFamily: pixelFont.style.fontFamily,
                 color: isDarkMode ? '#E0E0E0' : '#333333',
                 lineHeight: '1.6'
               }}>
@@ -150,7 +158,7 @@ export default function Home() {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/signup" className="px-8 py-4 text-center" style={{
-                  fontFamily: 'monospace',
+                  fontFamily: pixelFont.style.fontFamily,
                   color: '#FFFFFF',
                   backgroundColor: '#4CAF50',
                   border: '4px solid #2E7D32',
@@ -162,7 +170,7 @@ export default function Home() {
                   Start Free Trial
                 </Link>
                 <Link href="/features" className="px-8 py-4 text-center" style={{
-                  fontFamily: 'monospace',
+                  fontFamily: pixelFont.style.fontFamily,
                   color: isDarkMode ? '#FFFFFF' : '#1a1a1a',
                   backgroundColor: isDarkMode ? 'rgba(102, 126, 234, 0.5)' : 'rgba(255,255,255,0.9)',
                   border: '4px solid',
@@ -186,19 +194,30 @@ export default function Home() {
                 boxShadow: isDarkMode ? '0 0 30px rgba(102, 126, 234, 0.3)' : '8px 8px 0 rgba(0,0,0,0.2)',
                 imageRendering: 'pixelated'
               }}>
-                <div style={{ width: '256px', height: '256px', position: 'relative' }}>
+                <div style={{ 
+                  width: '256px', 
+                  height: '256px', 
+                  position: 'relative',
+                  filter: 'none', // Preserve original sprite colors
+                  mixBlendMode: 'normal' // Don't blend with background
+                }}>
                   <Image
                     src={`/sprites/${mascotMood === 'idle' ? 'idleblink' : mascotMood}.webp`}
                     alt="ZUNA Mascot"
                     width={256}
                     height={256}
-                    style={{ imageRendering: 'pixelated' }}
+                    style={{ 
+                      imageRendering: 'pixelated',
+                      imageRendering: '-moz-crisp-edges' as any,
+                      imageRendering: 'crisp-edges' as any,
+                      filter: 'none' // Keep original colors
+                    }}
                     unoptimized
                   />
                 </div>
                 <div className="text-center mt-4">
                   <div className="inline-block px-4 py-2" style={{
-                    fontFamily: 'monospace',
+                    fontFamily: pixelFont.style.fontFamily,
                     fontSize: '14px',
                     color: '#FFFFFF',
                     backgroundColor: isDarkMode ? '#667eea' : '#4A90E2',
@@ -217,7 +236,7 @@ export default function Home() {
         {/* Features Grid */}
         <section className="container mx-auto px-6 py-20">
           <h2 className="text-4xl font-bold text-center mb-12" style={{
-            fontFamily: 'monospace',
+            fontFamily: pixelFont.style.fontFamily,
             color: isDarkMode ? '#FFFFFF' : '#1a1a1a',
             textShadow: isDarkMode ? '2px 2px 0 rgba(102, 126, 234, 0.5)' : '2px 2px 0 rgba(74, 144, 226, 0.3)'
           }}>
@@ -242,13 +261,13 @@ export default function Home() {
               }}>
                 <div className="text-4xl mb-4">{feature.icon}</div>
                 <h3 className="text-xl font-bold mb-2" style={{
-                  fontFamily: 'monospace',
+                  fontFamily: pixelFont.style.fontFamily,
                   color: isDarkMode ? '#FFFFFF' : '#1a1a1a'
                 }}>
                   {feature.title}
                 </h3>
                 <p style={{
-                  fontFamily: 'monospace',
+                  fontFamily: pixelFont.style.fontFamily,
                   fontSize: '14px',
                   color: isDarkMode ? '#B0B0B0' : '#666666'
                 }}>
@@ -262,7 +281,7 @@ export default function Home() {
         {/* Testimonials */}
         <section className="container mx-auto px-6 py-20">
           <h2 className="text-4xl font-bold text-center mb-12" style={{
-            fontFamily: 'monospace',
+            fontFamily: pixelFont.style.fontFamily,
             color: isDarkMode ? '#FFFFFF' : '#1a1a1a',
             textShadow: isDarkMode ? '2px 2px 0 rgba(102, 126, 234, 0.5)' : '2px 2px 0 rgba(74, 144, 226, 0.3)'
           }}>
@@ -287,13 +306,13 @@ export default function Home() {
               >
                 <div className="text-5xl mb-4">{testimonials[currentTestimonial].avatar}</div>
                 <p className="text-xl mb-4" style={{
-                  fontFamily: 'monospace',
+                  fontFamily: pixelFont.style.fontFamily,
                   color: isDarkMode ? '#FFFFFF' : '#1a1a1a'
                 }}>
                   "{testimonials[currentTestimonial].content}"
                 </p>
                 <p className="font-bold" style={{
-                  fontFamily: 'monospace',
+                  fontFamily: pixelFont.style.fontFamily,
                   color: isDarkMode ? '#B0B0B0' : '#666666'
                 }}>
                   {testimonials[currentTestimonial].name} - {testimonials[currentTestimonial].role}
@@ -306,7 +325,7 @@ export default function Home() {
         {/* CTA */}
         <section className="container mx-auto px-6 py-20 text-center">
           <h2 className="text-4xl font-bold mb-8" style={{
-            fontFamily: 'monospace',
+            fontFamily: pixelFont.style.fontFamily,
             color: isDarkMode ? '#FFFFFF' : '#1a1a1a',
             textShadow: isDarkMode ? '3px 3px 0 rgba(102, 126, 234, 0.5)' : '3px 3px 0 rgba(74, 144, 226, 0.3)'
           }}>
@@ -314,7 +333,7 @@ export default function Home() {
           </h2>
           
           <Link href="/signup" className="inline-block px-12 py-5" style={{
-            fontFamily: 'monospace',
+            fontFamily: pixelFont.style.fontFamily,
             fontSize: '20px',
             fontWeight: 'bold',
             color: '#FFFFFF',
@@ -327,7 +346,7 @@ export default function Home() {
           </Link>
           
           <p className="mt-6" style={{
-            fontFamily: 'monospace',
+            fontFamily: pixelFont.style.fontFamily,
             fontSize: '14px',
             color: isDarkMode ? '#B0B0B0' : '#666666'
           }}>
