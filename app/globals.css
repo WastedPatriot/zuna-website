@@ -4,6 +4,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Pixel Cursor Theme */
+* {
+  cursor: url('/cursors/pixel-cursor.svg') 4 4, auto !important;
+}
+
+a, button, input[type="submit"], input[type="button"], 
+input[type="checkbox"], input[type="radio"], label[for],
+.cursor-pointer, [role="button"] {
+  cursor: url('/cursors/pixel-pointer.svg') 8 4, pointer !important;
+}
+
+input[type="text"], input[type="email"], input[type="password"], 
+textarea, select {
+  cursor: url('/cursors/pixel-cursor.svg') 4 4, text !important;
+}
+
 /* Global Styles */
 html, body {
   scroll-behavior: smooth;
@@ -13,6 +29,9 @@ html, body {
 body {
   background: linear-gradient(to bottom, #87CEEB, #98D8E8, #B0E0E6);
   min-height: 100vh;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 /* Pixel Text Style */

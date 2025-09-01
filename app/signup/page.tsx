@@ -230,16 +230,31 @@ export default function SignUpPage() {
                   />
                 </div>
 
-                <div className="flex items-center">
-                  <input type="checkbox" id="terms" className="mr-2" required />
-                  <label htmlFor="terms" style={{
+                <div className="flex items-start">
+                  <input 
+                    type="checkbox" 
+                    id="terms" 
+                    className="mt-1 mr-3 w-4 h-4 cursor-pointer accent-green-500" 
+                    required 
+                    style={{
+                      width: '20px',
+                      height: '20px',
+                      cursor: 'pointer'
+                    }}
+                  />
+                  <label htmlFor="terms" className="cursor-pointer flex-1" style={{
                     fontFamily: pixelFont.style.fontFamily,
                     fontSize: '10px',
-                    color: isDarkMode ? '#B0B0B0' : '#666666'
+                    color: isDarkMode ? '#B0B0B0' : '#666666',
+                    cursor: 'pointer'
                   }}>
                     I AGREE TO THE{' '}
-                    <Link href="/terms" className="underline" style={{ color: '#667eea' }}>
-                      TERMS
+                    <Link href="/terms" className="underline hover:text-green-400" style={{ color: '#667eea' }}>
+                      TERMS & CONDITIONS
+                    </Link>
+                    {' '}AND{' '}
+                    <Link href="/privacy" className="underline hover:text-green-400" style={{ color: '#667eea' }}>
+                      PRIVACY POLICY
                     </Link>
                   </label>
                 </div>
