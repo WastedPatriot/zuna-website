@@ -1,313 +1,269 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import SpriteAnimation from '../components/SpriteAnimation';
+import { Press_Start_2P } from 'next/font/google';
+import PixelBackground from '../components/PixelBackground';
+import GrassyBottom from '../components/GrassyBottom';
+import Image from 'next/image';
+
+const pixelFont = Press_Start_2P({ 
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+});
 
 export default function FeaturesPage() {
-  const [activeFeature, setActiveFeature] = useState(0);
-
+  const [isDarkMode, setIsDarkMode] = useState(true);
+  
   const features = [
     {
-      id: 'banking',
-      title: 'Smart Banking Integration',
       icon: '🏦',
-      sprite: 'savings',
-      description: 'Connect all your bank accounts in one place with Open Banking technology.',
+      title: 'Open Banking',
+      description: 'Connect all your bank accounts securely in one place',
       details: [
-        'Real-time transaction tracking',
-        'Automatic expense categorization',
-        'Smart savings recommendations',
-        'Bill payment reminders',
-        'Spending insights and analytics'
-      ],
-      screenshot: '/screenshots/banking.png'
+        'Real-time balance updates',
+        'Transaction categorization',
+        'Spending insights',
+        'Multi-bank support'
+      ]
     },
     {
-      id: 'games',
-      title: 'Monthly Prize Games',
       icon: '🎮',
-      sprite: 'gaming',
-      description: 'Compete in monthly challenges and win real cash prizes up to £1,000.',
+      title: 'Gamification',
+      description: 'Turn saving money into an adventure',
       details: [
-        'New games every month',
-        'Leaderboards and achievements',
-        'Real cash prizes',
-        'Skill-based mini-games',
-        'Social competitions with friends'
-      ],
-      screenshot: '/screenshots/games.png'
+        'Daily challenges',
+        'Achievement system',
+        'Leaderboards',
+        'Reward points'
+      ]
     },
     {
-      id: 'pet',
-      title: 'Digital Pet Companion',
       icon: '🐾',
-      sprite: 'happy',
-      description: 'Your ZUNA pet grows happier as you save more money.',
+      title: 'Digital Pet',
+      description: 'Your savings buddy that grows with you',
       details: [
-        'Pet evolves with your savings',
-        'Unlock new animations and features',
-        'Daily interactions and rewards',
-        'Customizable appearance',
-        'Pet mood reflects financial health'
-      ],
-      screenshot: '/screenshots/pet.png'
+        'Happiness meter',
+        'Evolution stages',
+        'Custom accessories',
+        'Interactive animations'
+      ]
     },
     {
-      id: 'coach',
-      title: 'AI Financial Coach',
       icon: '🤖',
-      sprite: 'speaking',
-      description: 'Get personalized financial advice from our intelligent AI coach.',
+      title: 'AI Coach',
+      description: 'Personalized financial guidance',
       details: [
-        'Personalized budgeting advice',
-        'Investment recommendations',
-        'Debt reduction strategies',
-        'Financial goal planning',
-        '24/7 availability'
-      ],
-      screenshot: '/screenshots/coach.png'
+        'Smart recommendations',
+        'Budget optimization',
+        'Goal tracking',
+        'Premium insights'
+      ]
     },
     {
-      id: 'pots',
-      title: 'Visual Savings Pots',
       icon: '💰',
-      sprite: 'planting',
-      description: 'Create themed savings pots and watch them grow visually.',
+      title: 'Savings Pots',
+      description: 'Organize your money for different goals',
       details: [
-        'Custom savings goals',
-        'Visual progress tracking',
-        'Automatic transfers',
-        'Shared pots with friends',
-        'Interest earning options'
-      ],
-      screenshot: '/screenshots/pots.png'
+        'Custom categories',
+        'Auto-save rules',
+        'Visual progress',
+        'Shared pots'
+      ]
     },
     {
-      id: 'crypto',
-      title: 'Integrated Crypto Wallet',
       icon: '🪙',
-      sprite: 'jumping',
-      description: 'Buy, sell, and earn ZUNA tokens and other cryptocurrencies.',
+      title: 'Crypto Wallet',
+      description: 'Earn and manage ZUNA tokens',
       details: [
-        'ZUNA token rewards',
-        'Major cryptocurrency support',
-        'Secure wallet storage',
-        'Easy fiat conversion',
-        'Staking and earning options'
-      ],
-      screenshot: '/screenshots/crypto.png'
+        'Secure storage',
+        'Easy transfers',
+        'Reward earnings',
+        'Token staking'
+      ]
     }
   ];
 
   return (
-    <div className="min-h-screen">
-      <Navbar />
-      
-      {/* Hero Section */}
-      <section className="bg-gradient-to-b from-sky-400 to-sky-300 pt-24 pb-20">
-        <div className="container mx-auto px-6">
-          <div className="text-center">
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6" style={{
-              fontFamily: 'monospace',
-              letterSpacing: '0.05em',
-              textShadow: '3px 3px 0 rgba(0,0,0,0.3)'
-            }}>
-              Powerful Features
-            </h1>
-            <p className="text-xl text-white max-w-3xl mx-auto mb-8" style={{
-              fontFamily: 'monospace',
-              lineHeight: '1.6'
-            }}>
-              Everything you need to transform your financial life, gamified for maximum engagement.
-            </p>
-            <Link href="/signup" className="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 inline-block transition-colors" style={{
-              fontFamily: 'monospace',
-              border: '4px solid rgba(0,0,0,0.2)',
-              boxShadow: '4px 4px 0 rgba(0,0,0,0.2)'
-            }}>
-              Try All Features Free
-            </Link>
-          </div>
+    <PixelBackground isDarkMode={isDarkMode}>
+      <div className="min-h-screen flex flex-col">
+        {/* Header */}
+        <div className="p-4 flex justify-between items-center">
+          <Link href="/" className="text-white hover:text-yellow-300 transition-colors" style={{
+            fontFamily: pixelFont.style.fontFamily,
+            fontSize: '12px'
+          }}>
+            ← HOME
+          </Link>
+          
+          <button
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            className="p-2 rounded"
+            style={{
+              backgroundColor: isDarkMode ? '#FFD700' : '#4A90E2',
+              border: '2px solid',
+              borderColor: isDarkMode ? '#FFA500' : '#357ABD',
+              fontFamily: pixelFont.style.fontFamily,
+              fontSize: '10px'
+            }}
+          >
+            {isDarkMode ? '☀️' : '🌙'}
+          </button>
         </div>
-      </section>
 
-      {/* Features Grid */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="grid lg:grid-cols-3 gap-8 mb-20">
+        {/* Hero Section */}
+        <section className="container mx-auto px-6 py-20">
+          <div className="text-center">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6" style={{
+              fontFamily: pixelFont.style.fontFamily,
+              color: '#FFFFFF',
+              textShadow: '4px 4px 0 rgba(0,0,0,0.3)'
+            }}>
+              Features
+            </h1>
+            <p className="text-xl mb-8" style={{
+              fontFamily: pixelFont.style.fontFamily,
+              color: '#FFFFFF',
+              fontSize: '14px'
+            }}>
+              Everything you need for financial wellness
+            </p>
+          </div>
+        </section>
+
+        {/* Features Grid */}
+        <section className="container mx-auto px-6 py-12">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
               <motion.div
-                key={feature.id}
+                key={index}
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className={`p-8 cursor-pointer transition-all ${
-                  activeFeature === index ? 'bg-green-50' : 'bg-white'
-                }`}
+                className="p-6"
                 style={{
-                  border: '4px solid #1a1a1a',
-                  boxShadow: activeFeature === index ? '8px 8px 0 rgba(0,0,0,0.2)' : '6px 6px 0 rgba(0,0,0,0.1)'
+                  backgroundColor: isDarkMode ? 'rgba(26, 31, 58, 0.9)' : 'rgba(255,255,255,0.9)',
+                  border: '4px solid',
+                  borderColor: isDarkMode ? '#667eea' : '#4A90E2',
+                  boxShadow: '8px 8px 0 rgba(0,0,0,0.2)',
+                  imageRendering: 'pixelated'
                 }}
-                onClick={() => setActiveFeature(index)}
               >
-                <div className="flex items-center gap-4 mb-4">
-                  <span className="text-4xl">{feature.icon}</span>
-                  <h3 className="text-xl font-bold text-gray-900" style={{ fontFamily: 'monospace' }}>
-                    {feature.title}
-                  </h3>
-                </div>
-                <p className="text-gray-600 mb-4" style={{ fontFamily: 'monospace', fontSize: '14px' }}>
+                <div className="text-5xl mb-4 text-center">{feature.icon}</div>
+                <h3 className="text-xl font-bold mb-3 text-center" style={{
+                  fontFamily: pixelFont.style.fontFamily,
+                  color: isDarkMode ? '#FFFFFF' : '#1a1a1a'
+                }}>
+                  {feature.title}
+                </h3>
+                <p className="mb-4 text-center" style={{
+                  fontFamily: pixelFont.style.fontFamily,
+                  fontSize: '11px',
+                  color: isDarkMode ? '#B0B0B0' : '#666666'
+                }}>
                   {feature.description}
                 </p>
-                <button className="text-green-600 hover:text-green-700 font-bold text-sm" style={{ fontFamily: 'monospace' }}>
-                  Learn More →
-                </button>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Detailed Feature View */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeFeature}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              className="grid md:grid-cols-2 gap-12 items-center"
-            >
-              <div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-6" style={{
-                  fontFamily: 'monospace',
-                  letterSpacing: '0.05em'
-                }}>
-                  {features[activeFeature].title}
-                </h2>
-                <ul className="space-y-3 mb-8">
-                  {features[activeFeature].details.map((detail, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <span className="text-green-500 mt-1">✓</span>
-                      <span className="text-gray-600" style={{ fontFamily: 'monospace' }}>
-                        {detail}
-                      </span>
+                <ul className="space-y-2">
+                  {feature.details.map((detail, idx) => (
+                    <li key={idx} className="flex items-center" style={{
+                      fontFamily: pixelFont.style.fontFamily,
+                      fontSize: '10px',
+                      color: isDarkMode ? '#98D8E8' : '#4A90E2'
+                    }}>
+                      <span className="mr-2">▸</span>
+                      {detail}
                     </li>
                   ))}
                 </ul>
-                <Link href="/signup" className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 inline-block transition-colors" style={{
-                  fontFamily: 'monospace',
-                  border: '3px solid rgba(0,0,0,0.2)',
-                  boxShadow: '3px 3px 0 rgba(0,0,0,0.2)'
-                }}>
-                  Get Started
-                </Link>
-              </div>
-              <div className="flex justify-center">
-                <div className="bg-gradient-to-b from-sky-100 to-green-100 p-12 rounded-xl" style={{
-                  border: '4px solid #1a1a1a',
-                  boxShadow: '8px 8px 0 rgba(0,0,0,0.2)'
-                }}>
-                  <SpriteAnimation
-                    sprite={`/sprites/${features[activeFeature].sprite}.webp`}
-                    frames={4}
-                    frameRate={200}
-                    size={200}
-                    alt={features[activeFeature].title}
-                  />
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* Premium Section */}
+        <section className="container mx-auto px-6 py-20">
+          <div className="max-w-4xl mx-auto">
+            <div className="p-8" style={{
+              backgroundColor: isDarkMode ? 'rgba(102, 126, 234, 0.1)' : 'rgba(74, 144, 226, 0.1)',
+              border: '4px solid',
+              borderColor: '#FFD700',
+              boxShadow: '8px 8px 0 rgba(0,0,0,0.3)',
+              imageRendering: 'pixelated'
+            }}>
+              <h2 className="text-3xl font-bold mb-6 text-center" style={{
+                fontFamily: pixelFont.style.fontFamily,
+                color: '#FFD700',
+                textShadow: '2px 2px 0 rgba(0,0,0,0.5)'
+              }}>
+                ⭐ Premium Features ⭐
+              </h2>
+              
+              <div className="grid md:grid-cols-2 gap-6 mb-8">
+                <div className="space-y-3">
+                  <h3 style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '14px',
+                    color: '#FFFFFF'
+                  }}>
+                    Free Plan
+                  </h3>
+                  <ul className="space-y-2">
+                    {['Basic banking', '1 savings pot', 'Daily challenges', 'Basic pet'].map((item, idx) => (
+                      <li key={idx} style={{
+                        fontFamily: pixelFont.style.fontFamily,
+                        fontSize: '10px',
+                        color: isDarkMode ? '#B0B0B0' : '#666666'
+                      }}>
+                        ✓ {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                
+                <div className="space-y-3">
+                  <h3 style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '14px',
+                    color: '#FFD700'
+                  }}>
+                    Premium Plan
+                  </h3>
+                  <ul className="space-y-2">
+                    {['Everything in Free', 'Unlimited pots', 'AI Coach Pro', 'Exclusive games', 'Priority support'].map((item, idx) => (
+                      <li key={idx} style={{
+                        fontFamily: pixelFont.style.fontFamily,
+                        fontSize: '10px',
+                        color: '#FFD700'
+                      }}>
+                        ⭐ {item}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </section>
-
-      {/* Comparison Table */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-12" style={{
-            fontFamily: 'monospace',
-            letterSpacing: '0.05em'
-          }}>
-            ZUNA vs Traditional Banking Apps
-          </h2>
-          <div className="max-w-4xl mx-auto overflow-x-auto">
-            <table className="w-full" style={{
-              border: '4px solid #1a1a1a',
-              boxShadow: '6px 6px 0 rgba(0,0,0,0.1)'
-            }}>
-              <thead className="bg-gray-900 text-white">
-                <tr>
-                  <th className="p-4 text-left" style={{ fontFamily: 'monospace' }}>Feature</th>
-                  <th className="p-4 text-center" style={{ fontFamily: 'monospace' }}>ZUNA</th>
-                  <th className="p-4 text-center" style={{ fontFamily: 'monospace' }}>Traditional Apps</th>
-                </tr>
-              </thead>
-              <tbody className="bg-white">
-                <tr className="border-t-2 border-gray-200">
-                  <td className="p-4" style={{ fontFamily: 'monospace' }}>Gamification</td>
-                  <td className="p-4 text-center text-2xl">✅</td>
-                  <td className="p-4 text-center text-2xl">❌</td>
-                </tr>
-                <tr className="border-t-2 border-gray-200">
-                  <td className="p-4" style={{ fontFamily: 'monospace' }}>Digital Pet Companion</td>
-                  <td className="p-4 text-center text-2xl">✅</td>
-                  <td className="p-4 text-center text-2xl">❌</td>
-                </tr>
-                <tr className="border-t-2 border-gray-200">
-                  <td className="p-4" style={{ fontFamily: 'monospace' }}>Monthly Prize Games</td>
-                  <td className="p-4 text-center text-2xl">✅</td>
-                  <td className="p-4 text-center text-2xl">❌</td>
-                </tr>
-                <tr className="border-t-2 border-gray-200">
-                  <td className="p-4" style={{ fontFamily: 'monospace' }}>AI Financial Coach</td>
-                  <td className="p-4 text-center text-2xl">✅</td>
-                  <td className="p-4 text-center text-2xl">⚠️</td>
-                </tr>
-                <tr className="border-t-2 border-gray-200">
-                  <td className="p-4" style={{ fontFamily: 'monospace' }}>Crypto Integration</td>
-                  <td className="p-4 text-center text-2xl">✅</td>
-                  <td className="p-4 text-center text-2xl">⚠️</td>
-                </tr>
-                <tr className="border-t-2 border-gray-200">
-                  <td className="p-4" style={{ fontFamily: 'monospace' }}>Fun Factor</td>
-                  <td className="p-4 text-center text-2xl">🎮</td>
-                  <td className="p-4 text-center text-2xl">😴</td>
-                </tr>
-              </tbody>
-            </table>
+              
+              <div className="text-center">
+                <Link href="/pricing">
+                  <button className="px-8 py-4 text-black transition-all hover:scale-105" style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '14px',
+                    backgroundColor: '#FFD700',
+                    border: '4px solid #FFA500',
+                    boxShadow: '4px 4px 0 #000',
+                    imageRendering: 'pixelated'
+                  }}>
+                    UPGRADE NOW
+                  </button>
+                </Link>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-purple-400 to-pink-500 text-white">
-        <div className="container mx-auto px-6 text-center">
-          <h2 className="text-4xl font-bold mb-6" style={{
-            fontFamily: 'monospace',
-            letterSpacing: '0.05em',
-            textShadow: '3px 3px 0 rgba(0,0,0,0.2)'
-          }}>
-            Experience All Features Risk-Free
-          </h2>
-          <p className="text-xl max-w-2xl mx-auto mb-8" style={{
-            fontFamily: 'monospace',
-            lineHeight: '1.6'
-          }}>
-            Try ZUNA free for 30 days. No credit card required.
-          </p>
-          <Link href="/signup" className="bg-white hover:bg-gray-100 text-gray-900 font-bold py-4 px-10 inline-block transition-colors" style={{
-            fontFamily: 'monospace',
-            border: '4px solid #1a1a1a',
-            boxShadow: '4px 4px 0 rgba(0,0,0,0.3)'
-          }}>
-            Start Your Free Trial
-          </Link>
-        </div>
-      </section>
-
-      <Footer />
-    </div>
+        <GrassyBottom />
+      </div>
+    </PixelBackground>
   );
 }
