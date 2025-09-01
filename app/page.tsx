@@ -198,8 +198,8 @@ export default function Home() {
                   width: '256px', 
                   height: '256px', 
                   position: 'relative',
-                  filter: 'none', // Preserve original sprite colors
-                  mixBlendMode: 'normal' // Don't blend with background
+                  isolation: 'isolate', // Create new stacking context
+                  zIndex: 10 // Ensure sprite is above background
                 }}>
                   <Image
                     src={`/sprites/${mascotMood === 'idle' ? 'idleblink' : mascotMood}.webp`}
@@ -208,9 +208,11 @@ export default function Home() {
                     height={256}
                     style={{ 
                       imageRendering: 'pixelated',
-                      filter: 'none' // Keep original colors
+                      filter: 'brightness(1) contrast(1)', // Force no color changes
+                      opacity: 1
                     }}
                     unoptimized
+                    priority
                   />
                 </div>
                 <div className="text-center mt-4">
@@ -244,35 +246,59 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               { icon: '🏦', title: 'Smart Banking', desc: 'Connect your accounts securely' },
-              { icon: '🎮', title: 'Fun Games', desc: 'Play and win real prizes' },
+              { icon: '🎮', title: 'Fun Games', desc: 'Play and win real prizes', link: '/tetris' },
               { icon: '🐾', title: 'Digital Pet', desc: 'Watch your buddy grow' },
               { icon: '🤖', title: 'AI Coach', desc: 'Get personalized advice' },
               { icon: '💰', title: 'Savings Pots', desc: 'Organize your goals' },
               { icon: '🪙', title: 'Crypto', desc: 'Earn ZUNA tokens' }
-            ].map((feature, index) => (
-              <div key={index} className="p-6 text-center" style={{
-                backgroundColor: isDarkMode ? 'rgba(26, 31, 58, 0.8)' : 'rgba(255,255,255,0.9)',
-                border: '4px solid',
-                borderColor: isDarkMode ? '#667eea' : '#4A90E2',
-                boxShadow: '4px 4px 0 rgba(0,0,0,0.2)',
-                imageRendering: 'pixelated'
-              }}>
-                <div className="text-4xl mb-4">{feature.icon}</div>
-                <h3 className="text-xl font-bold mb-2" style={{
-                  fontFamily: pixelFont.style.fontFamily,
-                  color: isDarkMode ? '#FFFFFF' : '#1a1a1a'
+            ].map((feature, index) => {
+              const card = (
+                <div className="p-6 text-center h-full transition-transform hover:scale-105" style={{
+                  backgroundColor: isDarkMode ? 'rgba(26, 31, 58, 0.8)' : 'rgba(255,255,255,0.9)',
+                  border: '4px solid',
+                  borderColor: isDarkMode ? '#667eea' : '#4A90E2',
+                  boxShadow: '4px 4px 0 rgba(0,0,0,0.2)',
+                  imageRendering: 'pixelated',
+                  cursor: feature.link ? 'pointer' : 'default'
                 }}>
-                  {feature.title}
-                </h3>
-                <p style={{
-                  fontFamily: pixelFont.style.fontFamily,
-                  fontSize: '14px',
-                  color: isDarkMode ? '#B0B0B0' : '#666666'
-                }}>
-                  {feature.desc}
-                </p>
-              </div>
-            ))}
+                  <div className="text-4xl mb-4">{feature.icon}</div>
+                  <h3 className="text-xl font-bold mb-2" style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    color: isDarkMode ? '#FFFFFF' : '#1a1a1a'
+                  }}>
+                    {feature.title}
+                  </h3>
+                  <p style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '14px',
+                    color: isDarkMode ? '#B0B0B0' : '#666666'
+                  }}>
+                    {feature.desc}
+                  </p>
+                  {feature.link && (
+                    <div className="mt-4">
+                      <span className="inline-block px-4 py-2 text-white" style={{
+                        fontFamily: pixelFont.style.fontFamily,
+                        fontSize: '12px',
+                        backgroundColor: '#F0A000',
+                        border: '2px solid #B87800',
+                        imageRendering: 'pixelated'
+                      }}>
+                        PLAY NOW →
+                      </span>
+                    </div>
+                  )}
+                </div>
+              );
+
+              return feature.link ? (
+                <Link key={index} href={feature.link} className="block">
+                  {card}
+                </Link>
+              ) : (
+                <div key={index}>{card}</div>
+              );
+            })}
           </div>
         </section>
 
