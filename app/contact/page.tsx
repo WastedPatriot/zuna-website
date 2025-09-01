@@ -1,11 +1,20 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import Link from 'next/link';
+import { Press_Start_2P } from 'next/font/google';
+import PixelBackground from '../components/PixelBackground';
+import GrassyBottom from '../components/GrassyBottom';
+import Image from 'next/image';
+
+const pixelFont = Press_Start_2P({ 
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+});
 
 export default function ContactPage() {
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -15,276 +24,287 @@ export default function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    console.log('Contact form:', formData);
   };
 
   return (
-    <div className="min-h-screen">
-      <Navbar />
-      
-      {/* Hero Section */}
-      <section className="bg-gradient-to-b from-sky-400 to-sky-300 pt-24 pb-20">
-        <div className="container mx-auto px-6">
-          <div className="text-center">
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6" style={{
-              fontFamily: 'monospace',
-              letterSpacing: '0.05em',
-              textShadow: '3px 3px 0 rgba(0,0,0,0.3)'
+    <PixelBackground isDarkMode={isDarkMode}>
+      <div className="min-h-screen flex flex-col">
+        {/* Header */}
+        <div className="p-4 flex justify-between items-center">
+          <Link href="/" className="text-white hover:text-yellow-300 transition-colors" style={{
+            fontFamily: pixelFont.style.fontFamily,
+            fontSize: '12px'
+          }}>
+            ← HOME
+          </Link>
+          
+          <button
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            className="p-2 rounded"
+            style={{
+              backgroundColor: isDarkMode ? '#FFD700' : '#4A90E2',
+              border: '2px solid',
+              borderColor: isDarkMode ? '#FFA500' : '#357ABD',
+              fontFamily: pixelFont.style.fontFamily,
+              fontSize: '10px'
+            }}
+          >
+            {isDarkMode ? '☀️' : '🌙'}
+          </button>
+        </div>
+
+        {/* Contact Section */}
+        <div className="flex-1 container mx-auto px-6 py-20">
+          <div className="text-center mb-12">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6" style={{
+              fontFamily: pixelFont.style.fontFamily,
+              color: '#FFFFFF',
+              textShadow: '4px 4px 0 rgba(0,0,0,0.3)'
             }}>
               Contact Us
             </h1>
-            <p className="text-xl text-white max-w-3xl mx-auto" style={{
-              fontFamily: 'monospace',
-              lineHeight: '1.6'
+            <p style={{
+              fontFamily: pixelFont.style.fontFamily,
+              color: '#FFFFFF',
+              fontSize: '14px'
             }}>
-              We're here to help! Get in touch with the ZUNA team
+              We'd love to hear from you!
             </p>
           </div>
-        </div>
-      </section>
 
-      {/* Contact Form & Info */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
             {/* Contact Form */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              className="bg-gray-50 p-8"
-              style={{
-                border: '4px solid #1a1a1a',
-                boxShadow: '8px 8px 0 rgba(0,0,0,0.2)'
-              }}
-            >
-              <h2 className="text-2xl font-bold text-gray-900 mb-6" style={{
-                fontFamily: 'monospace',
-                letterSpacing: '0.05em'
+            <div style={{
+              backgroundColor: isDarkMode ? 'rgba(26, 31, 58, 0.95)' : 'rgba(255,255,255,0.95)',
+              border: '4px solid',
+              borderColor: isDarkMode ? '#667eea' : '#4A90E2',
+              boxShadow: '8px 8px 0 rgba(0,0,0,0.3)',
+              padding: '32px',
+              imageRendering: 'pixelated'
+            }}>
+              <h2 className="mb-6" style={{
+                fontFamily: pixelFont.style.fontFamily,
+                fontSize: '18px',
+                color: isDarkMode ? '#FFFFFF' : '#1a1a1a'
               }}>
-                Send Us a Message
+                Send Message
               </h2>
-              <form onSubmit={handleSubmit} className="space-y-6">
+
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-gray-700 font-bold mb-2" style={{ fontFamily: 'monospace' }}>
-                    Name *
+                  <label className="block mb-2" style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '10px',
+                    color: isDarkMode ? '#B0B0B0' : '#666666'
+                  }}>
+                    NAME
                   </label>
                   <input
                     type="text"
-                    name="name"
                     value={formData.name}
-                    onChange={handleChange}
+                    onChange={(e) => setFormData({...formData, name: e.target.value})}
                     required
-                    className="w-full px-4 py-3 bg-white"
+                    className="w-full px-3 py-2"
                     style={{
-                      fontFamily: 'monospace',
-                      border: '3px solid #1a1a1a',
-                      boxShadow: '3px 3px 0 rgba(0,0,0,0.1)'
+                      fontFamily: pixelFont.style.fontFamily,
+                      fontSize: '11px',
+                      backgroundColor: isDarkMode ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.8)',
+                      border: '2px solid',
+                      borderColor: isDarkMode ? '#667eea' : '#4A90E2',
+                      color: isDarkMode ? '#FFFFFF' : '#1a1a1a',
+                      outline: 'none'
                     }}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-gray-700 font-bold mb-2" style={{ fontFamily: 'monospace' }}>
-                    Email *
+                  <label className="block mb-2" style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '10px',
+                    color: isDarkMode ? '#B0B0B0' : '#666666'
+                  }}>
+                    EMAIL
                   </label>
                   <input
                     type="email"
-                    name="email"
                     value={formData.email}
-                    onChange={handleChange}
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
                     required
-                    className="w-full px-4 py-3 bg-white"
+                    className="w-full px-3 py-2"
                     style={{
-                      fontFamily: 'monospace',
-                      border: '3px solid #1a1a1a',
-                      boxShadow: '3px 3px 0 rgba(0,0,0,0.1)'
+                      fontFamily: pixelFont.style.fontFamily,
+                      fontSize: '11px',
+                      backgroundColor: isDarkMode ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.8)',
+                      border: '2px solid',
+                      borderColor: isDarkMode ? '#667eea' : '#4A90E2',
+                      color: isDarkMode ? '#FFFFFF' : '#1a1a1a',
+                      outline: 'none'
                     }}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-gray-700 font-bold mb-2" style={{ fontFamily: 'monospace' }}>
-                    Subject *
+                  <label className="block mb-2" style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '10px',
+                    color: isDarkMode ? '#B0B0B0' : '#666666'
+                  }}>
+                    SUBJECT
                   </label>
-                  <select
-                    name="subject"
+                  <input
+                    type="text"
                     value={formData.subject}
-                    onChange={handleChange}
+                    onChange={(e) => setFormData({...formData, subject: e.target.value})}
                     required
-                    className="w-full px-4 py-3 bg-white"
+                    className="w-full px-3 py-2"
                     style={{
-                      fontFamily: 'monospace',
-                      border: '3px solid #1a1a1a',
-                      boxShadow: '3px 3px 0 rgba(0,0,0,0.1)'
+                      fontFamily: pixelFont.style.fontFamily,
+                      fontSize: '11px',
+                      backgroundColor: isDarkMode ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.8)',
+                      border: '2px solid',
+                      borderColor: isDarkMode ? '#667eea' : '#4A90E2',
+                      color: isDarkMode ? '#FFFFFF' : '#1a1a1a',
+                      outline: 'none'
                     }}
-                  >
-                    <option value="">Select a topic</option>
-                    <option value="general">General Inquiry</option>
-                    <option value="support">Technical Support</option>
-                    <option value="billing">Billing Question</option>
-                    <option value="partnership">Partnership</option>
-                    <option value="press">Press Inquiry</option>
-                  </select>
+                  />
                 </div>
 
                 <div>
-                  <label className="block text-gray-700 font-bold mb-2" style={{ fontFamily: 'monospace' }}>
-                    Message *
+                  <label className="block mb-2" style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '10px',
+                    color: isDarkMode ? '#B0B0B0' : '#666666'
+                  }}>
+                    MESSAGE
                   </label>
                   <textarea
-                    name="message"
                     value={formData.message}
-                    onChange={handleChange}
+                    onChange={(e) => setFormData({...formData, message: e.target.value})}
                     required
-                    rows={6}
-                    className="w-full px-4 py-3 bg-white resize-none"
+                    rows={5}
+                    className="w-full px-3 py-2"
                     style={{
-                      fontFamily: 'monospace',
-                      border: '3px solid #1a1a1a',
-                      boxShadow: '3px 3px 0 rgba(0,0,0,0.1)'
+                      fontFamily: pixelFont.style.fontFamily,
+                      fontSize: '11px',
+                      backgroundColor: isDarkMode ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.8)',
+                      border: '2px solid',
+                      borderColor: isDarkMode ? '#667eea' : '#4A90E2',
+                      color: isDarkMode ? '#FFFFFF' : '#1a1a1a',
+                      outline: 'none',
+                      resize: 'none'
                     }}
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 transition-colors"
+                  className="w-full py-3 text-white transition-all hover:scale-105"
                   style={{
-                    fontFamily: 'monospace',
-                    border: '3px solid rgba(0,0,0,0.2)',
-                    boxShadow: '3px 3px 0 rgba(0,0,0,0.2)'
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '12px',
+                    backgroundColor: '#10b981',
+                    border: '4px solid #065f46',
+                    boxShadow: '4px 4px 0 #000',
+                    imageRendering: 'pixelated'
                   }}
                 >
-                  Send Message
+                  SEND MESSAGE
                 </button>
               </form>
-            </motion.div>
+            </div>
 
-            {/* Contact Information */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              className="space-y-8"
-            >
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6" style={{
-                  fontFamily: 'monospace',
-                  letterSpacing: '0.05em'
+            {/* Contact Info */}
+            <div className="space-y-6">
+              {/* Mascot */}
+              <div className="flex justify-center mb-8">
+                <div style={{
+                  width: '128px',
+                  height: '128px',
+                  position: 'relative',
+                  isolation: 'isolate',
+                  zIndex: 10
                 }}>
-                  Get in Touch
-                </h2>
-                <p className="text-gray-600 mb-8" style={{
-                  fontFamily: 'monospace',
-                  lineHeight: '1.8'
-                }}>
-                  Have questions about ZUNA? We're here to help! Reach out through the form or contact us directly.
-                </p>
-              </div>
-
-              {/* Contact Cards */}
-              <div className="space-y-6">
-                <div className="bg-white p-6" style={{
-                  border: '4px solid #1a1a1a',
-                  boxShadow: '6px 6px 0 rgba(0,0,0,0.1)'
-                }}>
-                  <div className="flex items-center gap-4">
-                    <span className="text-3xl">📧</span>
-                    <div>
-                      <h3 className="font-bold text-gray-900" style={{ fontFamily: 'monospace' }}>
-                        Email
-                      </h3>
-                      <p className="text-gray-600" style={{ fontFamily: 'monospace' }}>
-                        hello@zuna.app
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-white p-6" style={{
-                  border: '4px solid #1a1a1a',
-                  boxShadow: '6px 6px 0 rgba(0,0,0,0.1)'
-                }}>
-                  <div className="flex items-center gap-4">
-                    <span className="text-3xl">💬</span>
-                    <div>
-                      <h3 className="font-bold text-gray-900" style={{ fontFamily: 'monospace' }}>
-                        Live Chat
-                      </h3>
-                      <p className="text-gray-600" style={{ fontFamily: 'monospace' }}>
-                        Available Mon-Fri, 9am-6pm GMT
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-white p-6" style={{
-                  border: '4px solid #1a1a1a',
-                  boxShadow: '6px 6px 0 rgba(0,0,0,0.1)'
-                }}>
-                  <div className="flex items-center gap-4">
-                    <span className="text-3xl">📍</span>
-                    <div>
-                      <h3 className="font-bold text-gray-900" style={{ fontFamily: 'monospace' }}>
-                        Office
-                      </h3>
-                      <p className="text-gray-600" style={{ fontFamily: 'monospace' }}>
-                        London, United Kingdom
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-white p-6" style={{
-                  border: '4px solid #1a1a1a',
-                  boxShadow: '6px 6px 0 rgba(0,0,0,0.1)'
-                }}>
-                  <div className="flex items-center gap-4">
-                    <span className="text-3xl">🐦</span>
-                    <div>
-                      <h3 className="font-bold text-gray-900" style={{ fontFamily: 'monospace' }}>
-                        Social Media
-                      </h3>
-                      <p className="text-gray-600" style={{ fontFamily: 'monospace' }}>
-                        @zunafinance
-                      </p>
-                    </div>
-                  </div>
+                  <Image
+                    src="/sprites/waving.webp"
+                    alt="ZUNA Waving"
+                    width={128}
+                    height={128}
+                    style={{
+                      imageRendering: 'pixelated',
+                      filter: 'brightness(1) contrast(1)',
+                      opacity: 1
+                    }}
+                    unoptimized
+                    priority
+                  />
                 </div>
               </div>
 
-              {/* FAQ Link */}
-              <div className="bg-gradient-to-r from-green-400 to-blue-500 p-6 text-white" style={{
-                border: '4px solid #1a1a1a',
-                boxShadow: '6px 6px 0 rgba(0,0,0,0.2)'
+              <div className="space-y-4">
+                {[
+                  { icon: '📧', label: 'EMAIL', value: 'hello@zuna.app' },
+                  { icon: '💬', label: 'DISCORD', value: 'discord.gg/zuna' },
+                  { icon: '🐦', label: 'TWITTER', value: '@zunafinance' },
+                  { icon: '📍', label: 'LOCATION', value: 'London, UK' }
+                ].map((item, index) => (
+                  <div key={index} className="p-4" style={{
+                    backgroundColor: isDarkMode ? 'rgba(26, 31, 58, 0.8)' : 'rgba(255,255,255,0.9)',
+                    border: '3px solid',
+                    borderColor: isDarkMode ? '#667eea' : '#4A90E2',
+                    imageRendering: 'pixelated'
+                  }}>
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl">{item.icon}</span>
+                      <div>
+                        <p style={{
+                          fontFamily: pixelFont.style.fontFamily,
+                          fontSize: '10px',
+                          color: isDarkMode ? '#B0B0B0' : '#666666'
+                        }}>
+                          {item.label}
+                        </p>
+                        <p style={{
+                          fontFamily: pixelFont.style.fontFamily,
+                          fontSize: '12px',
+                          color: isDarkMode ? '#FFFFFF' : '#1a1a1a'
+                        }}>
+                          {item.value}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="p-4" style={{
+                backgroundColor: isDarkMode ? 'rgba(102, 126, 234, 0.1)' : 'rgba(74, 144, 226, 0.1)',
+                border: '3px solid #FFD700',
+                imageRendering: 'pixelated'
               }}>
-                <h3 className="font-bold mb-2" style={{ fontFamily: 'monospace' }}>
-                  Looking for quick answers?
-                </h3>
-                <p className="text-sm mb-4" style={{ fontFamily: 'monospace' }}>
-                  Check out our FAQ section for instant help
-                </p>
-                <a href="/faq" className="inline-block bg-white text-gray-900 px-4 py-2 font-bold hover:bg-gray-100 transition-colors" style={{
-                  fontFamily: 'monospace',
-                  border: '2px solid #1a1a1a',
-                  boxShadow: '2px 2px 0 rgba(0,0,0,0.2)'
+                <h3 style={{
+                  fontFamily: pixelFont.style.fontFamily,
+                  fontSize: '12px',
+                  color: '#FFD700',
+                  marginBottom: '8px'
                 }}>
-                  Visit FAQ →
-                </a>
+                  SUPPORT HOURS
+                </h3>
+                <p style={{
+                  fontFamily: pixelFont.style.fontFamily,
+                  fontSize: '10px',
+                  color: isDarkMode ? '#B0B0B0' : '#666666'
+                }}>
+                  MON-FRI: 9AM-6PM GMT<br/>
+                  SAT-SUN: 10AM-4PM GMT
+                </p>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
-      </section>
 
-      <Footer />
-    </div>
+        <GrassyBottom />
+      </div>
+    </PixelBackground>
   );
 }

@@ -246,7 +246,7 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               { icon: '🏦', title: 'Smart Banking', desc: 'Connect your accounts securely' },
-              { icon: '🎮', title: 'Fun Games', desc: 'Play and win real prizes', link: '/tetris' },
+              { icon: '🎮', title: 'Fun Games', desc: 'Play and win real prizes', link: '/game' },
               { icon: '🐾', title: 'Digital Pet', desc: 'Watch your buddy grow' },
               { icon: '🤖', title: 'AI Coach', desc: 'Get personalized advice' },
               { icon: '💰', title: 'Savings Pots', desc: 'Organize your goals' },

@@ -1,309 +1,412 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
+import { useState } from 'react';
 import Link from 'next/link';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import SpriteAnimation from '../components/SpriteAnimation';
-import { useAuth0 } from '../providers/Auth0Provider';
+import { Press_Start_2P } from 'next/font/google';
+import PixelBackground from '../components/PixelBackground';
+import GrassyBottom from '../components/GrassyBottom';
+import Image from 'next/image';
+
+const pixelFont = Press_Start_2P({ 
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+});
 
 export default function DashboardPage() {
-  const router = useRouter();
-  const { isAuthenticated, isLoading, user, logout } = useAuth0();
+  const [isDarkMode, setIsDarkMode] = useState(true);
+  
+  // Mock data
+  const userStats = {
+    totalSavings: '£2,456',
+    monthlyGrowth: '+12%',
+    zunaTokens: '1,250',
+    petHappiness: 85
+  };
 
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      router.push('/signin');
-    }
-  }, [isAuthenticated, isLoading, router]);
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-sky-400 to-sky-300">
-        <div className="text-center">
-          <SpriteAnimation
-            sprite="/sprites/jumping.webp"
-            frames={4}
-            frameRate={200}
-            size={128}
-            alt="Loading"
-          />
-          <p className="text-white text-xl mt-4" style={{ fontFamily: 'monospace' }}>
-            Loading...
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!isAuthenticated) {
-    return null;
-  }
-
-  const stats = [
-    { label: 'Total Saved', value: '£2,456', icon: '💰', color: 'from-green-400 to-green-600' },
-    { label: 'Games Won', value: '12', icon: '🏆', color: 'from-blue-400 to-blue-600' },
-    { label: 'Pet Happiness', value: '95%', icon: '😊', color: 'from-purple-400 to-purple-600' },
-    { label: 'ZUNA Tokens', value: '450', icon: '🪙', color: 'from-yellow-400 to-yellow-600' },
+  const savingsPots = [
+    { name: 'Holiday', amount: '£850', progress: 70, color: '#10b981' },
+    { name: 'Emergency', amount: '£1,200', progress: 40, color: '#667eea' },
+    { name: 'Gaming PC', amount: '£406', progress: 25, color: '#FFD700' }
   ];
 
   const recentActivity = [
-    { date: '2025-08-30', type: 'save', description: 'Added £50 to Holiday Fund', amount: '+£50' },
-    { date: '2025-08-29', type: 'game', description: 'Won Tetris Tournament', amount: '+50 ZUNA' },
-    { date: '2025-08-28', type: 'achievement', description: 'Unlocked "Super Saver" badge', amount: '' },
-    { date: '2025-08-27', type: 'save', description: 'Created new pot: Car Fund', amount: '' },
+    { type: 'deposit', amount: '+£50', pot: 'Holiday', date: 'Today' },
+    { type: 'reward', amount: '+25 ZUNA', pot: 'Daily Challenge', date: 'Yesterday' },
+    { type: 'deposit', amount: '+£100', pot: 'Emergency', date: '3 days ago' }
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
-      
-      {/* Dashboard Header */}
-      <section className="bg-gradient-to-b from-sky-400 to-sky-300 pt-24 pb-12">
-        <div className="container mx-auto px-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-4xl font-bold text-white mb-2" style={{
-                fontFamily: 'monospace',
-                letterSpacing: '0.05em',
-                textShadow: '3px 3px 0 rgba(0,0,0,0.3)'
-              }}>
-                Welcome back, {user?.name || 'Saver'}!
-              </h1>
-              <p className="text-white/90" style={{ fontFamily: 'monospace' }}>
-                Your financial adventure continues...
-              </p>
-            </div>
-            <div className="hidden md:block">
-              <SpriteAnimation
-                sprite="/sprites/waving.webp"
-                frames={4}
-                frameRate={200}
-                size={80}
-                alt="Welcome"
-              />
-            </div>
-          </div>
+    <PixelBackground isDarkMode={isDarkMode}>
+      <div className="min-h-screen flex flex-col">
+        {/* Header */}
+        <div className="p-4 flex justify-between items-center">
+          <Link href="/" className="text-white hover:text-yellow-300 transition-colors" style={{
+            fontFamily: pixelFont.style.fontFamily,
+            fontSize: '12px'
+          }}>
+            ← HOME
+          </Link>
+          
+          <button
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            className="p-2 rounded"
+            style={{
+              backgroundColor: isDarkMode ? '#FFD700' : '#4A90E2',
+              border: '2px solid',
+              borderColor: isDarkMode ? '#FFA500' : '#357ABD',
+              fontFamily: pixelFont.style.fontFamily,
+              fontSize: '10px'
+            }}
+          >
+            {isDarkMode ? '☀️' : '🌙'}
+          </button>
         </div>
-      </section>
 
-      {/* Stats Grid */}
-      <section className="py-12">
-        <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-4 gap-6">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className={`bg-gradient-to-r ${stat.color} p-6 text-white`}
-                style={{
-                  border: '4px solid #1a1a1a',
-                  boxShadow: '6px 6px 0 rgba(0,0,0,0.2)'
-                }}
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-3xl">{stat.icon}</span>
-                  <span className="text-2xl font-bold" style={{ fontFamily: 'monospace' }}>
-                    {stat.value}
-                  </span>
-                </div>
-                <p className="text-sm" style={{ fontFamily: 'monospace' }}>
-                  {stat.label}
-                </p>
-              </motion.div>
-            ))}
+        {/* Dashboard Content */}
+        <div className="flex-1 container mx-auto px-6 py-12">
+          {/* Welcome Section */}
+          <div className="mb-8">
+            <h1 style={{
+              fontFamily: pixelFont.style.fontFamily,
+              fontSize: '28px',
+              color: '#FFFFFF',
+              textShadow: '3px 3px 0 rgba(0,0,0,0.3)'
+            }}>
+              Welcome Back!
+            </h1>
+            <p style={{
+              fontFamily: pixelFont.style.fontFamily,
+              fontSize: '12px',
+              color: '#B0B0B0',
+              marginTop: '8px'
+            }}>
+              Your financial adventure continues...
+            </p>
           </div>
-        </div>
-      </section>
 
-      {/* Main Dashboard Content */}
-      <section className="py-12">
-        <div className="container mx-auto px-6">
           <div className="grid lg:grid-cols-3 gap-8">
-            {/* Quick Actions */}
-            <div className="lg:col-span-1">
-              <div className="bg-white p-6" style={{
-                border: '4px solid #1a1a1a',
-                boxShadow: '6px 6px 0 rgba(0,0,0,0.1)'
-              }}>
-                <h2 className="text-xl font-bold text-gray-900 mb-6" style={{
-                  fontFamily: 'monospace',
-                  letterSpacing: '0.05em'
+            {/* Main Content */}
+            <div className="lg:col-span-2 space-y-8">
+              {/* Stats Grid */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-4" style={{
+                  backgroundColor: isDarkMode ? 'rgba(26, 31, 58, 0.95)' : 'rgba(255,255,255,0.95)',
+                  border: '4px solid #10b981',
+                  boxShadow: '6px 6px 0 rgba(0,0,0,0.2)',
+                  imageRendering: 'pixelated'
                 }}>
-                  Quick Actions
-                </h2>
-                <div className="space-y-3">
-                  <Link href="/app" className="block w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 text-center transition-colors" style={{
-                    fontFamily: 'monospace',
-                    border: '3px solid rgba(0,0,0,0.2)',
-                    boxShadow: '3px 3px 0 rgba(0,0,0,0.2)'
+                  <p style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '10px',
+                    color: isDarkMode ? '#B0B0B0' : '#666666'
                   }}>
-                    📱 Open Mobile App
-                  </Link>
-                  <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 transition-colors" style={{
-                    fontFamily: 'monospace',
-                    border: '3px solid rgba(0,0,0,0.2)',
-                    boxShadow: '3px 3px 0 rgba(0,0,0,0.2)'
+                    TOTAL SAVINGS
+                  </p>
+                  <p style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '24px',
+                    color: '#10b981',
+                    marginTop: '8px'
                   }}>
-                    💰 Add to Savings
-                  </button>
-                  <button className="w-full bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 px-4 transition-colors" style={{
-                    fontFamily: 'monospace',
-                    border: '3px solid rgba(0,0,0,0.2)',
-                    boxShadow: '3px 3px 0 rgba(0,0,0,0.2)'
-                  }}>
-                    🎮 Play Game
-                  </button>
-                  <button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-4 transition-colors" style={{
-                    fontFamily: 'monospace',
-                    border: '3px solid rgba(0,0,0,0.2)',
-                    boxShadow: '3px 3px 0 rgba(0,0,0,0.2)'
-                  }}>
-                    🐾 Visit Pet
-                  </button>
+                    {userStats.totalSavings}
+                  </p>
                 </div>
-              </div>
 
-              {/* Pet Status */}
-              <div className="bg-white p-6 mt-6" style={{
-                border: '4px solid #1a1a1a',
-                boxShadow: '6px 6px 0 rgba(0,0,0,0.1)'
-              }}>
-                <h2 className="text-xl font-bold text-gray-900 mb-4" style={{
-                  fontFamily: 'monospace',
-                  letterSpacing: '0.05em'
+                <div className="p-4" style={{
+                  backgroundColor: isDarkMode ? 'rgba(26, 31, 58, 0.95)' : 'rgba(255,255,255,0.95)',
+                  border: '4px solid #667eea',
+                  boxShadow: '6px 6px 0 rgba(0,0,0,0.2)',
+                  imageRendering: 'pixelated'
                 }}>
-                  Your ZUNA Pet
-                </h2>
-                <div className="flex justify-center mb-4">
-                  <SpriteAnimation
-                    sprite="/sprites/happy.webp"
-                    frames={4}
-                    frameRate={200}
-                    size={128}
-                    alt="ZUNA Pet"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <div>
-                    <div className="flex justify-between text-sm mb-1" style={{ fontFamily: 'monospace' }}>
-                      <span>Happiness</span>
-                      <span>95%</span>
-                    </div>
-                    <div className="bg-gray-200 h-3" style={{ border: '2px solid #1a1a1a' }}>
-                      <div className="bg-green-500 h-full" style={{ width: '95%' }} />
-                    </div>
-                  </div>
-                  <p className="text-center text-gray-600 text-sm mt-3" style={{ fontFamily: 'monospace' }}>
-                    "Keep saving! I'm so happy!"
+                  <p style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '10px',
+                    color: isDarkMode ? '#B0B0B0' : '#666666'
+                  }}>
+                    THIS MONTH
+                  </p>
+                  <p style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '24px',
+                    color: '#667eea',
+                    marginTop: '8px'
+                  }}>
+                    {userStats.monthlyGrowth}
                   </p>
                 </div>
               </div>
-            </div>
 
-            {/* Recent Activity */}
-            <div className="lg:col-span-2">
-              <div className="bg-white p-6" style={{
-                border: '4px solid #1a1a1a',
-                boxShadow: '6px 6px 0 rgba(0,0,0,0.1)'
+              {/* Savings Pots */}
+              <div className="p-6" style={{
+                backgroundColor: isDarkMode ? 'rgba(26, 31, 58, 0.95)' : 'rgba(255,255,255,0.95)',
+                border: '4px solid',
+                borderColor: isDarkMode ? '#667eea' : '#4A90E2',
+                boxShadow: '8px 8px 0 rgba(0,0,0,0.2)',
+                imageRendering: 'pixelated'
               }}>
-                <h2 className="text-xl font-bold text-gray-900 mb-6" style={{
-                  fontFamily: 'monospace',
-                  letterSpacing: '0.05em'
+                <h2 className="mb-6" style={{
+                  fontFamily: pixelFont.style.fontFamily,
+                  fontSize: '16px',
+                  color: isDarkMode ? '#FFFFFF' : '#1a1a1a'
                 }}>
-                  Recent Activity
+                  SAVINGS POTS
                 </h2>
+
                 <div className="space-y-4">
-                  {recentActivity.map((activity, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.05 }}
-                      className="flex items-center justify-between p-4 bg-gray-50"
-                      style={{
-                        border: '2px solid #1a1a1a'
-                      }}
-                    >
-                      <div className="flex items-center gap-4">
-                        <span className="text-2xl">
-                          {activity.type === 'save' && '💰'}
-                          {activity.type === 'game' && '🎮'}
-                          {activity.type === 'achievement' && '🏆'}
+                  {savingsPots.map((pot, index) => (
+                    <div key={index}>
+                      <div className="flex justify-between mb-2">
+                        <span style={{
+                          fontFamily: pixelFont.style.fontFamily,
+                          fontSize: '12px',
+                          color: isDarkMode ? '#FFFFFF' : '#1a1a1a'
+                        }}>
+                          {pot.name}
                         </span>
-                        <div>
-                          <p className="font-bold text-gray-900" style={{ fontFamily: 'monospace' }}>
-                            {activity.description}
-                          </p>
-                          <p className="text-xs text-gray-500" style={{ fontFamily: 'monospace' }}>
-                            {activity.date}
-                          </p>
-                        </div>
+                        <span style={{
+                          fontFamily: pixelFont.style.fontFamily,
+                          fontSize: '12px',
+                          color: pot.color
+                        }}>
+                          {pot.amount}
+                        </span>
                       </div>
-                      {activity.amount && (
-                        <span className="font-bold text-green-600" style={{ fontFamily: 'monospace' }}>
-                          {activity.amount}
+                      <div style={{
+                        height: '20px',
+                        backgroundColor: isDarkMode ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.1)',
+                        border: '2px solid',
+                        borderColor: pot.color,
+                        position: 'relative',
+                        imageRendering: 'pixelated'
+                      }}>
+                        <div style={{
+                          height: '100%',
+                          width: `${pot.progress}%`,
+                          backgroundColor: pot.color,
+                          imageRendering: 'pixelated'
+                        }} />
+                        <span style={{
+                          position: 'absolute',
+                          right: '8px',
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          fontFamily: pixelFont.style.fontFamily,
+                          fontSize: '10px',
+                          color: '#FFFFFF'
+                        }}>
+                          {pot.progress}%
                         </span>
-                      )}
-                    </motion.div>
+                      </div>
+                    </div>
                   ))}
                 </div>
-                <Link href="/activity" className="block text-center mt-6 text-green-600 hover:text-green-700 font-bold" style={{ fontFamily: 'monospace' }}>
-                  View All Activity →
-                </Link>
+
+                <button className="w-full mt-6 py-3" style={{
+                  fontFamily: pixelFont.style.fontFamily,
+                  fontSize: '12px',
+                  backgroundColor: 'transparent',
+                  color: '#667eea',
+                  border: '2px solid #667eea'
+                }}>
+                  + ADD NEW POT
+                </button>
               </div>
 
-              {/* Savings Goals */}
-              <div className="bg-white p-6 mt-6" style={{
-                border: '4px solid #1a1a1a',
-                boxShadow: '6px 6px 0 rgba(0,0,0,0.1)'
+              {/* Recent Activity */}
+              <div className="p-6" style={{
+                backgroundColor: isDarkMode ? 'rgba(26, 31, 58, 0.95)' : 'rgba(255,255,255,0.95)',
+                border: '4px solid',
+                borderColor: isDarkMode ? '#667eea' : '#4A90E2',
+                boxShadow: '8px 8px 0 rgba(0,0,0,0.2)',
+                imageRendering: 'pixelated'
               }}>
-                <h2 className="text-xl font-bold text-gray-900 mb-6" style={{
-                  fontFamily: 'monospace',
-                  letterSpacing: '0.05em'
+                <h2 className="mb-6" style={{
+                  fontFamily: pixelFont.style.fontFamily,
+                  fontSize: '16px',
+                  color: isDarkMode ? '#FFFFFF' : '#1a1a1a'
                 }}>
-                  Savings Goals
+                  RECENT ACTIVITY
                 </h2>
-                <div className="space-y-4">
-                  <div>
-                    <div className="flex justify-between mb-2">
-                      <span className="font-bold" style={{ fontFamily: 'monospace' }}>🏖️ Holiday Fund</span>
-                      <span className="text-sm text-gray-600" style={{ fontFamily: 'monospace' }}>£1,200 / £2,000</span>
+
+                <div className="space-y-3">
+                  {recentActivity.map((activity, index) => (
+                    <div key={index} className="flex justify-between items-center p-3" style={{
+                      backgroundColor: isDarkMode ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.05)',
+                      border: '2px solid',
+                      borderColor: activity.type === 'reward' ? '#FFD700' : '#10b981'
+                    }}>
+                      <div>
+                        <p style={{
+                          fontFamily: pixelFont.style.fontFamily,
+                          fontSize: '11px',
+                          color: isDarkMode ? '#FFFFFF' : '#1a1a1a'
+                        }}>
+                          {activity.pot}
+                        </p>
+                        <p style={{
+                          fontFamily: pixelFont.style.fontFamily,
+                          fontSize: '9px',
+                          color: isDarkMode ? '#B0B0B0' : '#666666'
+                        }}>
+                          {activity.date}
+                        </p>
+                      </div>
+                      <span style={{
+                        fontFamily: pixelFont.style.fontFamily,
+                        fontSize: '14px',
+                        color: activity.type === 'reward' ? '#FFD700' : '#10b981'
+                      }}>
+                        {activity.amount}
+                      </span>
                     </div>
-                    <div className="bg-gray-200 h-4" style={{ border: '2px solid #1a1a1a' }}>
-                      <div className="bg-blue-500 h-full" style={{ width: '60%' }} />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="flex justify-between mb-2">
-                      <span className="font-bold" style={{ fontFamily: 'monospace' }}>🚗 Car Fund</span>
-                      <span className="text-sm text-gray-600" style={{ fontFamily: 'monospace' }}>£500 / £5,000</span>
-                    </div>
-                    <div className="bg-gray-200 h-4" style={{ border: '2px solid #1a1a1a' }}>
-                      <div className="bg-green-500 h-full" style={{ width: '10%' }} />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="flex justify-between mb-2">
-                      <span className="font-bold" style={{ fontFamily: 'monospace' }}>🎮 PS5 Fund</span>
-                      <span className="text-sm text-gray-600" style={{ fontFamily: 'monospace' }}>£380 / £450</span>
-                    </div>
-                    <div className="bg-gray-200 h-4" style={{ border: '2px solid #1a1a1a' }}>
-                      <div className="bg-purple-500 h-full" style={{ width: '84%' }} />
-                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Sidebar */}
+            <div className="space-y-8">
+              {/* Pet Status */}
+              <div className="p-6" style={{
+                backgroundColor: isDarkMode ? 'rgba(26, 31, 58, 0.95)' : 'rgba(255,255,255,0.95)',
+                border: '4px solid #FFD700',
+                boxShadow: '8px 8px 0 rgba(0,0,0,0.2)',
+                imageRendering: 'pixelated'
+              }}>
+                <h3 className="mb-4" style={{
+                  fontFamily: pixelFont.style.fontFamily,
+                  fontSize: '14px',
+                  color: '#FFD700'
+                }}>
+                  YOUR BUDDY
+                </h3>
+
+                <div className="flex justify-center mb-4">
+                  <div style={{
+                    width: '128px',
+                    height: '128px',
+                    position: 'relative',
+                    isolation: 'isolate',
+                    zIndex: 10
+                  }}>
+                    <Image
+                      src="/sprites/happy.webp"
+                      alt="ZUNA Happy"
+                      width={128}
+                      height={128}
+                      style={{
+                        imageRendering: 'pixelated',
+                        filter: 'brightness(1) contrast(1)',
+                        opacity: 1
+                      }}
+                      unoptimized
+                      priority
+                    />
                   </div>
                 </div>
+
+                <div>
+                  <p style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '10px',
+                    color: isDarkMode ? '#B0B0B0' : '#666666',
+                    marginBottom: '4px'
+                  }}>
+                    HAPPINESS
+                  </p>
+                  <div style={{
+                    height: '16px',
+                    backgroundColor: isDarkMode ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.1)',
+                    border: '2px solid #FFD700',
+                    position: 'relative'
+                  }}>
+                    <div style={{
+                      height: '100%',
+                      width: `${userStats.petHappiness}%`,
+                      backgroundColor: '#FFD700'
+                    }} />
+                  </div>
+                  <p style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '12px',
+                    color: '#FFD700',
+                    marginTop: '8px',
+                    textAlign: 'center'
+                  }}>
+                    {userStats.petHappiness}% HAPPY
+                  </p>
+                </div>
+              </div>
+
+              {/* ZUNA Tokens */}
+              <div className="p-6" style={{
+                backgroundColor: isDarkMode ? 'rgba(26, 31, 58, 0.95)' : 'rgba(255,255,255,0.95)',
+                border: '4px solid #F0A000',
+                boxShadow: '8px 8px 0 rgba(0,0,0,0.2)',
+                imageRendering: 'pixelated'
+              }}>
+                <h3 className="mb-4" style={{
+                  fontFamily: pixelFont.style.fontFamily,
+                  fontSize: '14px',
+                  color: '#F0A000'
+                }}>
+                  ZUNA TOKENS
+                </h3>
+
+                <p style={{
+                  fontFamily: pixelFont.style.fontFamily,
+                  fontSize: '28px',
+                  color: '#F0A000',
+                  textAlign: 'center',
+                  marginBottom: '16px'
+                }}>
+                  {userStats.zunaTokens}
+                </p>
+
+                <button className="w-full py-2" style={{
+                  fontFamily: pixelFont.style.fontFamily,
+                  fontSize: '11px',
+                  backgroundColor: '#F0A000',
+                  color: '#000',
+                  border: '2px solid #B87800'
+                }}>
+                  REDEEM
+                </button>
+              </div>
+
+              {/* Quick Actions */}
+              <div className="space-y-3">
+                <Link href="/game" className="block">
+                  <button className="w-full py-3" style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '12px',
+                    backgroundColor: '#667eea',
+                    color: '#FFFFFF',
+                    border: '3px solid #4A5FC1',
+                    boxShadow: '4px 4px 0 #000'
+                  }}>
+                    PLAY GAME
+                  </button>
+                </Link>
+                
+                <button className="w-full py-3" style={{
+                  fontFamily: pixelFont.style.fontFamily,
+                  fontSize: '12px',
+                  backgroundColor: '#10b981',
+                  color: '#FFFFFF',
+                  border: '3px solid #065f46',
+                  boxShadow: '4px 4px 0 #000'
+                }}>
+                  ADD FUNDS
+                </button>
               </div>
             </div>
           </div>
         </div>
-      </section>
 
-      <Footer />
-    </div>
+        <GrassyBottom />
+      </div>
+    </PixelBackground>
   );
 }

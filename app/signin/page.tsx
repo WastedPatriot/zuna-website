@@ -1,77 +1,108 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import SpriteAnimation from '../components/SpriteAnimation';
-import { useAuth0 } from '../providers/Auth0Provider';
+import { Press_Start_2P } from 'next/font/google';
+import PixelBackground from '../components/PixelBackground';
+import GrassyBottom from '../components/GrassyBottom';
+import Image from 'next/image';
+
+const pixelFont = Press_Start_2P({ 
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+});
 
 export default function SignInPage() {
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
-  const { login } = useAuth0();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    try {
-      await login();
-    } catch (error) {
-      console.error('Login error:', error);
-    } finally {
-      setIsLoading(false);
-    }
+    // Handle sign in logic here
+    console.log('Sign in:', { email, password });
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-400 via-sky-300 to-sky-200">
-      <Navbar />
-      
-      <section className="pt-24 pb-20">
-        <div className="container mx-auto px-6">
-          <div className="max-w-md mx-auto">
-            {/* Sign In Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-white p-8"
-              style={{
-                border: '4px solid #1a1a1a',
-                boxShadow: '8px 8px 0 rgba(0,0,0,0.3)'
-              }}
-            >
+    <PixelBackground isDarkMode={isDarkMode}>
+      <div className="min-h-screen flex flex-col">
+        {/* Header */}
+        <div className="p-4 flex justify-between items-center">
+          <Link href="/" className="text-white hover:text-yellow-300 transition-colors" style={{
+            fontFamily: pixelFont.style.fontFamily,
+            fontSize: '12px'
+          }}>
+            ← HOME
+          </Link>
+          
+          <button
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            className="p-2 rounded"
+            style={{
+              backgroundColor: isDarkMode ? '#FFD700' : '#4A90E2',
+              border: '2px solid',
+              borderColor: isDarkMode ? '#FFA500' : '#357ABD',
+              fontFamily: pixelFont.style.fontFamily,
+              fontSize: '10px'
+            }}
+          >
+            {isDarkMode ? '☀️' : '🌙'}
+          </button>
+        </div>
+
+        {/* Sign In Form */}
+        <div className="flex-1 flex items-center justify-center p-8">
+          <div className="w-full max-w-md">
+            <div style={{
+              backgroundColor: isDarkMode ? 'rgba(26, 31, 58, 0.95)' : 'rgba(255,255,255,0.95)',
+              border: '4px solid',
+              borderColor: isDarkMode ? '#667eea' : '#4A90E2',
+              boxShadow: '8px 8px 0 rgba(0,0,0,0.3)',
+              padding: '32px',
+              imageRendering: 'pixelated'
+            }}>
               {/* Mascot */}
               <div className="flex justify-center mb-6">
-                <SpriteAnimation
-                  sprite="/sprites/waving.webp"
-                  frames={4}
-                  frameRate={200}
-                  size={80}
-                  alt="ZUNA Welcome"
-                />
+                <div style={{
+                  width: '96px',
+                  height: '96px',
+                  position: 'relative',
+                  isolation: 'isolate',
+                  zIndex: 10
+                }}>
+                  <Image
+                    src="/sprites/waving.webp"
+                    alt="ZUNA Waving"
+                    width={96}
+                    height={96}
+                    style={{
+                      imageRendering: 'pixelated',
+                      filter: 'brightness(1) contrast(1)',
+                      opacity: 1
+                    }}
+                    unoptimized
+                    priority
+                  />
+                </div>
               </div>
 
-              <h1 className="text-3xl font-bold text-gray-900 text-center mb-2" style={{
-                fontFamily: 'monospace',
-                letterSpacing: '0.05em'
+              <h1 className="text-center mb-8" style={{
+                fontFamily: pixelFont.style.fontFamily,
+                fontSize: '24px',
+                color: isDarkMode ? '#FFFFFF' : '#1a1a1a'
               }}>
-                Welcome Back!
+                WELCOME BACK
               </h1>
-              <p className="text-gray-600 text-center mb-8" style={{
-                fontFamily: 'monospace'
-              }}>
-                Sign in to continue your savings journey
-              </p>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label className="block text-gray-700 font-bold mb-2" style={{ fontFamily: 'monospace' }}>
-                    Email
+                  <label className="block mb-2" style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '12px',
+                    color: isDarkMode ? '#B0B0B0' : '#666666'
+                  }}>
+                    EMAIL
                   </label>
                   <input
                     type="email"
@@ -79,18 +110,26 @@ export default function SignInPage() {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     className="w-full px-4 py-3"
-                    placeholder="your@email.com"
                     style={{
-                      fontFamily: 'monospace',
-                      border: '3px solid #1a1a1a',
-                      boxShadow: '3px 3px 0 rgba(0,0,0,0.1)'
+                      fontFamily: pixelFont.style.fontFamily,
+                      fontSize: '12px',
+                      backgroundColor: isDarkMode ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.8)',
+                      border: '2px solid',
+                      borderColor: isDarkMode ? '#667eea' : '#4A90E2',
+                      color: isDarkMode ? '#FFFFFF' : '#1a1a1a',
+                      outline: 'none',
+                      imageRendering: 'pixelated'
                     }}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-gray-700 font-bold mb-2" style={{ fontFamily: 'monospace' }}>
-                    Password
+                  <label className="block mb-2" style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '12px',
+                    color: isDarkMode ? '#B0B0B0' : '#666666'
+                  }}>
+                    PASSWORD
                   </label>
                   <input
                     type="password"
@@ -98,92 +137,76 @@ export default function SignInPage() {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     className="w-full px-4 py-3"
-                    placeholder="••••••••"
                     style={{
-                      fontFamily: 'monospace',
-                      border: '3px solid #1a1a1a',
-                      boxShadow: '3px 3px 0 rgba(0,0,0,0.1)'
+                      fontFamily: pixelFont.style.fontFamily,
+                      fontSize: '12px',
+                      backgroundColor: isDarkMode ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.8)',
+                      border: '2px solid',
+                      borderColor: isDarkMode ? '#667eea' : '#4A90E2',
+                      color: isDarkMode ? '#FFFFFF' : '#1a1a1a',
+                      outline: 'none',
+                      imageRendering: 'pixelated'
                     }}
                   />
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <label className="flex items-center gap-2">
-                    <input type="checkbox" className="w-4 h-4" style={{ accentColor: '#10b981' }} />
-                    <span className="text-gray-700 text-sm" style={{ fontFamily: 'monospace' }}>
-                      Remember me
-                    </span>
+                <div className="flex justify-between items-center">
+                  <label className="flex items-center" style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '10px',
+                    color: isDarkMode ? '#B0B0B0' : '#666666'
+                  }}>
+                    <input type="checkbox" className="mr-2" />
+                    REMEMBER ME
                   </label>
-                  <Link href="/forgot-password" className="text-green-600 hover:text-green-700 text-sm font-bold" style={{ fontFamily: 'monospace' }}>
-                    Forgot password?
+                  
+                  <Link href="/forgot-password" style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '10px',
+                    color: '#667eea'
+                  }}>
+                    FORGOT?
                   </Link>
                 </div>
 
                 <button
                   type="submit"
-                  disabled={isLoading}
-                  className="w-full bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white font-bold py-4 transition-colors"
+                  className="w-full py-4 text-white transition-all hover:scale-105"
                   style={{
-                    fontFamily: 'monospace',
-                    border: '3px solid rgba(0,0,0,0.2)',
-                    boxShadow: '3px 3px 0 rgba(0,0,0,0.2)'
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '14px',
+                    backgroundColor: '#10b981',
+                    border: '4px solid #065f46',
+                    boxShadow: '4px 4px 0 #000',
+                    imageRendering: 'pixelated'
                   }}
                 >
-                  {isLoading ? 'Signing in...' : 'Sign In'}
+                  SIGN IN
                 </button>
               </form>
 
-              <div className="mt-8">
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t-2 border-gray-300"></div>
-                  </div>
-                  <div className="relative flex justify-center text-sm">
-                    <span className="px-4 bg-white text-gray-500" style={{ fontFamily: 'monospace' }}>
-                      Or continue with
-                    </span>
-                  </div>
-                </div>
-
-                <div className="mt-6 grid grid-cols-2 gap-4">
-                  <button
-                    type="button"
-                    onClick={login}
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 transition-colors"
-                    style={{
-                      fontFamily: 'monospace',
-                      border: '3px solid rgba(0,0,0,0.2)',
-                      boxShadow: '3px 3px 0 rgba(0,0,0,0.2)'
-                    }}
-                  >
-                    🔐 Auth0
-                  </button>
-                  <button
-                    type="button"
-                    className="bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 transition-colors"
-                    style={{
-                      fontFamily: 'monospace',
-                      border: '3px solid rgba(0,0,0,0.2)',
-                      boxShadow: '3px 3px 0 rgba(0,0,0,0.2)'
-                    }}
-                  >
-                    🍎 Apple
-                  </button>
-                </div>
-              </div>
-
-              <p className="text-center mt-8 text-gray-600" style={{ fontFamily: 'monospace' }}>
-                Don't have an account?{' '}
-                <Link href="/signup" className="text-green-600 hover:text-green-700 font-bold">
-                  Sign up
+              <div className="mt-6 text-center">
+                <p style={{
+                  fontFamily: pixelFont.style.fontFamily,
+                  fontSize: '10px',
+                  color: isDarkMode ? '#B0B0B0' : '#666666'
+                }}>
+                  DON'T HAVE AN ACCOUNT?
+                </p>
+                <Link href="/signup" className="inline-block mt-2" style={{
+                  fontFamily: pixelFont.style.fontFamily,
+                  fontSize: '12px',
+                  color: '#667eea'
+                }}>
+                  CREATE ONE →
                 </Link>
-              </p>
-            </motion.div>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
 
-      <Footer />
-    </div>
+        <GrassyBottom />
+      </div>
+    </PixelBackground>
   );
 }

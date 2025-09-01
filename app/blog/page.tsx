@@ -3,227 +3,289 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import { Press_Start_2P } from 'next/font/google';
+import PixelBackground from '../components/PixelBackground';
+import GrassyBottom from '../components/GrassyBottom';
+
+const pixelFont = Press_Start_2P({ 
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+});
 
 export default function BlogPage() {
-  const [selectedCategory, setSelectedCategory] = useState('all');
-
-  const categories = ['all', 'savings', 'gaming', 'crypto', 'tips'];
-
+  const [isDarkMode, setIsDarkMode] = useState(true);
+  
   const blogPosts = [
     {
       id: 1,
-      title: 'How I Saved £5,000 in 6 Months with ZUNA',
-      excerpt: 'Discover how our digital pet companion helped one user transform their savings habits and reach their goals faster than ever.',
-      category: 'savings',
-      author: 'Sarah Johnson',
-      date: '2025-08-28',
-      readTime: '5 min read',
-      image: '💰'
+      title: 'How ZUNA Makes Saving Fun',
+      excerpt: 'Discover how gamification transforms your financial habits',
+      date: 'Dec 15, 2024',
+      category: 'Tips',
+      color: '#10b981',
+      readTime: '5 min'
     },
     {
       id: 2,
-      title: 'Top 10 Tips for Winning ZUNA Monthly Games',
-      excerpt: 'Master strategies from our top players on how to maximize your chances of winning cash prizes in our monthly tournaments.',
-      category: 'gaming',
-      author: 'Mike Chen',
-      date: '2025-08-25',
-      readTime: '7 min read',
-      image: '🎮'
+      title: 'Meet Your Digital Pet',
+      excerpt: 'Learn how your savings buddy helps you reach your goals',
+      date: 'Dec 10, 2024',
+      category: 'Features',
+      color: '#667eea',
+      readTime: '3 min'
     },
     {
       id: 3,
-      title: 'Understanding ZUNA Tokens: A Beginner\'s Guide',
-      excerpt: 'Everything you need to know about earning, using, and trading ZUNA tokens in our integrated crypto wallet.',
-      category: 'crypto',
-      author: 'Alex Thompson',
-      date: '2025-08-22',
-      readTime: '8 min read',
-      image: '🪙'
+      title: 'AI Coach Pro Guide',
+      excerpt: 'Get the most out of your personalized financial advisor',
+      date: 'Dec 5, 2024',
+      category: 'Tutorial',
+      color: '#FFD700',
+      readTime: '7 min'
     },
     {
       id: 4,
-      title: 'The Psychology Behind Gamified Saving',
-      excerpt: 'Learn why gamification makes saving money more effective and how ZUNA leverages behavioral psychology.',
-      category: 'tips',
-      author: 'Dr. Emma Wilson',
-      date: '2025-08-20',
-      readTime: '6 min read',
-      image: '🧠'
+      title: 'Family Savings Strategies',
+      excerpt: 'Tips for managing finances with your whole family',
+      date: 'Nov 28, 2024',
+      category: 'Family',
+      color: '#FF69B4',
+      readTime: '6 min'
     },
     {
       id: 5,
-      title: 'Your Digital Pet\'s Happiness: What It Means',
-      excerpt: 'Understanding how your ZUNA pet\'s mood reflects your financial health and savings progress.',
-      category: 'tips',
-      author: 'Lisa Park',
-      date: '2025-08-18',
-      readTime: '4 min read',
-      image: '🐾'
+      title: 'Crypto Rewards Explained',
+      excerpt: 'Understanding ZUNA tokens and how to earn them',
+      date: 'Nov 20, 2024',
+      category: 'Crypto',
+      color: '#F0A000',
+      readTime: '4 min'
     },
     {
       id: 6,
-      title: 'From Zero to Hero: My ZUNA Success Story',
-      excerpt: 'A university student shares how ZUNA helped them build an emergency fund while having fun.',
-      category: 'savings',
-      author: 'Tom Bradley',
-      date: '2025-08-15',
-      readTime: '5 min read',
-      image: '🎓'
+      title: 'Security Best Practices',
+      excerpt: 'Keep your financial data safe with these tips',
+      date: 'Nov 15, 2024',
+      category: 'Security',
+      color: '#DC143C',
+      readTime: '5 min'
     }
   ];
 
-  const filteredPosts = selectedCategory === 'all' 
+  const categories = ['All', 'Tips', 'Features', 'Tutorial', 'Family', 'Crypto', 'Security'];
+  const [selectedCategory, setSelectedCategory] = useState('All');
+
+  const filteredPosts = selectedCategory === 'All' 
     ? blogPosts 
     : blogPosts.filter(post => post.category === selectedCategory);
 
   return (
-    <div className="min-h-screen">
-      <Navbar />
-      
-      {/* Hero Section */}
-      <section className="bg-gradient-to-b from-sky-400 to-sky-300 pt-24 pb-20">
-        <div className="container mx-auto px-6">
+    <PixelBackground isDarkMode={isDarkMode}>
+      <div className="min-h-screen flex flex-col">
+        {/* Header */}
+        <div className="p-4 flex justify-between items-center">
+          <Link href="/" className="text-white hover:text-yellow-300 transition-colors" style={{
+            fontFamily: pixelFont.style.fontFamily,
+            fontSize: '12px'
+          }}>
+            ← HOME
+          </Link>
+          
+          <button
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            className="p-2 rounded"
+            style={{
+              backgroundColor: isDarkMode ? '#FFD700' : '#4A90E2',
+              border: '2px solid',
+              borderColor: isDarkMode ? '#FFA500' : '#357ABD',
+              fontFamily: pixelFont.style.fontFamily,
+              fontSize: '10px'
+            }}
+          >
+            {isDarkMode ? '☀️' : '🌙'}
+          </button>
+        </div>
+
+        {/* Hero Section */}
+        <section className="container mx-auto px-6 py-20">
           <div className="text-center">
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6" style={{
-              fontFamily: 'monospace',
-              letterSpacing: '0.05em',
-              textShadow: '3px 3px 0 rgba(0,0,0,0.3)'
+            <h1 className="text-5xl md:text-6xl font-bold mb-6" style={{
+              fontFamily: pixelFont.style.fontFamily,
+              color: '#FFFFFF',
+              textShadow: '4px 4px 0 rgba(0,0,0,0.3)'
             }}>
               ZUNA Blog
             </h1>
-            <p className="text-xl text-white max-w-3xl mx-auto" style={{
-              fontFamily: 'monospace',
-              lineHeight: '1.6'
+            <p style={{
+              fontFamily: pixelFont.style.fontFamily,
+              color: '#FFFFFF',
+              fontSize: '14px'
             }}>
-              Tips, tricks, and success stories from the ZUNA community
+              Tips, tutorials, and financial wisdom
             </p>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Category Filter */}
-      <section className="py-8 bg-white border-b-4 border-gray-200">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-wrap justify-center gap-4">
+        {/* Category Filter */}
+        <section className="container mx-auto px-6 mb-12">
+          <div className="flex flex-wrap justify-center gap-3">
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-2 font-bold transition-all ${
-                  selectedCategory === category
-                    ? 'bg-green-500 text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
+                className="px-4 py-2 transition-all hover:scale-105"
                 style={{
-                  fontFamily: 'monospace',
-                  border: '3px solid #1a1a1a',
-                  boxShadow: selectedCategory === category ? '3px 3px 0 rgba(0,0,0,0.3)' : '2px 2px 0 rgba(0,0,0,0.2)'
+                  fontFamily: pixelFont.style.fontFamily,
+                  fontSize: '10px',
+                  backgroundColor: selectedCategory === category ? '#667eea' : 'transparent',
+                  color: '#FFFFFF',
+                  border: '2px solid',
+                  borderColor: selectedCategory === category ? '#667eea' : 'rgba(102, 126, 234, 0.5)',
+                  imageRendering: 'pixelated'
                 }}
               >
-                {category.charAt(0).toUpperCase() + category.slice(1)}
+                {category.toUpperCase()}
               </button>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Blog Posts Grid */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-6">
+        {/* Blog Posts Grid */}
+        <section className="container mx-auto px-6 pb-20">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredPosts.map((post, index) => (
               <motion.article
                 key={post.id}
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white hover:transform hover:-translate-y-2 transition-all cursor-pointer"
+                className="cursor-pointer transition-transform hover:scale-105"
                 style={{
-                  border: '4px solid #1a1a1a',
-                  boxShadow: '6px 6px 0 rgba(0,0,0,0.2)'
+                  backgroundColor: isDarkMode ? 'rgba(26, 31, 58, 0.95)' : 'rgba(255,255,255,0.95)',
+                  border: '4px solid',
+                  borderColor: post.color,
+                  boxShadow: '8px 8px 0 rgba(0,0,0,0.2)',
+                  padding: '24px',
+                  imageRendering: 'pixelated'
                 }}
               >
-                <Link href={`/blog/${post.id}`}>
-                  <div className="p-8">
-                    <div className="text-6xl mb-4 text-center">{post.image}</div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className="bg-green-100 text-green-700 px-2 py-1 text-xs font-bold" style={{
-                        fontFamily: 'monospace',
-                        border: '2px solid #1a1a1a'
-                      }}>
-                        {post.category}
-                      </span>
-                      <span className="text-gray-500 text-xs" style={{ fontFamily: 'monospace' }}>
-                        {post.readTime}
-                      </span>
-                    </div>
-                    <h2 className="text-xl font-bold text-gray-900 mb-3" style={{
-                      fontFamily: 'monospace',
-                      lineHeight: '1.4'
-                    }}>
-                      {post.title}
-                    </h2>
-                    <p className="text-gray-600 mb-4 text-sm" style={{
-                      fontFamily: 'monospace',
-                      lineHeight: '1.6'
-                    }}>
-                      {post.excerpt}
-                    </p>
-                    <div className="flex items-center justify-between text-xs text-gray-500" style={{
-                      fontFamily: 'monospace'
-                    }}>
-                      <span>{post.author}</span>
-                      <span>{new Date(post.date).toLocaleDateString()}</span>
-                    </div>
-                  </div>
-                </Link>
+                {/* Category Badge */}
+                <div className="flex justify-between items-start mb-4">
+                  <span className="px-3 py-1" style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '8px',
+                    backgroundColor: post.color,
+                    color: post.color === '#FFD700' ? '#000' : '#FFF',
+                    border: '2px solid rgba(0,0,0,0.2)'
+                  }}>
+                    {post.category.toUpperCase()}
+                  </span>
+                  <span style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '8px',
+                    color: isDarkMode ? '#B0B0B0' : '#666666'
+                  }}>
+                    {post.readTime}
+                  </span>
+                </div>
+
+                {/* Post Title */}
+                <h3 className="mb-3" style={{
+                  fontFamily: pixelFont.style.fontFamily,
+                  fontSize: '14px',
+                  color: isDarkMode ? '#FFFFFF' : '#1a1a1a',
+                  lineHeight: '1.5'
+                }}>
+                  {post.title}
+                </h3>
+
+                {/* Post Excerpt */}
+                <p className="mb-4" style={{
+                  fontFamily: pixelFont.style.fontFamily,
+                  fontSize: '10px',
+                  color: isDarkMode ? '#B0B0B0' : '#666666',
+                  lineHeight: '1.8'
+                }}>
+                  {post.excerpt}
+                </p>
+
+                {/* Post Date */}
+                <div className="flex justify-between items-center">
+                  <span style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '9px',
+                    color: isDarkMode ? '#667eea' : '#4A90E2'
+                  }}>
+                    {post.date}
+                  </span>
+                  <span style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '10px',
+                    color: post.color
+                  }}>
+                    READ MORE →
+                  </span>
+                </div>
               </motion.article>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Newsletter CTA */}
-      <section className="py-20 bg-gradient-to-r from-purple-400 to-pink-500 text-white">
-        <div className="container mx-auto px-6 text-center">
-          <h2 className="text-4xl font-bold mb-6" style={{
-            fontFamily: 'monospace',
-            letterSpacing: '0.05em',
-            textShadow: '3px 3px 0 rgba(0,0,0,0.2)'
-          }}>
-            Stay Updated
-          </h2>
-          <p className="text-xl max-w-2xl mx-auto mb-8" style={{
-            fontFamily: 'monospace',
-            lineHeight: '1.6'
-          }}>
-            Get the latest savings tips and game updates delivered to your inbox
-          </p>
-          <div className="max-w-md mx-auto flex gap-4">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 px-4 py-3 text-gray-900"
-              style={{
-                fontFamily: 'monospace',
-                border: '3px solid #1a1a1a',
-                boxShadow: '3px 3px 0 rgba(0,0,0,0.3)'
-              }}
-            />
-            <button className="bg-white hover:bg-gray-100 text-gray-900 font-bold px-6 py-3 transition-colors" style={{
-              fontFamily: 'monospace',
-              border: '3px solid #1a1a1a',
-              boxShadow: '3px 3px 0 rgba(0,0,0,0.3)'
+        {/* Newsletter Section */}
+        <section className="container mx-auto px-6 py-20">
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="p-8" style={{
+              backgroundColor: isDarkMode ? 'rgba(102, 126, 234, 0.1)' : 'rgba(74, 144, 226, 0.1)',
+              border: '4px solid #FFD700',
+              boxShadow: '8px 8px 0 rgba(0,0,0,0.3)',
+              imageRendering: 'pixelated'
             }}>
-              Subscribe
-            </button>
+              <h2 className="mb-4" style={{
+                fontFamily: pixelFont.style.fontFamily,
+                fontSize: '20px',
+                color: '#FFD700'
+              }}>
+                STAY UPDATED
+              </h2>
+              <p className="mb-6" style={{
+                fontFamily: pixelFont.style.fontFamily,
+                fontSize: '11px',
+                color: isDarkMode ? '#B0B0B0' : '#666666'
+              }}>
+                Get weekly tips and updates
+              </p>
+              <div className="flex gap-3 max-w-md mx-auto">
+                <input
+                  type="email"
+                  placeholder="YOUR@EMAIL.COM"
+                  className="flex-1 px-4 py-3"
+                  style={{
+                    fontFamily: pixelFont.style.fontFamily,
+                    fontSize: '11px',
+                    backgroundColor: isDarkMode ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.8)',
+                    border: '2px solid #FFD700',
+                    color: isDarkMode ? '#FFFFFF' : '#1a1a1a',
+                    outline: 'none'
+                  }}
+                />
+                <button className="px-6 py-3" style={{
+                  fontFamily: pixelFont.style.fontFamily,
+                  fontSize: '11px',
+                  backgroundColor: '#FFD700',
+                  color: '#000',
+                  border: '2px solid #FFA500',
+                  boxShadow: '4px 4px 0 #000'
+                }}>
+                  SUBSCRIBE
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <Footer />
-    </div>
+        <GrassyBottom />
+      </div>
+    </PixelBackground>
   );
 }
