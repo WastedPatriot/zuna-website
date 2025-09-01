@@ -208,8 +208,6 @@ export default function Home() {
                     height={256}
                     style={{ 
                       imageRendering: 'pixelated',
-                      imageRendering: '-moz-crisp-edges' as any,
-                      imageRendering: 'crisp-edges' as any,
                       filter: 'none' // Keep original colors
                     }}
                     unoptimized
