@@ -22,7 +22,7 @@ export default function GamePage() {
   const [isPremium, setIsPremium] = useState(false);
   
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const gameLoopRef = useRef<number>();
+  const gameLoopRef = useRef<number | undefined>(undefined);
   const playerRef = useRef({
     x: 400,
     y: 300,
