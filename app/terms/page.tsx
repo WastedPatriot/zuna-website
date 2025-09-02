@@ -1,112 +1,123 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useState } from 'react';
 import Link from 'next/link';
-import InteractiveBackground from '../components/InteractiveBackground';
-import Navigation from '../components/Navigation';
+import { Press_Start_2P } from 'next/font/google';
+import PixelBackground from '../components/PixelBackground';
+import GrassyBottom from '../components/GrassyBottom';
 
-export default function Terms() {
+const pixelFont = Press_Start_2P({ 
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+export default function TermsPage() {
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
   return (
-    <>
-      <InteractiveBackground />
-      <Navigation />
-      
-      <div className="relative z-10 min-h-screen px-4 py-24">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-4xl mx-auto"
-        >
-          <h1 className="text-4xl md:text-5xl font-bold mb-8 pixelated text-green-400">
-            TERMS & CONDITIONS
-          </h1>
+    <PixelBackground isDarkMode={isDarkMode}>
+      <div className="min-h-screen flex flex-col">
+        {/* Header */}
+        <div className="p-4 flex justify-between items-center" style={{
+          backgroundColor: isDarkMode ? 'rgba(0, 4, 40, 0.8)' : 'rgba(74, 144, 226, 0.9)',
+          borderBottom: '4px solid',
+          borderColor: isDarkMode ? '#667eea' : '#357ABD'
+        }}>
+          <Link href="/" className="text-white hover:text-yellow-300 transition-colors" style={{
+            fontFamily: pixelFont.style.fontFamily,
+            fontSize: '12px'
+          }}>
+            ← HOME
+          </Link>
           
-          <div className="bg-gray-900/80 backdrop-blur-sm rounded-2xl p-8 border border-gray-800 space-y-6 text-gray-300">
-            <section>
-              <h2 className="text-2xl font-bold mb-4 pixelated text-green-400">1. ACCEPTANCE OF TERMS</h2>
-              <p>By accessing and using Zuna ("the Service"), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.</p>
-            </section>
+          <button
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            className="p-2 rounded"
+            style={{
+              backgroundColor: isDarkMode ? '#FFD700' : '#4A90E2',
+              border: '2px solid',
+              borderColor: isDarkMode ? '#FFA500' : '#357ABD',
+              fontFamily: pixelFont.style.fontFamily,
+              fontSize: '10px'
+            }}
+          >
+            {isDarkMode ? '☀️' : '🌙'}
+          </button>
+        </div>
 
-            <section>
-              <h2 className="text-2xl font-bold mb-4 pixelated text-green-400">2. USE LICENSE</h2>
-              <p>Permission is granted to temporarily access and use Zuna for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:</p>
-              <ul className="list-disc list-inside ml-4 mt-2 space-y-1">
-                <li>modify or copy the materials</li>
-                <li>use the materials for any commercial purpose or for any public display</li>
-                <li>attempt to reverse engineer any software contained in Zuna</li>
-                <li>remove any copyright or other proprietary notations from the materials</li>
-              </ul>
-            </section>
+        {/* Content */}
+        <div className="flex-1 p-8">
+          <div className="max-w-4xl mx-auto">
+            <div style={{
+              backgroundColor: isDarkMode ? 'rgba(26, 31, 58, 0.95)' : 'rgba(255,255,255,0.95)',
+              border: '4px solid',
+              borderColor: isDarkMode ? '#667eea' : '#4A90E2',
+              boxShadow: '8px 8px 0 rgba(0,0,0,0.3)',
+              padding: '32px',
+              imageRendering: 'pixelated'
+            }}>
+              <h1 className="text-center mb-8" style={{
+                fontFamily: pixelFont.style.fontFamily,
+                fontSize: '24px',
+                color: isDarkMode ? '#FFFFFF' : '#1a1a1a'
+              }}>
+                TERMS & CONDITIONS
+              </h1>
 
-            <section>
-              <h2 className="text-2xl font-bold mb-4 pixelated text-green-400">3. FINANCIAL SERVICES</h2>
-              <p>Zuna provides financial wellness tools and crypto wallet services. By using these services, you acknowledge that:</p>
-              <ul className="list-disc list-inside ml-4 mt-2 space-y-1">
-                <li>You are at least 18 years old (or 13 with parental consent)</li>
-                <li>You will provide accurate and complete information</li>
-                <li>You are responsible for maintaining the security of your account</li>
-                <li>Cryptocurrency transactions are irreversible</li>
-                <li>Past performance does not guarantee future results</li>
-              </ul>
-            </section>
+              <div className="space-y-6" style={{
+                fontFamily: pixelFont.style.fontFamily,
+                fontSize: '12px',
+                color: isDarkMode ? '#E0E0E0' : '#333333',
+                lineHeight: '1.8'
+              }}>
+                <section>
+                  <h2 className="text-lg mb-3" style={{ color: '#10b981' }}>1. ACCEPTANCE OF TERMS</h2>
+                  <p>By accessing and using ZUNA, you accept and agree to be bound by the terms and provision of this agreement.</p>
+                </section>
 
-            <section>
-              <h2 className="text-2xl font-bold mb-4 pixelated text-green-400">4. PRIVACY & DATA</h2>
-              <p>Your use of our Service is also governed by our Privacy Policy. Please review our Privacy Policy, which also governs the Site and informs users of our data collection practices.</p>
-            </section>
+                <section>
+                  <h2 className="text-lg mb-3" style={{ color: '#10b981' }}>2. USE LICENSE</h2>
+                  <p>Permission is granted to temporarily download one copy of ZUNA for personal, non-commercial transitory viewing only.</p>
+                </section>
 
-            <section>
-              <h2 className="text-2xl font-bold mb-4 pixelated text-green-400">5. TAMAGOTCHI COMPANION</h2>
-              <p>The Tamagotchi companion feature is provided for entertainment and engagement purposes. Virtual pet status and rewards have no monetary value and cannot be exchanged for real currency.</p>
-            </section>
+                <section>
+                  <h2 className="text-lg mb-3" style={{ color: '#10b981' }}>3. DISCLAIMER</h2>
+                  <p>The materials on ZUNA are provided on an 'as is' basis. ZUNA makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
+                </section>
 
-            <section>
-              <h2 className="text-2xl font-bold mb-4 pixelated text-green-400">6. SUBSCRIPTION SERVICES</h2>
-              <p>Premium features require a monthly subscription. Subscriptions automatically renew unless cancelled at least 24 hours before the end of the current period. You can manage your subscription in your account settings.</p>
-            </section>
+                <section>
+                  <h2 className="text-lg mb-3" style={{ color: '#10b981' }}>4. LIMITATIONS</h2>
+                  <p>In no event shall ZUNA or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use ZUNA.</p>
+                </section>
 
-            <section>
-              <h2 className="text-2xl font-bold mb-4 pixelated text-green-400">7. DISCLAIMER</h2>
-              <p>The materials on Zuna are provided on an 'as is' basis. Zuna makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
-            </section>
+                <section>
+                  <h2 className="text-lg mb-3" style={{ color: '#10b981' }}>5. PRIVACY</h2>
+                  <p>Your use of ZUNA is also governed by our Privacy Policy. Please review our Privacy Policy, which also governs the Site and informs users of our data collection practices.</p>
+                </section>
 
-            <section>
-              <h2 className="text-2xl font-bold mb-4 pixelated text-green-400">8. LIMITATIONS</h2>
-              <p>In no event shall Zuna or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use Zuna, even if Zuna or a Zuna authorized representative has been notified orally or in writing of the possibility of such damage.</p>
-            </section>
+                <section>
+                  <h2 className="text-lg mb-3" style={{ color: '#10b981' }}>6. MODIFICATIONS</h2>
+                  <p>ZUNA may revise these terms of service at any time without notice. By using ZUNA, you are agreeing to be bound by the then current version of these terms of service.</p>
+                </section>
 
-            <section>
-              <h2 className="text-2xl font-bold mb-4 pixelated text-green-400">9. GOVERNING LAW</h2>
-              <p>These terms and conditions are governed by and construed in accordance with the laws of the United Kingdom and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location.</p>
-            </section>
+                <section>
+                  <h2 className="text-lg mb-3" style={{ color: '#10b981' }}>7. GOVERNING LAW</h2>
+                  <p>These terms and conditions are governed by and construed in accordance with the laws and you irrevocably submit to the exclusive jurisdiction of the courts in that location.</p>
+                </section>
 
-            <section>
-              <h2 className="text-2xl font-bold mb-4 pixelated text-green-400">10. CONTACT INFORMATION</h2>
-              <p>If you have any questions about these Terms & Conditions, please contact us at:</p>
-              <div className="mt-2">
-                <p>Email: legal@gozuna.co.uk</p>
-                <p>Address: Zuna Ltd, London, United Kingdom</p>
+                <div className="mt-8 pt-8 border-t-2" style={{ borderColor: isDarkMode ? '#667eea' : '#4A90E2' }}>
+                  <p className="text-center" style={{ fontSize: '10px' }}>
+                    Last updated: {new Date().toLocaleDateString()}
+                  </p>
+                </div>
               </div>
-            </section>
-
-            <div className="mt-8 pt-8 border-t border-gray-700">
-              <p className="text-sm text-gray-500">Last updated: {new Date().toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
             </div>
           </div>
+        </div>
 
-          <div className="mt-8 text-center">
-            <Link href="/signup">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-3 rounded-lg font-bold pixelated"
-              >
-                I ACCEPT
-              </motion.button>
-            </Link>
-          </div>
-        </motion.div>
+        <GrassyBottom />
       </div>
-    </>
+    </PixelBackground>
   );
 }

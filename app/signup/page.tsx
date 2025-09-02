@@ -230,34 +230,60 @@ export default function SignUpPage() {
                   />
                 </div>
 
-                <div className="flex items-start">
-                  <input 
-                    type="checkbox" 
-                    id="terms" 
-                    className="mt-1 mr-3 w-4 h-4 cursor-pointer accent-green-500" 
-                    required 
-                    style={{
-                      width: '20px',
-                      height: '20px',
-                      cursor: 'pointer'
-                    }}
-                  />
-                  <label htmlFor="terms" className="cursor-pointer flex-1" style={{
+                <div className="flex items-start gap-3">
+                  <div className="mt-1">
+                    <input 
+                      type="checkbox" 
+                      id="terms-checkbox" 
+                      name="terms"
+                      className="sr-only"
+                      required 
+                    />
+                    <label 
+                      htmlFor="terms-checkbox" 
+                      className="block w-5 h-5 border-2 cursor-pointer transition-all"
+                      style={{
+                        backgroundColor: 'transparent',
+                        borderColor: isDarkMode ? '#667eea' : '#4A90E2',
+                        imageRendering: 'pixelated'
+                      }}
+                    >
+                      <span 
+                        id="checkbox-tick"
+                        className="hidden w-full h-full flex items-center justify-center text-green-500"
+                        style={{ fontSize: '14px' }}
+                      >
+                        ✓
+                      </span>
+                    </label>
+                  </div>
+                  <label htmlFor="terms-checkbox" className="cursor-pointer flex-1" style={{
                     fontFamily: pixelFont.style.fontFamily,
                     fontSize: '10px',
                     color: isDarkMode ? '#B0B0B0' : '#666666',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    userSelect: 'none'
                   }}>
                     I AGREE TO THE{' '}
-                    <Link href="/terms" className="underline hover:text-green-400" style={{ color: '#667eea' }}>
+                    <Link href="/terms" className="underline hover:text-green-400" onClick={(e) => e.stopPropagation()} style={{ color: '#667eea' }}>
                       TERMS & CONDITIONS
                     </Link>
                     {' '}AND{' '}
-                    <Link href="/privacy" className="underline hover:text-green-400" style={{ color: '#667eea' }}>
+                    <Link href="/privacy" className="underline hover:text-green-400" onClick={(e) => e.stopPropagation()} style={{ color: '#667eea' }}>
                       PRIVACY POLICY
                     </Link>
                   </label>
                 </div>
+                
+                <style jsx>{`
+                  #terms-checkbox:checked + label {
+                    background-color: #10b981 !important;
+                    border-color: #065f46 !important;
+                  }
+                  #terms-checkbox:checked + label #checkbox-tick {
+                    display: flex !important;
+                  }
+                `}</style>
 
                 {error && (
                   <div className="p-3 text-center" style={{
