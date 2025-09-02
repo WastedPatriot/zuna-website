@@ -6,18 +6,18 @@
 
 /* Pixel Cursor Theme */
 * {
-  cursor: url('/cursors/pixel-cursor.svg') 4 4, auto !important;
+  cursor: url('data:image/svg+xml;utf8,<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="4" height="4" fill="black"/><rect x="8" y="4" width="4" height="4" fill="black"/><rect x="4" y="8" width="4" height="4" fill="black"/><rect x="8" y="8" width="4" height="4" fill="%2310b981"/><rect x="12" y="8" width="4" height="4" fill="black"/><rect x="8" y="12" width="4" height="4" fill="black"/><rect x="12" y="12" width="4" height="4" fill="%2310b981"/><rect x="16" y="12" width="4" height="4" fill="black"/><rect x="12" y="16" width="4" height="4" fill="black"/><rect x="16" y="16" width="4" height="4" fill="%2310b981"/><rect x="20" y="16" width="4" height="4" fill="black"/><rect x="16" y="20" width="4" height="4" fill="black"/><rect x="20" y="20" width="4" height="4" fill="black"/></svg>') 4 4, auto !important;
 }
 
 a, button, input[type="submit"], input[type="button"], 
 input[type="checkbox"], input[type="radio"], label[for],
 .cursor-pointer, [role="button"] {
-  cursor: url('/cursors/pixel-pointer.svg') 8 4, pointer !important;
+  cursor: url('data:image/svg+xml;utf8,<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="4" width="4" height="4" fill="%2310b981"/><rect x="8" y="8" width="4" height="4" fill="%2310b981"/><rect x="8" y="12" width="4" height="4" fill="%2310b981"/><rect x="8" y="16" width="4" height="4" fill="%2310b981"/><rect x="8" y="20" width="4" height="4" fill="%2310b981"/><rect x="4" y="8" width="4" height="4" fill="%2310b981"/><rect x="12" y="8" width="4" height="4" fill="%2310b981"/><rect x="4" y="12" width="4" height="4" fill="%2310b981"/><rect x="12" y="12" width="4" height="4" fill="%2310b981"/><rect x="16" y="12" width="4" height="4" fill="%2310b981"/></svg>') 8 4, pointer !important;
 }
 
 input[type="text"], input[type="email"], input[type="password"], 
 textarea, select {
-  cursor: url('/cursors/pixel-cursor.svg') 4 4, text !important;
+  cursor: text !important;
 }
 
 /* Global Styles */
