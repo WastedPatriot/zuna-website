@@ -67,12 +67,10 @@ const SpriteAnimation: React.FC<SpriteAnimationProps> = ({
         alt={alt}
         width={frames * frameWidth} // Total width of the sprite sheet
         height={frameHeight}
+        className={isDarkMode ? 'sprite-img sprite-dark-mode' : 'sprite-img'}
         style={{
           transform: `translateX(-${currentFrame * frameWidth}px)`,
           imageRendering: 'pixelated',
-          filter: isDarkMode 
-            ? 'drop-shadow(0 0 1px white) drop-shadow(0 0 1px white)' 
-            : 'none',
           position: 'absolute',
           left: 0,
           top: 0,

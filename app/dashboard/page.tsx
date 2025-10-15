@@ -290,21 +290,19 @@ export default function DashboardPage() {
                     isolation: 'isolate',
                     zIndex: 10
                   }}>
-                    <Image
-                      src="/sprites/happy.webp"
-                      alt="ZUNA Happy"
-                      width={128}
-                      height={128}
-                      style={{
-                        imageRendering: 'pixelated',
-                        filter: isDarkMode 
-                          ? 'drop-shadow(0 0 1px white) drop-shadow(0 0 1px white)' 
-                          : 'none',
-                        opacity: 1
-                      }}
-                      unoptimized
-                      priority
-                    />
+          <Image
+            src="/sprites/happy.webp"
+            alt="ZUNA Happy"
+            width={128}
+            height={128}
+            className={isDarkMode ? 'sprite-img sprite-dark-mode' : 'sprite-img'}
+            style={{
+              imageRendering: 'pixelated',
+              opacity: 1
+            }}
+            unoptimized
+            priority
+          />
                   </div>
                 </div>
 

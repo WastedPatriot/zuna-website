@@ -258,11 +258,9 @@ export default function Home() {
                     alt="ZUNA Mascot"
                     width={256}
                     height={256}
+                    className={isDarkMode ? 'sprite-img sprite-dark-mode' : 'sprite-img'}
                     style={{ 
                       imageRendering: 'pixelated',
-                      filter: isDarkMode 
-                        ? 'drop-shadow(0 0 1px white) drop-shadow(0 0 1px white)' 
-                        : 'none',
                       opacity: 1
                     }}
                     unoptimized
