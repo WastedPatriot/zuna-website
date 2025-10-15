@@ -47,3 +47,8 @@ export default function FeatureCard({ icon, title, description, color, index }: 
     </motion.div>
   );
 }
+
+
+
+
+

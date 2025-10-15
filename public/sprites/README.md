@@ -19,3 +19,8 @@ These files should be copied from:
 `Zuna/apps/mobile/app/assets/sprites/`
 
 Each sprite sheet should be a horizontal strip with frames of 64x64 pixels.
+
+
+
+
+

@@ -62,3 +62,8 @@ export const syncUserData = async (accessToken: string, userData: any) => {
     throw error;
   }
 };
+
+
+
+
+

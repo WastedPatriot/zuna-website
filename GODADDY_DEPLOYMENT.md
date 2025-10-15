@@ -172,3 +172,8 @@ GoDaddy usually provides free SSL. To enable:
 - GoDaddy Support: 24/7 phone/chat
 - Vercel Docs: vercel.com/docs
 - Next.js Docs: nextjs.org/docs
+
+
+
+
+

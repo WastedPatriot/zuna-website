@@ -76,3 +76,8 @@ Visit http://localhost:3000/api/auth/login to test login
 
 ## Current Status
 Auth0 is installed but not activated to allow deployment without environment configuration. Follow the steps above to enable authentication.
+
+
+
+
+

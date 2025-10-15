@@ -145,7 +145,12 @@ export default function Home() {
         <section className="container mx-auto px-6 py-20">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h1 className="mb-6" style={{
+              <motion.h1 
+                className="mb-6" 
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, type: "spring" }}
+                style={{
                 fontFamily: pixelFont.style.fontFamily,
                 fontSize: 'clamp(28px, 5vw, 48px)',
                 color: isDarkMode ? '#FFFFFF' : '#1a1a1a',
@@ -154,14 +159,19 @@ export default function Home() {
               }}>
                 Financial Wellness
                 <br />
-                <span style={{ 
+                <motion.span 
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.3, duration: 0.4, type: "spring" }}
+                  style={{ 
                   color: '#10b981',
                   textShadow: '3px 3px 0 rgba(6, 95, 70, 0.5)',
-                  fontSize: '0.9em'
+                  fontSize: '0.9em',
+                  display: 'inline-block'
                 }}>
                   Made Fun
-                </span>
-              </h1>
+                </motion.span>
+              </motion.h1>
               
               <p className="mb-8" style={{
                 fontFamily: pixelFont.style.fontFamily,
@@ -172,8 +182,13 @@ export default function Home() {
                 Save money, play games, and watch your digital pet thrive!
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/signup" className="px-8 py-4 text-center" style={{
+              <motion.div 
+                className="flex flex-col sm:flex-row gap-4"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
+              >
+                <Link href="/signup" className="px-8 py-4 text-center hover:scale-105 transition-transform" style={{
                   fontFamily: pixelFont.style.fontFamily,
                   color: '#FFFFFF',
                   backgroundColor: '#4CAF50',
@@ -185,7 +200,7 @@ export default function Home() {
                 }}>
                   Start Free Trial
                 </Link>
-                <Link href="/features" className="px-8 py-4 text-center" style={{
+                <Link href="/features" className="px-8 py-4 text-center hover:scale-105 transition-transform" style={{
                   fontFamily: pixelFont.style.fontFamily,
                   color: isDarkMode ? '#FFFFFF' : '#1a1a1a',
                   backgroundColor: isDarkMode ? 'rgba(102, 126, 234, 0.5)' : 'rgba(255,255,255,0.9)',
@@ -198,12 +213,33 @@ export default function Home() {
                 }}>
                   Learn More
                 </Link>
-              </div>
+              </motion.div>
             </div>
 
             {/* Mascot */}
             <div className="flex justify-center">
-              <div className="relative p-8 rounded-xl" style={{
+              <motion.div 
+                className="relative p-8 rounded-xl cursor-pointer"
+                animate={{
+                  y: [0, -10, 0],
+                  rotate: [-2, 2, -2]
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                whileHover={{
+                  scale: 1.05,
+                  rotate: 0,
+                  transition: { duration: 0.2 }
+                }}
+                onClick={() => {
+                  const moods: ('idle' | 'happy' | 'waving')[] = ['idle', 'happy', 'waving'];
+                  const randomMood = moods[Math.floor(Math.random() * moods.length)];
+                  setMascotMood(randomMood);
+                }}
+                style={{
                 backgroundColor: isDarkMode ? 'rgba(26, 31, 58, 0.8)' : 'rgba(255,255,255,0.9)',
                 border: '4px solid',
                 borderColor: isDarkMode ? '#667eea' : '#4A90E2',
@@ -224,7 +260,9 @@ export default function Home() {
                     height={256}
                     style={{ 
                       imageRendering: 'pixelated',
-                      filter: 'brightness(1) contrast(1)', // Force no color changes
+                      filter: isDarkMode 
+                        ? 'drop-shadow(0 0 1px white) drop-shadow(0 0 1px white)' 
+                        : 'none',
                       opacity: 1
                     }}
                     unoptimized
@@ -244,7 +282,7 @@ export default function Home() {
                     Hi Friend! 👋
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>

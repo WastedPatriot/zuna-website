@@ -89,7 +89,9 @@ export default function SignInPage() {
                     height={96}
                     style={{
                       imageRendering: 'pixelated',
-                      filter: 'brightness(1) contrast(1)',
+                      filter: isDarkMode 
+                        ? 'drop-shadow(0 0 1px white) drop-shadow(0 0 1px white)' 
+                        : 'none',
                       opacity: 1
                     }}
                     unoptimized

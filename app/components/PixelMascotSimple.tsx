@@ -85,3 +85,8 @@ export default function PixelMascotSimple({ size = 64, mood = 'idle' }: PixelMas
     </motion.div>
   );
 }
+
+
+
+
+

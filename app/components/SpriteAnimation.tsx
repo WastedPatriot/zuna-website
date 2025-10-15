@@ -10,6 +10,7 @@ interface SpriteAnimationProps {
   size: number; // width and height of the mascot
   loop?: boolean;
   alt: string;
+  isDarkMode?: boolean;
 }
 
 const SpriteAnimation: React.FC<SpriteAnimationProps> = ({
@@ -19,6 +20,7 @@ const SpriteAnimation: React.FC<SpriteAnimationProps> = ({
   size,
   loop = true,
   alt,
+  isDarkMode = false,
 }) => {
   const [currentFrame, setCurrentFrame] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -68,6 +70,9 @@ const SpriteAnimation: React.FC<SpriteAnimationProps> = ({
         style={{
           transform: `translateX(-${currentFrame * frameWidth}px)`,
           imageRendering: 'pixelated',
+          filter: isDarkMode 
+            ? 'drop-shadow(0 0 1px white) drop-shadow(0 0 1px white)' 
+            : 'none',
           position: 'absolute',
           left: 0,
           top: 0,
