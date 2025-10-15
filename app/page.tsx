@@ -7,6 +7,7 @@ import Image from 'next/image';
 import PixelBackground from './components/PixelBackground';
 import GrassyBottom from './components/GrassyBottom';
 import SpriteAnimation from './components/SpriteAnimation';
+import PhoneMockup from './components/PhoneMockup';
 
 // Import Press Start 2P font for pixel text
 import { Press_Start_2P } from 'next/font/google';
@@ -396,6 +397,19 @@ export default function Home() {
               </motion.div>
             </AnimatePresence>
           </div>
+        </section>
+
+        {/* App Preview */}
+        <section className="container mx-auto px-6 py-20">
+          <h2 className="text-4xl font-bold mb-12 text-center" style={{
+            fontFamily: pixelFont.style.fontFamily,
+            color: isDarkMode ? '#FFFFFF' : '#1a1a1a',
+            textShadow: isDarkMode ? '3px 3px 0 rgba(102, 126, 234, 0.5)' : '3px 3px 0 rgba(74, 144, 226, 0.3)'
+          }}>
+            See It In Action
+          </h2>
+          
+          <PhoneMockup isDarkMode={isDarkMode} />
         </section>
 
         {/* CTA */}
