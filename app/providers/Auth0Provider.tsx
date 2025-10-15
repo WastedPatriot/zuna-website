@@ -23,6 +23,24 @@ export function Auth0Provider({ children }: { children: ReactNode }) {
       try {
         const auth0Client = await getAuth0Client();
         if (auth0Client) {
+          // Handle callback if code and state are present
+          const urlParams = new URLSearchParams(window.location.search);
+          const hasCode = urlParams.has('code');
+          const hasState = urlParams.has('state');
+          
+          if (hasCode && hasState) {
+            try {
+              await auth0Client.handleRedirectCallback();
+              // Clean up URL
+              window.history.replaceState({}, document.title, window.location.pathname);
+              // Redirect to dashboard after successful login
+              window.location.href = '/dashboard';
+              return;
+            } catch (error) {
+              console.error('Callback handling error:', error);
+            }
+          }
+          
           const isAuth = await auth0Client.isAuthenticated();
           setIsAuthenticated(isAuth);
           

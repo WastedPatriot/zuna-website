@@ -2,10 +2,10 @@ import { Auth0Client } from '@auth0/auth0-spa-js';
 
 // Shared Auth0 configuration between app and website
 const auth0Config = {
-  domain: process.env.NEXT_PUBLIC_AUTH0_DOMAIN || 'your-domain.auth0.com',
-  clientId: process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || 'your-client-id',
-  redirectUri: typeof window !== 'undefined' ? window.location.origin : '',
-  audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE || 'https://api.gozuna.co.uk',
+  domain: process.env.NEXT_PUBLIC_AUTH0_DOMAIN || 'dev-jjvz7ybpvs8nbsi7.uk.auth0.com',
+  clientId: process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || 'gYYex1wZVUQTP5n6fM7twTrAqe2S6oF6',
+  redirectUri: typeof window !== 'undefined' ? `${window.location.origin}/api/auth/callback` : '',
+  audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE || 'https://api.zuna.app',
   scope: 'openid profile email offline_access',
 };
 
@@ -32,6 +32,9 @@ export const loginWithRedirect = async () => {
   const client = await getAuth0Client();
   if (client) {
     await client.loginWithRedirect({
+      authorizationParams: {
+        redirect_uri: `${window.location.origin}/api/auth/callback`,
+      },
       appState: { returnTo: '/dashboard' },
     });
   }
